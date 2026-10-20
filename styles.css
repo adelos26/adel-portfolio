@@ -1,0 +1,122 @@
+/* =========================================
+   Design values from Figma
+   ========================================= */
+:root {
+  /* Colors */
+  --color-background: #444dff; /* blue */
+  --color-text: #ff4949;       /* red */
+  --color-eye: #feffde;        /* cream (used inside eye.svg) */
+  --color-pupil: #090909;      /* almost black (used inside pupil.svg) */
+
+  /* Font */
+  --font-main: "Martian Mono", monospace;
+
+  /* The Figma frame is 1280 × 832 px.
+     One "unit" = 1 Figma pixel, scaled so the whole frame fits the screen. */
+  --unit: calc(min(100vw, 100dvh * 1280 / 832) / 1280);
+
+  /* Text sizes (Figma px × unit) */
+  --size-name: calc(114 * var(--unit));
+  --size-sentence: calc(96 * var(--unit));
+
+  /* Eye sizes */
+  --eye-width: calc(462 * var(--unit));
+  --eyes-gap: calc(215 * var(--unit));
+
+  /* Space around the page edges (bottom is bigger, like in Figma) */
+  --space-page: calc(40 * var(--unit));
+  --space-page-bottom: calc(80 * var(--unit));
+  /* Lifts the eyes a little above the middle, like in Figma */
+  --eyes-lift: calc(48 * var(--unit));
+}
+
+/* =========================================
+   Basic reset
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-main);
+}
+
+/* =========================================
+   The page: one screen, three rows
+   ========================================= */
+.coming-soon {
+  min-height: 100dvh;
+  padding: var(--space-page) var(--space-page) var(--space-page-bottom);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* name on top, sentence at the bottom */
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Top: the name */
+.site-name {
+  font-size: var(--size-name);
+  font-weight: 200; /* ExtraLight */
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* =========================================
+   Middle: the eyes
+   ========================================= */
+.eyes {
+  display: flex;
+  gap: var(--eyes-gap);
+  margin-bottom: var(--eyes-lift);
+}
+
+/* One eye: the pupil sits on top of the eye shape */
+.eye {
+  position: relative;
+  width: var(--eye-width);
+}
+
+.eye-shape {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Pupil position measured in Figma: 143px from the left, 5px from the top, 176px wide */
+.eye-pupil {
+  position: absolute;
+  left: calc(143 / 462 * 100%);
+  top: calc(5 / 462 * 100%); /* % of the width, so it scales together */
+  width: calc(176 / 462 * 100%);
+  height: auto;
+}
+
+/* =========================================
+   Bottom: "Coming Sooooon"
+   ========================================= */
+.coming-soon-text {
+  font-size: var(--size-sentence);
+  font-weight: 800; /* ExtraBold */
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* The last letters get thinner and closer together */
+.fade {
+  letter-spacing: 0.028em;
+}
+.fade-1 { font-weight: 700; } /* Bold */
+.fade-2 { font-weight: 600; } /* SemiBold */
+.fade-3 { font-weight: 500; } /* Medium */
+.fade-4 { font-weight: 400; } /* Regular */
+.fade-5 { font-weight: 300; } /* Light */
+.fade-6 { font-weight: 200; } /* ExtraLight */
