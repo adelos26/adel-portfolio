@@ -19,15 +19,20 @@
     <!-- Top: the name -->
     <h1 class="site-name">Adel Fitoussi</h1>
 
-    <!-- Middle: two eyes (decorative, so alt is empty) -->
+    <!-- Middle: two eyes (decorative, so alt is empty).
+         "eye-inside" hides any part of the pupil that moves outside the eye shape. -->
     <div class="eyes">
       <div class="eye">
         <img class="eye-shape" src="images/eye.svg" alt="">
-        <img class="eye-pupil" src="images/pupil.svg" alt="">
+        <div class="eye-inside">
+          <img class="eye-pupil" src="images/pupil.svg" alt="">
+        </div>
       </div>
       <div class="eye">
         <img class="eye-shape" src="images/eye.svg" alt="">
-        <img class="eye-pupil" src="images/pupil.svg" alt="">
+        <div class="eye-inside">
+          <img class="eye-pupil" src="images/pupil.svg" alt="">
+        </div>
       </div>
     </div>
 
@@ -37,6 +42,9 @@
     </p>
 
   </main>
+
+  <!-- Makes the pupils follow the mouse / finger -->
+  <script src="script.js"></script>
 
 </body>
 </html>

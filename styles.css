@@ -89,13 +89,32 @@ body {
   height: auto;
 }
 
-/* Pupil position measured in Figma: 143px from the left, 5px from the top, 176px wide */
+/* A layer on top of the eye, cut to the eye's shape.
+   Anything inside it that goes past the eye's edge is hidden. */
+.eye-inside {
+  position: absolute;
+  inset: 0;
+  -webkit-mask: url("images/eye.svg") center / 100% 100% no-repeat;
+  mask: url("images/eye.svg") center / 100% 100% no-repeat;
+}
+
+/* Pupil position measured in Figma: 143px from the left, 5px from the top, 176px wide.
+   --look-x and --look-y are set by script.js to move the pupil. */
 .eye-pupil {
   position: absolute;
   left: calc(143 / 462 * 100%);
-  top: calc(5 / 462 * 100%); /* % of the width, so it scales together */
+  top: calc(5 / 186 * 100%);
   width: calc(176 / 462 * 100%);
   height: auto;
+  transform: translate(var(--look-x, 0px), var(--look-y, 0px));
+  transition: transform 0.25s ease-out; /* smooth movement */
+}
+
+/* For people who turned off animations in their device settings */
+@media (prefers-reduced-motion: reduce) {
+  .eye-pupil {
+    transition: none;
+  }
 }
 
 /* =========================================
