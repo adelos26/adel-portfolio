@@ -7,27 +7,29 @@ const pupils = document.querySelectorAll(".eye-pupil");
 const MAX_MOVE_X = 0.24;
 const MAX_MOVE_Y = 0.08;
 
-// Moves every pupil toward the point (x, y) on the screen
+// Moves both pupils toward the point (x, y) on the screen.
+// Like real eyes, both pupils always move together: same direction, same distance.
 function lookAt(x, y) {
+  const eyes = document.querySelector(".eyes").getBoundingClientRect();
+  const eyeWidth = document.querySelector(".eye").getBoundingClientRect().width;
+
+  // The point between the two eyes
+  const centerX = eyes.left + eyes.width / 2;
+  const centerY = eyes.top + eyes.height / 2;
+
+  // Direction and distance from there to the point
+  const dx = x - centerX;
+  const dy = y - centerY;
+  const angle = Math.atan2(dy, dx);
+  const distance = Math.hypot(dx, dy);
+
+  // Close points move the pupils a little, far points move them all the way
+  const strength = Math.min(distance / eyeWidth, 1);
+
+  const moveX = Math.cos(angle) * strength * MAX_MOVE_X * eyeWidth;
+  const moveY = Math.sin(angle) * strength * MAX_MOVE_Y * eyeWidth;
+
   pupils.forEach(function (pupil) {
-    const eye = pupil.closest(".eye").getBoundingClientRect();
-
-    // The center of this eye
-    const eyeCenterX = eye.left + eye.width / 2;
-    const eyeCenterY = eye.top + eye.height / 2;
-
-    // Direction and distance from the eye to the point
-    const dx = x - eyeCenterX;
-    const dy = y - eyeCenterY;
-    const angle = Math.atan2(dy, dx);
-    const distance = Math.hypot(dx, dy);
-
-    // Close points move the pupil a little, far points move it all the way
-    const strength = Math.min(distance / eye.width, 1);
-
-    const moveX = Math.cos(angle) * strength * MAX_MOVE_X * eye.width;
-    const moveY = Math.sin(angle) * strength * MAX_MOVE_Y * eye.width;
-
     pupil.style.setProperty("--look-x", moveX + "px");
     pupil.style.setProperty("--look-y", moveY + "px");
   });

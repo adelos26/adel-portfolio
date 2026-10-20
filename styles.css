@@ -23,6 +23,10 @@
   --eye-width: calc(462 * var(--unit));
   --eyes-gap: calc(215 * var(--unit));
 
+  /* Animation speeds */
+  --eye-speed: 0.1s;      /* how fast the pupils jump to a new spot */
+  --letter-tilt: 20deg;   /* how much a letter turns when the mouse touches it */
+
   /* Space around the page edges (bottom is bigger, like in Figma) */
   --space-page: calc(40 * var(--unit));
   --space-page-bottom: calc(80 * var(--unit));
@@ -107,14 +111,7 @@ body {
   width: calc(176 / 462 * 100%);
   height: auto;
   transform: translate(var(--look-x, 0px), var(--look-y, 0px));
-  transition: transform 0.25s ease-out; /* smooth movement */
-}
-
-/* For people who turned off animations in their device settings */
-@media (prefers-reduced-motion: reduce) {
-  .eye-pupil {
-    transition: none;
-  }
+  transition: transform var(--eye-speed) ease-out; /* quick, like a real eye */
 }
 
 /* =========================================
@@ -139,3 +136,28 @@ body {
 .fade-4 { font-weight: 400; } /* Regular */
 .fade-5 { font-weight: 300; } /* Light */
 .fade-6 { font-weight: 200; } /* ExtraLight */
+
+/* =========================================
+   Letters that turn on hover (name + sentence)
+   ========================================= */
+.letter {
+  /* Needed so the letter can turn (rotation doesn't work on plain inline text) */
+  display: inline-block;
+  transition: transform 0.3s ease-out;
+}
+
+/* When the mouse touches a letter, the whole letter turns a little,
+   like a puzzle piece */
+.letter:hover {
+  transform: rotate(var(--letter-tilt));
+}
+
+/* For people who turned off animations in their device settings */
+@media (prefers-reduced-motion: reduce) {
+  .eye-pupil {
+    transition: none;
+  }
+  .letter {
+    transition: none;
+  }
+}

@@ -16,8 +16,11 @@
 
   <main class="coming-soon">
 
-    <!-- Top: the name -->
-    <h1 class="site-name">Adel Fitoussi</h1>
+    <!-- Top: the name. Each letter is in its own <span class="letter"> so it can turn on hover. -->
+    <h1 class="site-name">
+      <span class="letter">A</span><span class="letter">d</span><span class="letter">e</span><span class="letter">l</span>
+      <span class="letter">F</span><span class="letter">i</span><span class="letter">t</span><span class="letter">o</span><span class="letter">u</span><span class="letter">s</span><span class="letter">s</span><span class="letter">i</span>
+    </h1>
 
     <!-- Middle: two eyes (decorative, so alt is empty).
          "eye-inside" hides any part of the pupil that moves outside the eye shape. -->
@@ -36,9 +39,12 @@
       </div>
     </div>
 
-    <!-- Bottom: the sentence. Each "o" gets lighter, like in Figma -->
+    <!-- Bottom: the sentence.
+         Each letter is in its own <span class="letter"> so it can turn on hover.
+         The "fade" letters get thinner one after another, like in Figma. -->
     <p class="coming-soon-text">
-      Coming So<span class="fade fade-1">o</span><span class="fade fade-2">o</span><span class="fade fade-3">o</span><span class="fade fade-4">o</span><span class="fade fade-5">o</span><span class="fade fade-6">n</span>
+      <span class="letter">C</span><span class="letter">o</span><span class="letter">m</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span>
+      <span class="letter">S</span><span class="letter">o</span><span class="letter fade fade-1">o</span><span class="letter fade fade-2">o</span><span class="letter fade fade-3">o</span><span class="letter fade fade-4">o</span><span class="letter fade fade-5">o</span><span class="letter fade fade-6">n</span>
     </p>
 
   </main>
