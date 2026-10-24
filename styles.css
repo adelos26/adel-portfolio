@@ -3,8 +3,9 @@
    ========================================= */
 :root {
   /* Colors */
-  --color-background: #444dff; /* blue */
-  --color-text: #ff4949;       /* red */
+  --color-background: #000000; /* black */
+  --color-text: #006aff;       /* blue */
+  --color-links: #feffde;      /* cream (same as the eyes) */
   --color-eye: #feffde;        /* cream (used inside eye.svg) */
   --color-pupil: #090909;      /* almost black (used inside pupil.svg) */
 
@@ -16,8 +17,9 @@
   --unit: calc(min(100vw, 100dvh * 1280 / 832) / 1280);
 
   /* Text sizes (Figma px × unit) */
-  --size-name: calc(114 * var(--unit));
-  --size-sentence: calc(96 * var(--unit));
+  --size-sentence: calc(89 * var(--unit));
+  --size-name: calc(108 * var(--unit));
+  --size-links: calc(39 * var(--unit));
 
   /* Eye sizes */
   --eye-width: calc(462 * var(--unit));
@@ -26,12 +28,21 @@
   /* Animation speeds */
   --eye-speed: 0.1s;      /* how fast the pupils jump to a new spot */
   --letter-tilt: 20deg;   /* how much a letter turns when the mouse touches it */
+  --link-speed: 0.2s;     /* how fast a link changes color */
 
-  /* Space around the page edges (bottom is bigger, like in Figma) */
-  --space-page: calc(40 * var(--unit));
-  --space-page-bottom: calc(80 * var(--unit));
-  /* Lifts the eyes a little above the middle, like in Figma */
-  --eyes-lift: calc(48 * var(--unit));
+  /* Mouse cursor (from Figma). It grows and shrinks with the page, like everything else. */
+  --cursor-width: calc(138.6 * var(--unit));
+  --cursor-tilt: 17.1deg;
+  /* Where the arrow's tip is inside cursor.svg (after the tilt) */
+  --cursor-tip-x: calc(76.55 * var(--unit));
+  --cursor-tip-y: calc(51.39 * var(--unit));
+
+  /* Spaces (measured in Figma) */
+  --space-page-top: calc(44 * var(--unit));
+  --space-page-bottom: calc(43 * var(--unit));
+  --space-page-sides: calc(40 * var(--unit));
+  --space-name-links: calc(20 * var(--unit));  /* between the name and the links */
+  --eyes-offset: calc(6 * var(--unit));        /* moves the eyes a little lower */
 }
 
 /* =========================================
@@ -54,19 +65,21 @@ body {
    ========================================= */
 .coming-soon {
   min-height: 100dvh;
-  padding: var(--space-page) var(--space-page) var(--space-page-bottom);
+  padding: var(--space-page-top) var(--space-page-sides) var(--space-page-bottom);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* name on top, sentence at the bottom */
+  justify-content: space-between; /* sentence on top, name + links at the bottom */
   align-items: center;
   overflow: hidden;
 }
 
-/* Top: the name */
-.site-name {
-  font-size: var(--size-name);
-  font-weight: 200; /* ExtraLight */
-  letter-spacing: 0.13em;
+/* =========================================
+   Top: "Coming Sooooon"
+   ========================================= */
+.coming-soon-text {
+  font-size: var(--size-sentence);
+  font-weight: 400; /* Regular */
+  letter-spacing: 0.17em;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
@@ -78,10 +91,11 @@ body {
 .eyes {
   display: flex;
   gap: var(--eyes-gap);
-  margin-bottom: var(--eyes-lift);
+  margin-top: var(--eyes-offset);
 }
 
-/* One eye: the pupil sits on top of the eye shape */
+/* One eye: the pupil sits on top of the eye shape.
+   Clicking an eye makes the eyes blink (see script.js). */
 .eye {
   position: relative;
   width: var(--eye-width);
@@ -115,30 +129,47 @@ body {
 }
 
 /* =========================================
-   Bottom: "Coming Sooooon"
+   Bottom: the name and the contact links
    ========================================= */
-.coming-soon-text {
-  font-size: var(--size-sentence);
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-name-links);
+}
+
+.site-name {
+  font-size: var(--size-name);
   font-weight: 800; /* ExtraBold */
-  letter-spacing: 0.17em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
 }
 
-/* The last letters get thinner and closer together */
-.fade {
-  letter-spacing: 0.028em;
+.contact-links {
+  font-size: var(--size-links);
+  font-weight: 300; /* Light */
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-links);
 }
-.fade-1 { font-weight: 700; } /* Bold */
-.fade-2 { font-weight: 600; } /* SemiBold */
-.fade-3 { font-weight: 500; } /* Medium */
-.fade-4 { font-weight: 400; } /* Regular */
-.fade-5 { font-weight: 300; } /* Light */
-.fade-6 { font-weight: 200; } /* ExtraLight */
+
+.contact-links a {
+  color: var(--color-links);
+  text-decoration: none;
+  transition: color var(--link-speed) ease-out;
+}
+
+/* When the mouse is on a link, it turns blue like the other text */
+.contact-links a:hover,
+.contact-links a:focus-visible {
+  color: var(--color-text);
+}
 
 /* =========================================
-   Letters that turn on hover (name + sentence)
+   Letters that turn on hover (sentence + name)
    ========================================= */
 .letter {
   /* Needed so the letter can turn (rotation doesn't work on plain inline text) */
@@ -152,12 +183,49 @@ body {
   transform: rotate(var(--letter-tilt));
 }
 
+/* =========================================
+   Custom mouse cursor
+   ========================================= */
+/* Hidden by default (phones and tablets have no mouse) */
+.custom-cursor {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-width);
+  height: auto;
+  pointer-events: none; /* clicks go "through" it to the page */
+  z-index: 1000;
+  opacity: 0;
+  /* Move the image so the arrow's tip is exactly at the mouse, then tilt it */
+  transform:
+    translate(
+      calc(var(--cursor-x, 0px) - var(--cursor-tip-x)),
+      calc(var(--cursor-y, 0px) - var(--cursor-tip-y))
+    )
+    rotate(var(--cursor-tilt));
+}
+
+.custom-cursor.is-visible {
+  opacity: 1;
+}
+
+/* Only on devices with a real mouse: hide the normal cursor and show ours */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  a {
+    cursor: none;
+  }
+  .custom-cursor {
+    display: block;
+  }
+}
+
 /* For people who turned off animations in their device settings */
 @media (prefers-reduced-motion: reduce) {
-  .eye-pupil {
-    transition: none;
-  }
-  .letter {
+  .eye-pupil,
+  .letter,
+  .contact-links a {
     transition: none;
   }
 }

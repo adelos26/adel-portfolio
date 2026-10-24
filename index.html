@@ -16,11 +16,12 @@
 
   <main class="coming-soon">
 
-    <!-- Top: the name. Each letter is in its own <span class="letter"> so it can turn on hover. -->
-    <h1 class="site-name">
-      <span class="letter">A</span><span class="letter">d</span><span class="letter">e</span><span class="letter">l</span>
-      <span class="letter">F</span><span class="letter">i</span><span class="letter">t</span><span class="letter">o</span><span class="letter">u</span><span class="letter">s</span><span class="letter">s</span><span class="letter">i</span>
-    </h1>
+    <!-- Top: the sentence.
+         Each letter is in its own <span class="letter"> so it can turn on hover. -->
+    <p class="coming-soon-text">
+      <span class="letter">C</span><span class="letter">o</span><span class="letter">m</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span>
+      <span class="letter">S</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">n</span>
+    </p>
 
     <!-- Middle: two eyes (decorative, so alt is empty).
          "eye-inside" hides any part of the pupil that moves outside the eye shape. -->
@@ -39,17 +40,30 @@
       </div>
     </div>
 
-    <!-- Bottom: the sentence.
-         Each letter is in its own <span class="letter"> so it can turn on hover.
-         The "fade" letters get thinner one after another, like in Figma. -->
-    <p class="coming-soon-text">
-      <span class="letter">C</span><span class="letter">o</span><span class="letter">m</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span>
-      <span class="letter">S</span><span class="letter">o</span><span class="letter fade fade-1">o</span><span class="letter fade fade-2">o</span><span class="letter fade fade-3">o</span><span class="letter fade fade-4">o</span><span class="letter fade fade-5">o</span><span class="letter fade fade-6">n</span>
-    </p>
+    <!-- Bottom: the name and the contact links -->
+    <div class="bottom">
+      <h1 class="site-name">
+        <span class="letter">A</span><span class="letter">d</span><span class="letter">e</span><span class="letter">l</span>
+        <span class="letter">F</span><span class="letter">i</span><span class="letter">t</span><span class="letter">o</span><span class="letter">u</span><span class="letter">s</span><span class="letter">s</span><span class="letter">i</span>
+      </h1>
+
+      <nav class="contact-links">
+        <a href="tel:+972526722248">phone</a>
+        <span class="separator" aria-hidden="true">|</span>
+        <a href="mailto:odelsf123@gmail.com">e-mail</a>
+        <span class="separator" aria-hidden="true">|</span>
+        <a href="https://www.linkedin.com/in/adel-fitousi/" target="_blank" rel="noopener">linkedin</a>
+        <span class="separator" aria-hidden="true">|</span>
+        <a href="https://www.instagram.com/adelfitusi/" target="_blank" rel="noopener">instagram</a>
+      </nav>
+    </div>
 
   </main>
 
-  <!-- Makes the pupils follow the mouse / finger -->
+  <!-- The mouse cursor from Figma (only shown on computers with a mouse) -->
+  <img class="custom-cursor" src="images/cursor.svg" alt="" aria-hidden="true">
+
+  <!-- Pupils follow the mouse / finger, eyes blink on click, custom cursor moves -->
   <script src="script.js"></script>
 
 </body>
