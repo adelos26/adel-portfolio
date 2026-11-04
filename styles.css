@@ -37,6 +37,116 @@
   --cursor-tip-x: calc(76.55 * var(--unit));
   --cursor-tip-y: calc(51.39 * var(--unit));
 
+  /* ----- Home page (home.html) ----- */
+  /* The Figma frame is 1474 × 1640 px. One "home unit" = 1 Figma pixel, scaled to the screen width. */
+  --home-unit: calc(100vw / 1474);
+
+  /* Colors */
+  --color-home-background: #000000;  /* black */
+  --color-home-text: #feffde;        /* cream */
+  --color-wheel-background: #feffde; /* cream */
+  --color-wheel-text: #000000;       /* black */
+  --color-wheel-shadow: rgba(0, 0, 0, 0.79);
+
+  /* Font */
+  --font-home: "Kumar One", serif;
+  --size-home-text: calc(96 * var(--home-unit));
+
+  /* Sizes and spaces */
+  --home-height: calc(1640 * var(--home-unit));
+  --intro-top: calc(406 * var(--home-unit));
+  --intro-left: calc(202 * var(--home-unit));
+  --intro-right: calc(201 * var(--home-unit));
+  --intro-text-offset: calc(4.5 * var(--home-unit));
+  --wheel-width: calc(664 * var(--home-unit));
+  --wheel-height: calc(180 * var(--home-unit));
+  --wheel-corner: calc(43 * var(--home-unit));
+  --wheel-shadow-blur: calc(26.7 * var(--home-unit));
+  --wheel-drum-left: calc(7.5 * var(--home-unit));
+  --wheel-word-top: calc(15.5 * var(--home-unit));  /* word position at rest, from Figma */
+  --wheel-first-word-left: calc(-13.5 * var(--home-unit));
+
+  /* The 3D drum (not in Figma: chosen to look like a cylinder) */
+  --wheel-radius: calc(120 * var(--home-unit));      /* bigger = flatter drum */
+  --wheel-perspective: calc(600 * var(--home-unit)); /* smaller = stronger distortion */
+  --wheel-word-angle: 72deg;                         /* 360° divided by 5 words */
+
+  /* ----- New home page (home-2.html) ----- */
+  /* Colors are shared with the home page above.
+     Ratzif22 is installed on this computer; other computers will see the sans-serif fallback. */
+  --font-new-home: "Ratzif22", sans-serif;
+  --color-page-home: #ffa8db;      /* pink */
+  --color-page-projects: #006aff;  /* blue */
+  --color-page-reach-out: #ffca00; /* yellow */
+  --size-nav: calc(23 * var(--home-unit));
+  --size-logo: calc(20 * var(--home-unit));
+  --size-statement: calc(96 * var(--home-unit));
+  --statement-line-height: calc(92.16 * var(--home-unit));
+  --statement-mask-room: 0.25em; /* room in each line for letters like "g" and for the wave */
+  --nav-top: calc(40 * var(--home-unit));
+  --nav-height: calc(52 * var(--home-unit));
+  --logo-left: calc(32 * var(--home-unit));
+  --logo-width: calc(59 * var(--home-unit));
+  --logo-open-width: calc(152 * var(--home-unit));
+  --logo-more-width: calc(66.1 * var(--home-unit)); /* the exact width of " I’m Adel" */
+  --logo-text-offset: calc(8 * var(--home-unit));
+  --statement-top: calc(227 * var(--home-unit));
+  --statement-left: calc(91 * var(--home-unit));
+  --statement-width: calc(1032 * var(--home-unit));
+  --statement-height: calc(276.5 * var(--home-unit));
+  --button-round-corner: calc(26 * var(--home-unit));
+
+  /* Motion rules (see CLAUDE.md) */
+  --ease-main: cubic-bezier(0.19, 1, 0.22, 1);  /* starts fast, settles slowly */
+  --ease-playful: cubic-bezier(1, -0.5, 0, 1.5); /* pulls back, then bounces */
+  --speed-small: 0.4s;   /* colors, hover */
+  --speed-reveal: 0.8s;  /* text and content appearing */
+  --speed-large: 1.2s;   /* big movements */
+  --speed-playful: 0.7s; /* small playful details */
+
+  /* Letter animations on hover (measured on brik.space) */
+  --speed-letter-flip: 0.5s;
+  --ease-letter-flip: cubic-bezier(0.34, 0.9, 0.36, 1);
+  --letter-flip-step: 35ms;  /* time between letters */
+  --speed-letter-wave: 0.45s;
+  --ease-letter-wave: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --letter-wave-step: 28ms;  /* time between letters */
+  --letter-wave-height: -0.2em;
+  --reveal-step: 0.12s;  /* time between items that appear one after another */
+
+  /* Page transition (estimated from toyfight.co) */
+  --color-transition: #feffde; /* cream */
+  --speed-transition: 1s;      /* how long one column moves */
+  --transition-step: 45ms;     /* time between columns */
+
+  /* ----- Folders page (folders.html) ----- */
+  /* The Figma frame is 1440 × 1024 px. One "folders unit" = 1 Figma pixel, scaled to the screen width. */
+  --folders-unit: calc(100vw / 1440);
+
+  /* Colors */
+  --color-folders-background: #feffde; /* cream */
+  --color-folders-title: #837052;      /* brown */
+  --color-folder-orange: #ff8000;
+  --color-folder-yellow: #ffca00;
+  --color-folder-pink: #ffa8db;
+  --color-folder-blue: #2501fe;
+
+  /* Fonts */
+  --font-folders-title: "Kumar One", serif;
+  --font-folder-label: "Krub", sans-serif;
+  --size-folders-title: calc(128 * var(--folders-unit));
+  --size-folder-label: calc(36 * var(--folders-unit));
+
+  /* Sizes and spaces */
+  --folders-frame-height: calc(1024 * var(--folders-unit));
+  --folders-title-top: calc(268.5 * var(--folders-unit));
+  --folder-width: calc(2055.5 * var(--folders-unit));
+  --folder-height: calc(537 * var(--folders-unit));
+
+  /* The hover (not in Figma: chosen to rise "a little") */
+  --folder-lift: calc(24 * var(--folders-unit));
+  --folder-speed: 0.25s;
+
   /* Spaces (measured in Figma) */
   --space-page-top: calc(44 * var(--unit));
   --space-page-bottom: calc(43 * var(--unit));
@@ -212,8 +322,9 @@ body {
 
 /* Only on devices with a real mouse: hide the normal cursor and show ours */
 @media (hover: hover) and (pointer: fine) {
-  html,
-  a {
+  /* Only on pages that have the custom cursor */
+  html:has(.custom-cursor),
+  html:has(.custom-cursor) a {
     cursor: none;
   }
   .custom-cursor {
@@ -221,11 +332,399 @@ body {
   }
 }
 
+/* =========================================
+   Home page
+   ========================================= */
+.home-page {
+  min-height: var(--home-height);
+  background-color: var(--color-home-background);
+  font-family: var(--font-home);
+  overflow-x: clip;
+}
+
+/* One row: "Hi I'm" on the left, the word wheel on the right */
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--intro-top) var(--intro-right) 0 var(--intro-left);
+}
+
+.intro-text {
+  position: relative;
+  top: var(--intro-text-offset);
+  font-size: var(--size-home-text);
+  letter-spacing: 0.03em;
+  color: var(--color-home-text);
+  white-space: nowrap;
+}
+
+/* The box. overflow: hidden shows only what is inside it.
+   perspective is what makes the drum look 3D. */
+.word-wheel {
+  position: relative;
+  flex: none;
+  width: var(--wheel-width);
+  height: var(--wheel-height);
+  border-radius: var(--wheel-corner);
+  background-color: var(--color-wheel-background);
+  box-shadow: inset 0 0 var(--wheel-shadow-blur) 0 var(--color-wheel-shadow);
+  overflow: hidden;
+  perspective: var(--wheel-perspective);
+}
+
+/* The drum. word-wheel.js sets --wheel-position to turn it.
+   It is pushed back by its radius, so the front word keeps its size from Figma. */
+.word-wheel-drum {
+  position: absolute;
+  inset: 0;
+  left: var(--wheel-drum-left);
+  width: 100%;
+  transform-style: preserve-3d;
+  transform:
+    translateZ(calc(var(--wheel-radius) * -1))
+    rotateX(calc(var(--wheel-position, 0) * var(--wheel-word-angle)));
+}
+
+/* One word: turned to its place around the drum, then moved out to the drum's surface.
+   backface-visibility hides words when they are behind the drum. */
+.word-wheel-row {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--size-home-text);
+  color: var(--color-wheel-text);
+  white-space: nowrap;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform:
+    rotateX(calc(var(--row-index) * var(--wheel-word-angle) * -1))
+    translateZ(var(--wheel-radius))
+    translate(var(--row-left, 0px), var(--wheel-word-top));
+}
+
+/* In Figma, "Adel" sits a little to the left of the other words */
+.word-wheel-row-first {
+  --row-left: var(--wheel-first-word-left);
+}
+
+/* =========================================
+   New home page: menu and statement
+   ========================================= */
+/* The small "Hi" box: pops in with a playful bounce */
+.nav-logo,
+.nav-button {
+  position: absolute;
+  top: var(--nav-top);
+  height: var(--nav-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-home-text);
+  color: var(--color-wheel-text);
+  text-decoration: none;
+}
+
+.nav-logo {
+  left: var(--logo-left);
+  width: var(--logo-width);
+  padding-top: var(--logo-text-offset);
+  font-family: var(--font-new-home);
+  font-size: var(--size-logo);
+  font-weight: 700; /* Bold */
+  white-space: pre; /* keeps the space before "Im" */
+  overflow: hidden;
+  animation: pop-in var(--speed-playful) var(--ease-playful) backwards;
+  transition: width var(--speed-reveal) var(--ease-main);
+}
+
+/* The rest of the sentence. Closed, it takes no room and only "Hi" shows. */
+.nav-logo-more {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Room above the letters, so the wave isn't cut off */
+  padding-top: 0.3em;
+  margin-top: -0.3em;
+  transition: max-width var(--speed-reveal) var(--ease-main);
+}
+
+/* On hover the box opens to its size in Figma and the sentence opens with it.
+   Both end together, so "Hi" doesn't slide sideways. */
+.nav-logo:hover,
+.nav-logo:focus-visible {
+  width: var(--logo-open-width);
+}
+
+.nav-logo:hover .nav-logo-more,
+.nav-logo:focus-visible .nav-logo-more {
+  max-width: var(--logo-more-width);
+}
+
+/* Menu items: rise one after another when the page opens */
+.nav-button {
+  left: calc(var(--left) * var(--home-unit));
+  width: calc(var(--width) * var(--home-unit));
+  font-family: var(--font-new-home);
+  font-size: var(--size-nav);
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: calc(var(--order) * var(--reveal-step));
+  transition:
+    border-radius var(--speed-large) var(--ease-main),
+    background-color var(--speed-small) var(--ease-main);
+}
+
+/* The button of the page we are on: always round, in that page's color */
+.nav-button-current {
+  border-radius: var(--button-round-corner);
+  background-color: var(--page-color);
+}
+
+/* A menu button is a rectangle. On hover it becomes round (Variant2 in Figma). */
+.nav-button:hover,
+.nav-button:focus-visible {
+  border-radius: var(--button-round-corner);
+}
+
+/* On hover each letter turns one full circle, one after another.
+   The sizes are in em, so they stay in proportion when the text grows or shrinks. */
+.nav-button {
+  perspective: 10em;
+}
+
+.nav-button-letters {
+  display: block;
+  white-space: pre;
+}
+
+.nav-letter {
+  display: inline-block;
+  transform-origin: 50% 50% -0.733em;
+  backface-visibility: hidden;
+}
+
+.nav-button:hover .nav-letter,
+.nav-button:focus-visible .nav-letter {
+  animation: letter-flip var(--speed-letter-flip) var(--ease-letter-flip) both;
+  animation-delay: calc(var(--letter) * var(--letter-flip-step));
+}
+
+@keyframes letter-flip {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(360deg); }
+}
+
+/* On hover the letters of the "Hi" box jump up one after another, like a wave */
+.logo-letter {
+  display: inline-block;
+}
+
+.nav-logo:hover .logo-letter,
+.nav-logo:focus-visible .logo-letter {
+  animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
+  animation-delay: calc(var(--letter) * var(--letter-wave-step));
+}
+
+/* The letters of the sentence do the same wave.
+   statement-wave.js adds "is-waving" on hover and removes it when the wave ends. */
+.statement-letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+.statement.is-waving .statement-letter {
+  animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
+  animation-delay: calc(var(--letter) * var(--letter-wave-step));
+}
+
+@keyframes letter-wave {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(var(--letter-wave-height)); }
+}
+
+/* =========================================
+   Page transition: columns that rise and cover the screen
+   ========================================= */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  pointer-events: none;
+}
+
+.transition-column {
+  flex: 1;
+  margin-right: -1px; /* no thin lines between the columns */
+  background-color: var(--color-transition);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--speed-transition) var(--ease-main);
+  transition-delay: calc(var(--column) * var(--transition-step));
+}
+
+.page-transition.is-covering .transition-column {
+  transform: scaleY(1);
+}
+
+/* The statement: a block in Figma's position, with its lines in the middle */
+.statement {
+  position: absolute;
+  top: var(--statement-top);
+  left: var(--statement-left);
+  width: var(--statement-width);
+  height: var(--statement-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font-new-home);
+  font-size: var(--size-statement);
+  font-weight: 400;
+  line-height: var(--statement-line-height);
+  letter-spacing: 0.04em;
+  color: var(--color-home-text);
+}
+
+/* Hides a line until it rises */
+.statement-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: var(--statement-mask-room);
+  margin-block: calc(var(--statement-mask-room) * -1);
+}
+
+.statement-line {
+  display: block;
+  white-space: nowrap;
+  animation: line-rise var(--speed-large) var(--ease-main) backwards;
+  animation-delay: calc(0.3s + var(--order) * var(--reveal-step));
+}
+
+@keyframes pop-in {
+  from { transform: scale(0); }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+}
+
+@keyframes line-rise {
+  from { transform: translateY(120%); }
+}
+
+/* People who turned off animations see everything right away */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    display: none;
+  }
+  .nav-logo,
+  .nav-logo-more,
+  .nav-button,
+  .nav-letter,
+  .logo-letter,
+  .statement-letter,
+  .statement-line,
+  .nav-button:hover .nav-letter,
+  .nav-button:focus-visible .nav-letter,
+  .nav-logo:hover .logo-letter,
+  .nav-logo:focus-visible .logo-letter,
+  .statement.is-waving .statement-letter {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* =========================================
+   Folders page
+   ========================================= */
+.folders-page {
+  background-color: var(--color-folders-background);
+}
+
+/* The Figma frame. The folders are wider than the frame, so the extra part is hidden. */
+.folders-frame {
+  position: relative;
+  height: var(--folders-frame-height);
+  overflow: hidden;
+}
+
+.folders-title {
+  position: absolute;
+  top: var(--folders-title-top);
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  font-family: var(--font-folders-title);
+  font-size: var(--size-folders-title);
+  font-weight: 400;
+  color: var(--color-folders-title);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* One folder: a layer the size of the frame. It ignores the mouse by itself,
+   so only the folder's real shape and label count as hovering it. */
+.folder {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: transform var(--folder-speed) ease-out;
+}
+
+/* When the mouse is on a folder, it rises a little */
+.folder:hover {
+  transform: translateY(calc(var(--folder-lift) * -1));
+}
+
+.folder-shape {
+  position: absolute;
+  left: calc(var(--left) * var(--folders-unit));
+  top: calc(var(--top) * var(--folders-unit));
+  width: var(--folder-width);
+  height: var(--folder-height);
+}
+
+.folder-shape use {
+  pointer-events: auto;
+}
+
+/* Mirrors the shape, so the tab is on the other side */
+.folder-flipped {
+  transform: scaleX(-1);
+}
+
+/* The label's center is at --left and --top */
+.folder-label {
+  position: absolute;
+  left: calc(var(--left) * var(--folders-unit));
+  top: calc(var(--top) * var(--folders-unit));
+  transform: translate(-50%, -50%);
+  font-family: var(--font-folder-label);
+  font-size: var(--size-folder-label);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+/* Each label uses the color of another folder, like in Figma */
+.folder-orange .folder-label { color: var(--color-folder-yellow); }
+.folder-yellow .folder-label { color: var(--color-folder-orange); }
+.folder-pink .folder-label { color: var(--color-folder-blue); }
+.folder-blue .folder-label { color: var(--color-folder-pink); }
+
 /* For people who turned off animations in their device settings */
 @media (prefers-reduced-motion: reduce) {
   .eye-pupil,
   .letter,
-  .contact-links a {
+  .contact-links a,
+  .folder {
     transition: none;
   }
 }

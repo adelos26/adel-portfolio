@@ -3,68 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adel Fitoussi – Coming Soon</title>
-
-  <!-- The Martian Mono font from Google Fonts (all weights from 100 to 800) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100..800&display=swap" rel="stylesheet">
+  <title>Adel Fitoussi</title>
 
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home-page">
 
-  <main class="coming-soon">
+  <!-- The menu. --left and --width are the sizes in Figma (in Figma pixels).
+       --order sets which item appears first when the page opens.
+       --page-color is the color of the button when its page is the current one.
+       Each letter has its own span and --letter (its place in the word), so the letters can move one after another on hover. -->
+  <header>
+    <!-- On hover the box opens, shows the rest of the sentence, and the letters wave -->
+    <a class="nav-logo" href="#" aria-label="Hi I’m Adel"><span aria-hidden="true"><span class="logo-letter" style="--letter: 0">H</span><span class="logo-letter" style="--letter: 1">i</span><span class="nav-logo-more"><span class="logo-letter" style="--letter: 2"> </span><span class="logo-letter" style="--letter: 3">I</span><span class="logo-letter" style="--letter: 4">’</span><span class="logo-letter" style="--letter: 5">m</span><span class="logo-letter" style="--letter: 6"> </span><span class="logo-letter" style="--letter: 7">A</span><span class="logo-letter" style="--letter: 8">d</span><span class="logo-letter" style="--letter: 9">e</span><span class="logo-letter" style="--letter: 10">l</span></span></span></a>
+    <nav>
+      <a class="nav-button nav-button-current" aria-current="page" style="--left: 523; --width: 111; --order: 0; --page-color: var(--color-page-home)" href="#" aria-label="Home">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">H</span><span class="nav-letter" style="--letter: 1">o</span><span class="nav-letter" style="--letter: 2">m</span><span class="nav-letter" style="--letter: 3">e</span></span>
+      </a>
+      <a class="nav-button" style="--left: 681; --width: 111; --order: 1; --page-color: var(--color-page-projects)" href="#" aria-label="Projects">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">P</span><span class="nav-letter" style="--letter: 1">r</span><span class="nav-letter" style="--letter: 2">o</span><span class="nav-letter" style="--letter: 3">j</span><span class="nav-letter" style="--letter: 4">e</span><span class="nav-letter" style="--letter: 5">c</span><span class="nav-letter" style="--letter: 6">t</span><span class="nav-letter" style="--letter: 7">s</span></span>
+      </a>
+      <a class="nav-button" style="--left: 823; --width: 135; --order: 2; --page-color: var(--color-page-reach-out)" href="#" aria-label="Reach Out">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">R</span><span class="nav-letter" style="--letter: 1">e</span><span class="nav-letter" style="--letter: 2">a</span><span class="nav-letter" style="--letter: 3">c</span><span class="nav-letter" style="--letter: 4">h</span><span class="nav-letter" style="--letter: 5"> </span><span class="nav-letter" style="--letter: 6">O</span><span class="nav-letter" style="--letter: 7">u</span><span class="nav-letter" style="--letter: 8">t</span></span>
+      </a>
+    </nav>
+  </header>
 
-    <!-- Top: the sentence.
-         Each letter is in its own <span class="letter"> so it can turn on hover. -->
-    <p class="coming-soon-text">
-      <span class="letter">C</span><span class="letter">o</span><span class="letter">m</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span>
-      <span class="letter">S</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">o</span><span class="letter">n</span>
-    </p>
-
-    <!-- Middle: two eyes (decorative, so alt is empty).
-         "eye-inside" hides any part of the pupil that moves outside the eye shape. -->
-    <div class="eyes">
-      <div class="eye">
-        <img class="eye-shape" src="images/eye.svg" alt="">
-        <div class="eye-inside">
-          <img class="eye-pupil" src="images/pupil.svg" alt="">
-        </div>
-      </div>
-      <div class="eye">
-        <img class="eye-shape" src="images/eye.svg" alt="">
-        <div class="eye-inside">
-          <img class="eye-pupil" src="images/pupil.svg" alt="">
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom: the name and the contact links -->
-    <div class="bottom">
-      <h1 class="site-name">
-        <span class="letter">A</span><span class="letter">d</span><span class="letter">e</span><span class="letter">l</span>
-        <span class="letter">F</span><span class="letter">i</span><span class="letter">t</span><span class="letter">o</span><span class="letter">u</span><span class="letter">s</span><span class="letter">s</span><span class="letter">i</span>
-      </h1>
-
-      <nav class="contact-links">
-        <a href="tel:+972526722248">phone</a>
-        <span class="separator" aria-hidden="true">|</span>
-        <a href="mailto:odelsf123@gmail.com">e-mail</a>
-        <span class="separator" aria-hidden="true">|</span>
-        <a href="https://www.linkedin.com/in/adel-fitousi/" target="_blank" rel="noopener">linkedin</a>
-        <span class="separator" aria-hidden="true">|</span>
-        <a href="https://www.instagram.com/adelfitusi/" target="_blank" rel="noopener">instagram</a>
-      </nav>
-    </div>
-
+  <main>
+    <!-- Each line rises out of its own mask. The line breaks are the same as in Figma.
+         statement-wave.js splits the lines into letters for the wave on hover. -->
+    <h1 class="statement">
+      <span class="statement-mask">
+        <span class="statement-line" style="--order: 0">I’m A Motion Designer,</span>
+      </span>
+      <span class="statement-mask">
+        <span class="statement-line" style="--order: 1">Storyteller, Creative</span>
+      </span>
+      <span class="statement-mask">
+        <span class="statement-line" style="--order: 2">Thinker And A Cat Lover.</span>
+      </span>
+    </h1>
   </main>
 
-  <!-- The mouse cursor from Figma (only shown on computers with a mouse) -->
-  <img class="custom-cursor" src="images/cursor.svg" alt="" aria-hidden="true">
+  <!-- Marks the clicked menu button as the current one -->
+  <script src="nav-buttons.js"></script>
 
-  <!-- Pupils follow the mouse / finger, eyes blink on click, custom cursor moves -->
-  <script src="script.js"></script>
+  <!-- Makes the letters of the sentence wave on hover -->
+  <script src="statement-wave.js"></script>
 
 </body>
 </html>
