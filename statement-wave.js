@@ -9,19 +9,30 @@ const letterElements = [];
 statement.setAttribute("aria-label", statement.textContent.replace(/\s+/g, " ").trim());
 
 // Put every letter in its own span. --letter is its place in the sentence.
+// The letters of each word sit together in a word span, so a line can only wrap between words.
+function addLetter(parent, character) {
+  const letter = document.createElement("span");
+  letter.className = "statement-letter";
+  letter.textContent = character;
+  letter.style.setProperty("--letter", letterElements.length);
+  parent.appendChild(letter);
+  letterElements.push(letter);
+}
+
 statementLines.forEach(function (line) {
-  const text = line.textContent;
+  const words = line.textContent.trim().split(" ");
   line.textContent = "";
   line.setAttribute("aria-hidden", "true");
 
-  for (const character of text) {
-    const letter = document.createElement("span");
-    letter.className = "statement-letter";
-    letter.textContent = character;
-    letter.style.setProperty("--letter", letterElements.length);
-    line.appendChild(letter);
-    letterElements.push(letter);
-  }
+  words.forEach(function (word) {
+    const wordElement = document.createElement("span");
+    wordElement.className = "statement-word";
+    for (const character of word) addLetter(wordElement, character);
+    line.appendChild(wordElement);
+
+    // The space after the word (after the last word it separates this line from the next)
+    line.appendChild(document.createTextNode(" "));
+  });
 });
 
 // Mouse on the sentence: start the wave

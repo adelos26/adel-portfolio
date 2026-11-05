@@ -53,7 +53,7 @@
   --size-home-text: calc(96 * var(--home-unit));
 
   /* Sizes and spaces */
-  --home-height: calc(1640 * var(--home-unit));
+  --home-height: calc(1008 * var(--home-unit)); /* the home frame in Figma is 1474 × 1008 */
   --intro-top: calc(406 * var(--home-unit));
   --intro-left: calc(202 * var(--home-unit));
   --intro-right: calc(201 * var(--home-unit));
@@ -74,7 +74,7 @@
   /* ----- New home page (home-2.html) ----- */
   /* Colors are shared with the home page above.
      Ratzif22 is installed on this computer; other computers will see the sans-serif fallback. */
-  --font-new-home: "Ratzif22", sans-serif;
+  --font-new-home: "Ratzif22", "Barlow Semi Condensed", sans-serif; /* Barlow Semi Condensed (Google Fonts) is the closest stand-in */
   --color-page-home: #ffa8db;      /* pink */
   --color-page-projects: #006aff;  /* blue */
   --color-page-reach-out: #ffca00; /* yellow */
@@ -95,6 +95,99 @@
   --statement-width: calc(1032 * var(--home-unit));
   --statement-height: calc(276.5 * var(--home-unit));
   --button-round-corner: calc(26 * var(--home-unit));
+
+  /* ----- Shared by the new pages ----- */
+  --color-black: #000000;
+  --color-cream: #feffde;
+  --color-character: #ff3300;       /* the red character */
+  --color-character-line: #b02200;  /* the same red, darker: the line of a closed eye */
+  --color-iris: #006aff;
+  --color-label-on-yellow: #745c00;
+  --color-label-on-pink: #7b074b;
+  --color-scrollbar: #3a3a3a;
+
+  /* Menu buttons on tablet and phone (see CLAUDE.md). Desktop keeps the values above. */
+  --nav-tablet-top: 32;  --nav-tablet-height: 48;  --nav-tablet-text: 18;
+  --nav-phone-top: 16;   --nav-phone-height: 44;   --nav-phone-text: 16;
+
+  /* Loading screen */
+  --size-loader: clamp(23px, calc(40 * var(--home-unit)), 40px);
+  --speed-loader-loop: 1.6s;
+  --transition-word-delay: 0.45s; /* "in a moment" waits for the cream to rise behind it */
+
+  /* Custom cursor */
+  --cursor-dot: 24px;
+  --cursor-grow: 72px;
+  --cursor-pill-width: 111px;
+  --cursor-pill-wide: 135px;
+  --cursor-pill-height: 52px;
+  --cursor-pill-corner: 26px;
+  --cursor-text: 23px;
+  --go-to-move: 16px;    /* how far "Go To" moves to the right */
+  --speed-go-to: 1.5s;
+
+  /* The red character */
+  --character-left: calc(1035 * var(--home-unit));
+  --character-top: calc(-78 * var(--home-unit));
+  --character-size: calc(582 * var(--home-unit));
+  --eyes-left: 10.5%;   /* where the two eyes sit inside the circle */
+  --eyes-top: 64.4%;
+  --eyes-width: 47.9%;
+  --speed-breath: 3.6s;
+  --breath-size: 1.035;
+
+  /* Projects page */
+  --works-top: calc(170 * var(--home-unit));
+  --works-side: calc(91 * var(--home-unit));
+  --works-dim: 0.45;           /* the names that are not chosen */
+  --go-to-button-width: 89px;
+  --go-to-button-height: 44px;
+  --go-to-button-text: 16px;
+  --space-go-to-bottom: 32px;
+
+  /* Project page */
+  --project-top: calc(170 * var(--home-unit));
+  --project-side: calc(91 * var(--home-unit));
+  --project-section-gap: calc(120 * var(--home-unit));
+  --project-head-gap: calc(40 * var(--home-unit));
+  --project-label-gap: calc(32 * var(--home-unit));
+  --project-label-column: calc(432 * var(--home-unit));
+  --project-grid-gap: calc(24 * var(--home-unit));
+  --project-bottom: calc(120 * var(--home-unit));
+  --size-project-body: calc(36 * var(--home-unit));
+  --size-project-small: calc(23 * var(--home-unit));
+
+  /* Reach Out page: its Figma frame is 1440 wide */
+  --reach-unit: calc(100vw / 1440);
+  --reach-height: calc(1024 * var(--reach-unit));
+  --reach-title-top: calc(241 * var(--reach-unit));
+  --size-reach-title: calc(64 * var(--reach-unit));
+  --size-folder-name: calc(36 * var(--reach-unit));
+  --folder-scale: 1;
+  --folder-rise: 14px;
+  --folder-duck: 10px;       /* the other folders move down while one is chosen (small, so no tab gets covered) */
+  --speed-wiggle: 1.6s;      /* one wiggle of the chosen folder's tab, then a rest */
+
+  /* Hi I'm Adel page */
+  --about-height: calc(1008 * var(--home-unit));
+  --size-sticker: calc(36 * var(--home-unit));
+  --photo-corner: calc(26 * var(--home-unit));
+  /* Reach Out is exactly one screen. The folders sit at the bottom of the screen: --reach-cut is
+     where the screen ends, in Figma pixels, so only a strip of the blue folder shows under its tab.
+     The title moves up a little (--reach-title-shift). */
+  --reach-cut: 880;
+  --reach-title-shift: -50;
+
+  /* Home page: the showreel placeholder under the statement (desktop only) */
+  --showreel-left: calc(91 * var(--home-unit));
+  --showreel-top: calc(560 * var(--home-unit));
+  --showreel-width: calc(1292 * var(--home-unit));
+  --showreel-height: calc(368 * var(--home-unit));
+  --showreel-border: 2px;
+  --size-showreel: calc(36 * var(--home-unit));
+
+  /* The character comes in from the edge where it is cut (desktop: top right) */
+  --character-enter-from: translate(45%, -45%);
 
   /* Motion rules (see CLAUDE.md) */
   --ease-main: cubic-bezier(0.19, 1, 0.22, 1);  /* starts fast, settles slowly */
@@ -727,4 +820,1041 @@ body {
   .folder {
     transition: none;
   }
+}
+
+/* =========================================
+   Page transition: when the page that opens was reached through the menu,
+   the columns start out covering it and then go down
+   ========================================= */
+.page-transition.is-instant .transition-column {
+  transition: none;
+}
+
+/* =========================================
+   Loading screen: "loading..." with the menu buttons' hover, on a loop
+   ========================================= */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  transition: opacity var(--speed-reveal) var(--ease-main), visibility 0s linear var(--speed-reveal);
+  animation: loader-safety 0.01s linear 6s forwards; /* never stays, even if the script fails */
+}
+
+.loader.is-done,
+.no-loader .loader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes loader-safety {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.loader-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em 1.1em;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: var(--font-new-home);
+  font-size: var(--size-loader);
+  perspective: 10em;
+  animation: loader-round var(--speed-loader-loop) var(--ease-main) infinite alternate;
+}
+
+@keyframes loader-round {
+  from { border-radius: 0; }
+  to { border-radius: 1.13em; }
+}
+
+.loader-letter {
+  display: inline-block;
+  white-space: pre;
+  transform-origin: 50% 50% -0.733em;
+  backface-visibility: hidden;
+  animation: loader-flip var(--speed-loader-loop) var(--ease-letter-flip) infinite;
+  animation-delay: calc(var(--letter) * var(--letter-flip-step));
+}
+
+@keyframes loader-flip {
+  0% { transform: rotateX(0deg); }
+  45%, 100% { transform: rotateX(360deg); }
+}
+
+/* While the loading screen is up, the page waits to start its own entrance */
+.is-loading :is(.nav-logo, .nav-button, .statement-line, .character, .reach-title, .contact-folder) {
+  animation-play-state: paused;
+}
+
+/* =========================================
+   Custom cursor: a small cream dot that flips the colors under it
+   ========================================= */
+.site-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--cursor-dot);
+  height: var(--cursor-dot);
+  border-radius: 50%;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: var(--font-new-home);
+  font-size: var(--cursor-text);
+  perspective: 10em;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  will-change: transform;
+  transition:
+    width var(--speed-small) var(--ease-main),
+    height var(--speed-small) var(--ease-main),
+    border-radius var(--speed-small) var(--ease-main),
+    background-color var(--speed-small) var(--ease-main),
+    opacity 0.2s;
+}
+
+.site-cursor.is-visible { opacity: 1; }
+
+/* On a button or link: it grows */
+.site-cursor.is-grow {
+  width: var(--cursor-grow);
+  height: var(--cursor-grow);
+}
+
+/* On a film or a work: it becomes a rounded button with a word in it */
+.site-cursor.has-label {
+  width: var(--cursor-pill-width);
+  height: var(--cursor-pill-height);
+  border-radius: var(--cursor-pill-corner);
+  mix-blend-mode: normal;
+}
+
+.site-cursor.is-playing {
+  width: var(--cursor-pill-wide);
+  background-color: var(--color-page-home);
+}
+
+.cursor-label {
+  display: none;
+  white-space: pre;
+}
+
+.site-cursor.has-label .cursor-label { display: block; }
+
+.cursor-letter {
+  display: inline-block;
+  transform-origin: 50% 50% -0.733em;
+  backface-visibility: hidden;
+  animation: letter-flip var(--speed-letter-flip) var(--ease-letter-flip) both;
+  animation-delay: calc(var(--letter) * var(--letter-flip-step));
+}
+
+/* "Go To": only the words move, to the right and back, inviting you onward */
+.site-cursor.is-go-to .cursor-label,
+.go-to-text {
+  display: block;
+  animation: go-right var(--speed-go-to) infinite;
+}
+
+@keyframes go-right {
+  0% { translate: 0 0; animation-timing-function: var(--ease-playful); }
+  50% { translate: var(--go-to-move) 0; animation-timing-function: ease-in-out; }
+  100% { translate: 0 0; }
+}
+
+/* Only with a real mouse: hide the normal arrow and show ours */
+@media (hover: hover) and (pointer: fine) {
+  .has-site-cursor .site-cursor { display: flex; }
+  .has-site-cursor,
+  .has-site-cursor a,
+  .has-site-cursor button,
+  .has-site-cursor [role="button"] { cursor: none; }
+}
+
+/* =========================================
+   Home page: the red character
+   ========================================= */
+.home-main {
+  position: relative;
+  height: var(--home-height);
+  overflow: clip; /* clip, not hidden: nothing can scroll it, even when a link inside gets keyboard focus */
+}
+
+.character {
+  position: absolute;
+  left: var(--character-left);
+  top: var(--character-top);
+  width: var(--character-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--color-character);
+  container-type: inline-size; /* lets the z's be sized by the circle */
+  animation: character-enter var(--speed-large) var(--ease-main) backwards;
+  animation-delay: 0.45s;
+}
+
+/* Comes in from the edge where it is cut: top right on desktop, the bottom on tablet and phone */
+@keyframes character-enter {
+  from { transform: var(--character-enter-from); }
+}
+
+.eye-pair {
+  position: absolute;
+  left: var(--eyes-left);
+  top: var(--eyes-top);
+  width: var(--eyes-width);
+  display: flex;
+  justify-content: space-between;
+}
+
+.eye {
+  display: block;
+  width: 45.5%;
+  height: auto;
+  overflow: visible;
+}
+
+.eye-white { fill: var(--color-cream); }
+.eye-iris { fill: var(--color-iris); }
+.eye-line { fill: var(--color-character-line); }
+
+/* Surprised: only the pupils grow, with a small bounce */
+.pupil {
+  transform-box: view-box;
+  transform-origin: 63px 34px;
+  transition: transform 0.5s var(--ease-playful);
+}
+
+.is-surprised .pupil { transform: scale(1.5); }
+
+/* Asleep: she breathes, and small z's float up */
+.character.is-asleep {
+  animation: breathe var(--speed-breath) ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(var(--breath-size)); }
+}
+
+.snore {
+  position: absolute;
+  left: calc(var(--eyes-left) + 40%);
+  top: calc(var(--eyes-top) - 7%);
+  font-family: var(--font-new-home);
+  font-size: 7cqw;
+  color: var(--color-cream);
+  pointer-events: none;
+}
+
+.snore i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-style: normal;
+  opacity: 0;
+}
+
+.is-asleep .snore i {
+  animation: snore var(--speed-breath) ease-out infinite;
+  animation-delay: calc(var(--letter) * 1.2s);
+}
+
+@keyframes snore {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(0.9em, -1.6em) scale(1.1); }
+}
+
+/* The statement keeps whole words together when the lines can wrap (phone) */
+.statement-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* =========================================
+   Projects page: the works as one sentence, a film fades in on hover
+   ========================================= */
+.projects-page {
+  min-height: 100dvh;
+  background-color: var(--color-black);
+  font-family: var(--font-new-home);
+  overflow-x: clip;
+}
+
+.films {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-black);
+}
+
+.film-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--speed-reveal) ease-in-out; /* an even, soft fade */
+}
+
+.film-preview.is-showing { opacity: 1; }
+
+.works {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: var(--works-top) var(--works-side) var(--works-side);
+  font-size: var(--size-statement);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: 0.04em;
+  color: var(--color-cream);
+}
+
+.work-line > * {
+  transition: opacity var(--speed-small) var(--ease-main), color var(--speed-small) var(--ease-main);
+}
+
+.work {
+  color: var(--color-cream);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.work:focus-visible {
+  outline: 3px solid var(--color-page-projects);
+  outline-offset: 2px;
+}
+
+.work-dot { white-space: pre; }
+
+/* While one work is showing, the others step back, and the chosen one turns black */
+.works.has-active .work:not(.is-active),
+.works.has-active .work-dot { opacity: var(--works-dim); }
+
+.work.is-active,
+.works.has-active .work.is-active + .work-dot {
+  color: var(--color-black);
+  opacity: 1;
+}
+
+/* Title Sequence has a lot of black in its film, so it turns blue instead */
+.work.is-active[data-film="title"],
+.works.has-active .work.is-active[data-film="title"] + .work-dot { color: var(--color-page-projects); }
+
+/* Touch screens: the button that opens the chosen project */
+.go-to-button {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-go-to-bottom);
+  z-index: 2;
+  display: none;
+  transform: translateX(-50%);
+  align-items: center;
+  justify-content: center;
+  width: var(--go-to-button-width);
+  height: var(--go-to-button-height);
+  border-radius: calc(var(--go-to-button-height) / 2);
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: var(--go-to-button-text);
+  text-decoration: none;
+}
+
+.go-to-button.is-showing { display: flex; }
+
+/* =========================================
+   Project page
+   ========================================= */
+.project-page {
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  font-family: var(--font-new-home);
+  overflow-x: clip;
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-section-gap);
+  padding-top: var(--project-top);
+  padding-bottom: var(--project-bottom);
+}
+
+.project-head,
+.project-block,
+.project-process,
+.project-next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-head-gap);
+  padding-inline: var(--project-side);
+}
+
+.project-title,
+.project-next-title {
+  margin: 0;
+  font-size: var(--size-statement);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: 0.04em;
+  color: var(--color-cream);
+  text-decoration: none;
+}
+
+.project-details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.project-label {
+  margin: 0;
+  font-size: var(--size-project-small);
+  font-weight: 400;
+  color: var(--color-page-projects);
+}
+
+.project-small {
+  margin: 0;
+  font-size: var(--size-project-small);
+}
+
+/* The film, the full width of the screen */
+.project-film {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-black);
+}
+
+.project-film video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-film:focus-visible {
+  outline: 3px solid var(--color-page-projects);
+  outline-offset: -3px;
+}
+
+/* Touch screens have no cursor, so the film shows the Play button itself */
+.film-play-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+  width: var(--go-to-button-width);
+  height: var(--go-to-button-height);
+  border-radius: calc(var(--go-to-button-height) / 2);
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: var(--go-to-button-text);
+}
+
+.project-film.is-playing .film-play-button { background-color: var(--color-page-home); }
+
+@media (hover: none), (pointer: coarse) {
+  .film-play-button { display: flex; }
+}
+
+/* Label on the side (desktop) or on top (tablet and phone) */
+.project-block {
+  flex-direction: row;
+  gap: 0;
+}
+
+.project-block .project-label {
+  flex: none;
+  width: var(--project-label-column);
+}
+
+.project-block-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.project-body {
+  margin: 0;
+  max-width: 34em;
+  font-size: var(--size-project-body);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.project-process { gap: var(--project-label-gap); }
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--project-grid-gap);
+}
+
+.process-item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.process-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* The two figures are shown whole, on white */
+.process-item .is-whole {
+  object-fit: contain;
+  background-color: #ffffff;
+}
+
+.project-next { gap: var(--project-label-gap); }
+
+/* =========================================
+   Reach Out page: the folders
+   ========================================= */
+.reach-out-page {
+  background-color: var(--color-folder-blue); /* the last folder continues below the frame */
+  font-family: var(--font-new-home);
+  overflow-x: clip;
+}
+
+.reach-main {
+  position: relative;
+  height: 100vh;
+  height: 100dvh; /* exactly one screen: no scrolling */
+  overflow: clip; /* clip, not hidden: nothing can scroll it, even when a link inside gets keyboard focus */
+  background-color: var(--color-black);
+}
+
+.reach-title {
+  position: absolute;
+  top: calc(var(--reach-title-top) + var(--reach-title-shift) * var(--reach-unit));
+  left: 0;
+  width: 100%;
+  margin: 0;
+  font-size: var(--size-reach-title);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-cream);
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: 0.3s;
+}
+
+/* One folder. --x, --y and --label-x, --label-y are in Figma pixels, for each screen size. */
+.contact-folder {
+  --x: var(--x-desktop);
+  --y: var(--y-desktop);
+  --label-x: var(--label-x-desktop);
+  --label-y: var(--label-y-desktop);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-decoration: none;
+  /* It turns around the middle of its tab */
+  transform-origin:
+    calc(var(--label-x) * var(--reach-unit))
+    max(calc(100dvh - (var(--reach-cut) - var(--label-y)) * var(--reach-unit)), calc((var(--label-y) - 150) * var(--reach-unit)));
+  transition: translate var(--speed-small) var(--ease-main);
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: calc(0.4s + var(--order) * var(--reveal-step));
+}
+
+.contact-folder:hover,
+.contact-folder:focus-visible {
+  translate: 0 calc(var(--folder-rise) * -1);
+  animation: tab-wiggle var(--speed-wiggle) var(--ease-playful) infinite;
+}
+
+/* While one folder is chosen, the others move down a little */
+.reach-main:has(.contact-folder:hover) .contact-folder:not(:hover) {
+  translate: 0 var(--folder-duck);
+}
+
+@keyframes tab-wiggle {
+  0%, 45%, 100% { rotate: 0deg; }
+  12% { rotate: -1deg; }
+  24% { rotate: 0.8deg; }
+  34% { rotate: -0.4deg; }
+}
+
+.folder-art {
+  position: absolute;
+  left: calc(var(--x) * var(--reach-unit));
+  top: max(calc(100dvh - (var(--reach-cut) - var(--y)) * var(--reach-unit)), calc((var(--y) - 150) * var(--reach-unit)));
+  width: calc(2055.5 * var(--folder-scale) * var(--reach-unit));
+  height: calc(537 * var(--folder-scale) * var(--reach-unit));
+}
+
+.folder-art use { pointer-events: auto; }
+
+.folder-art.is-flipped { transform: scaleX(-1); }
+
+.folder-name {
+  position: absolute;
+  left: calc(var(--label-x) * var(--reach-unit));
+  top: max(calc(100dvh - (var(--reach-cut) - var(--label-y)) * var(--reach-unit)), calc((var(--label-y) - 150) * var(--reach-unit)));
+  transform: translate(-50%, -50%);
+  font-size: var(--size-folder-name);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+/* =========================================
+   Tablet: sizes from the tablet frames in Figma (834 wide)
+   ========================================= */
+@media (max-width: 900px) {
+  :root {
+    --home-unit: calc(100vw / 834);
+    --nav-top: calc(var(--nav-tablet-top) * var(--home-unit));
+    --nav-height: calc(var(--nav-tablet-height) * var(--home-unit));
+    --size-nav: calc(var(--nav-tablet-text) * var(--home-unit));
+    --size-logo: calc(var(--nav-tablet-text) * var(--home-unit));
+    --logo-left: calc(24 * var(--home-unit));
+    --logo-width: calc(56 * var(--home-unit));
+    --logo-open-width: calc(140 * var(--home-unit));
+    --logo-more-width: calc(59.5 * var(--home-unit));
+    --button-round-corner: calc(24 * var(--home-unit));
+
+    --home-height: calc(1112 * var(--home-unit));
+    --size-statement: calc(72 * var(--home-unit));
+    --statement-line-height: calc(69.12 * var(--home-unit));
+    --statement-top: calc(140 * var(--home-unit));
+    --statement-left: calc(40 * var(--home-unit));
+    --statement-width: calc(760 * var(--home-unit));
+    --statement-height: calc(207.4 * var(--home-unit));
+
+    --character-left: calc(-81 * var(--home-unit));
+    --character-top: calc(406 * var(--home-unit));
+    --character-size: calc(1003 * var(--home-unit));
+    --eyes-left: 26%;
+    --eyes-top: 20.7%;
+
+    --works-top: calc(140 * var(--home-unit));
+    --works-side: calc(40 * var(--home-unit));
+
+    --project-top: calc(120 * var(--home-unit));
+    --project-side: calc(40 * var(--home-unit));
+    --project-section-gap: calc(88 * var(--home-unit));
+    --project-head-gap: calc(32 * var(--home-unit));
+    --project-label-gap: calc(24 * var(--home-unit));
+    --project-grid-gap: calc(20 * var(--home-unit));
+    --project-bottom: calc(100 * var(--home-unit));
+    --size-project-body: calc(28 * var(--home-unit));
+    --size-project-small: calc(18 * var(--home-unit));
+
+    --reach-unit: calc(100vw / 834);
+    --reach-height: calc(1112 * var(--reach-unit));
+    --reach-title-top: calc(220 * var(--reach-unit));
+    --size-reach-title: calc(56 * var(--reach-unit));
+    --size-folder-name: calc(28 * var(--reach-unit));
+    --folder-scale: 0.8;
+    --reach-cut: 960;
+    --about-height: calc(1112 * var(--home-unit));
+    --size-sticker: calc(28 * var(--home-unit));
+    --photo-corner: calc(24 * var(--home-unit));
+    --reach-title-shift: -60;
+    --character-enter-from: translateY(45%);
+  }
+
+  .nav-button {
+    left: calc(var(--left-tablet) * var(--home-unit));
+    width: calc(var(--width-tablet) * var(--home-unit));
+  }
+
+  .project-block {
+    flex-direction: column;
+    gap: var(--project-label-gap);
+  }
+
+  .project-block .project-label { width: auto; }
+
+  .contact-folder {
+    --x: var(--x-tablet);
+    --y: var(--y-tablet);
+    --label-x: var(--label-x-tablet);
+    --label-y: var(--label-y-tablet);
+  }
+}
+
+/* =========================================
+   Phone: sizes from the phone frames in Figma (390 wide)
+   ========================================= */
+@media (max-width: 600px) {
+  :root {
+    --home-unit: calc(100vw / 390);
+    --nav-top: calc(var(--nav-phone-top) * var(--home-unit));
+    --nav-height: calc(var(--nav-phone-height) * var(--home-unit));
+    --size-nav: calc(var(--nav-phone-text) * var(--home-unit));
+    --size-logo: calc(var(--nav-phone-text) * var(--home-unit));
+    --logo-left: calc(16 * var(--home-unit));
+    --logo-width: calc(48 * var(--home-unit));
+    --logo-open-width: calc(124 * var(--home-unit));
+    --logo-more-width: calc(52.9 * var(--home-unit));
+    --button-round-corner: calc(22 * var(--home-unit));
+
+    --home-height: calc(844 * var(--home-unit));
+    --size-statement: calc(56 * var(--home-unit));
+    --statement-line-height: calc(53.76 * var(--home-unit));
+    --statement-top: calc(100 * var(--home-unit));
+    --statement-left: calc(20 * var(--home-unit));
+    --statement-width: calc(350 * var(--home-unit));
+    --statement-height: auto;
+
+    --character-left: calc(-45 * var(--home-unit));
+    --character-top: calc(462 * var(--home-unit));
+    --character-size: calc(509 * var(--home-unit));
+    --eyes-left: 23.2%;
+    --eyes-top: 16.1%;
+
+    --works-top: calc(100 * var(--home-unit));
+    --works-side: calc(20 * var(--home-unit));
+
+    --project-top: calc(92 * var(--home-unit));
+    --project-side: calc(20 * var(--home-unit));
+    --project-section-gap: calc(64 * var(--home-unit));
+    --project-head-gap: calc(24 * var(--home-unit));
+    --project-label-gap: calc(16 * var(--home-unit));
+    --project-grid-gap: calc(16 * var(--home-unit));
+    --project-bottom: calc(64 * var(--home-unit));
+    --size-project-body: calc(20 * var(--home-unit));
+    --size-project-small: calc(16 * var(--home-unit));
+
+    --reach-unit: calc(100vw / 390);
+    --reach-height: calc(844 * var(--reach-unit));
+    --reach-title-top: calc(170 * var(--reach-unit));
+    --size-reach-title: calc(46 * var(--reach-unit));
+    --size-folder-name: calc(20 * var(--reach-unit));
+    --folder-scale: 0.6;
+    --reach-cut: 700;
+    --about-height: calc(900 * var(--home-unit));
+    --size-sticker: calc(20 * var(--home-unit));
+    --photo-corner: calc(20 * var(--home-unit));
+    --reach-title-shift: -40;
+    --character-enter-from: translateY(45%);
+  }
+
+  .nav-button {
+    left: calc(var(--left-phone) * var(--home-unit));
+    width: calc(var(--width-phone) * var(--home-unit));
+  }
+
+  /* The statement wraps by itself here, so the lines rise as one block */
+  .statement { display: block; }
+  .statement-mask {
+    display: inline;
+    overflow: visible;
+    padding-block: 0;
+    margin-block: 0;
+  }
+  .statement-line {
+    display: inline;
+    white-space: normal;
+    animation-name: rise-in;
+  }
+
+  /* One work on each line, without the dots */
+  .work-line { display: block; }
+  .work { white-space: normal; }
+  .work-dot { display: none; }
+
+  .process-grid { grid-template-columns: minmax(0, 1fr); }
+  .project-details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .reach-title { padding-inline: calc(16 * var(--reach-unit)); }
+
+  .contact-folder {
+    --x: var(--x-phone);
+    --y: var(--y-phone);
+    --label-x: var(--label-x-phone);
+    --label-y: var(--label-y-phone);
+  }
+}
+
+/* People who turned off animations see everything still */
+@media (prefers-reduced-motion: reduce) {
+  .loader,
+  .site-cursor { display: none !important; }
+  .loader-letter,
+  .loader-button,
+  .cursor-letter,
+  .go-to-text,
+  .character,
+  .character.is-asleep,
+  .snore i,
+  .reach-title,
+  .contact-folder,
+  .film-preview,
+  .pupil,
+  .work-line > * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* The menu always stays above the page's own content (for example the black of Reach Out) */
+header {
+  position: relative;
+  z-index: 5;
+}
+
+/* =========================================
+   Edges: the page behind the scrollbar is black too, and while the loading screen
+   or the page transition covers the page, the scrollbar is hidden so nothing shows at the edge
+   ========================================= */
+html {
+  background-color: var(--color-black);
+  scrollbar-color: var(--color-scrollbar) var(--color-black);
+}
+
+html.is-loading,
+html.is-transitioning {
+  overflow: hidden;
+}
+
+/* "in a moment" in black on the cream columns. Like the sentence on the home page,
+   it rises out of a mask: it starts below the mask's edge and moves up into view. */
+.transition-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
+  font-family: var(--font-new-home);
+  font-size: var(--size-loader);
+  letter-spacing: 0.04em;
+}
+
+.transition-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: var(--statement-mask-room);
+  margin-block: calc(var(--statement-mask-room) * -1);
+}
+
+.transition-line {
+  display: block;
+  white-space: nowrap;
+  transform: translateY(120%);
+  transition: transform var(--speed-reveal) var(--ease-main);
+}
+
+/* It rises once the cream has started to come up behind it */
+.page-transition.is-covered .transition-line {
+  transform: translateY(0);
+  transition: transform var(--speed-large) var(--ease-main) var(--transition-word-delay);
+}
+
+.page-transition.is-instant .transition-line { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-line,
+  .page-transition.is-covered .transition-line { transition: none; }
+}
+
+/* =========================================
+   Home page, desktop: a place for the showreel under the statement.
+   For now it says "Showreel Coming Soon" and leads to the projects page.
+   ========================================= */
+.showreel-teaser {
+  position: absolute;
+  left: var(--showreel-left);
+  top: var(--showreel-top);
+  width: var(--showreel-width);
+  height: var(--showreel-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--showreel-border) solid var(--color-cream);
+  color: var(--color-cream);
+  font-family: var(--font-new-home);
+  font-size: var(--size-showreel);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: 0.7s;
+}
+
+.showreel-teaser:focus-visible {
+  outline: 3px solid var(--color-page-projects);
+  outline-offset: 4px;
+}
+
+.is-loading .showreel-teaser { animation-play-state: paused; }
+
+/* Tablet and phone: the character fills the bottom of the screen, so there is no showreel place */
+@media (max-width: 900px) {
+  .showreel-teaser { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showreel-teaser { animation: none; }
+}
+
+/* Project pages are long, so the menu stays at the top of the screen while scrolling,
+   and Projects is always there to go back to the list of projects */
+.project-page header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+}
+
+/* Once the character has come in, it doesn't slide in again (for example when it wakes up) */
+.character.has-entered { animation: none; }
+.character.has-entered.is-asleep { animation: breathe var(--speed-breath) ease-in-out infinite; }
+
+/* =========================================
+   Hi I'm Adel page
+   ========================================= */
+.about-page {
+  background-color: var(--color-black);
+  font-family: var(--font-new-home);
+  overflow-x: clip;
+}
+
+.about-main {
+  position: relative;
+  height: var(--about-height);
+  overflow: clip; /* clip, not hidden: nothing can scroll it, even when a link inside gets keyboard focus */
+}
+
+/* Things placed by Figma pixels, for desktop, tablet and phone */
+.placed {
+  --x: var(--x-desktop);
+  --y: var(--y-desktop);
+  --w: var(--w-desktop);
+  --h: var(--h-desktop);
+  --r: var(--r-desktop, 0);
+  position: absolute;
+  left: calc(var(--x) * var(--home-unit));
+  top: calc(var(--y) * var(--home-unit));
+  margin: 0;
+  rotate: calc(var(--r) * 1deg);
+}
+
+.about-title {
+  font-size: var(--size-statement);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: 0.04em;
+  color: var(--color-cream);
+  white-space: nowrap;
+}
+
+.about-bio {
+  width: calc(var(--w) * var(--home-unit));
+  font-size: var(--size-project-body);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--color-cream);
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: 0.55s;
+}
+
+.about-photo {
+  width: calc(var(--w) * var(--home-unit));
+  height: calc(var(--h) * var(--home-unit));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--photo-corner);
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: var(--size-project-small);
+  animation: rise-in var(--speed-large) var(--ease-main) backwards;
+  animation-delay: 0.4s;
+}
+
+/* Stickers: pop in one after another, and can be dragged */
+.sticker {
+  padding: 0.25em 0.6em;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: var(--size-sticker);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  cursor: grab;
+  touch-action: none; /* lets a finger drag it instead of scrolling the page */
+  user-select: none;
+  transition: scale var(--speed-small) var(--ease-playful);
+  animation: pop-in var(--speed-playful) var(--ease-playful) backwards;
+  animation-delay: calc(0.8s + var(--order) * var(--reveal-step));
+}
+
+.sticker.is-dragging {
+  scale: 1.08;
+  cursor: grabbing;
+}
+
+.sticker:focus-visible {
+  outline: 3px solid var(--color-cream);
+  outline-offset: 3px;
+}
+
+.sticker-pink { background-color: var(--color-page-home); color: var(--color-black); }
+.sticker-blue { background-color: var(--color-page-projects); color: var(--color-cream); }
+.sticker-yellow { background-color: var(--color-page-reach-out); color: var(--color-black); }
+.sticker-orange { background-color: var(--color-folder-orange); color: var(--color-black); }
+
+.is-loading :is(.about-bio, .about-photo, .sticker) { animation-play-state: paused; }
+
+@media (max-width: 900px) {
+  .placed {
+    --x: var(--x-tablet);
+    --y: var(--y-tablet);
+    --w: var(--w-tablet);
+    --h: var(--h-tablet);
+    --r: var(--r-tablet, 0);
+  }
+}
+
+@media (max-width: 600px) {
+  .placed {
+    --x: var(--x-phone);
+    --y: var(--y-phone);
+    --w: var(--w-phone);
+    --h: var(--h-phone);
+    --r: var(--r-phone, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-bio,
+  .about-photo,
+  .sticker,
+  .contact-folder:hover,
+  .contact-folder:focus-visible { animation: none; }
 }
