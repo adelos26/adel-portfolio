@@ -1627,18 +1627,14 @@ header {
 }
 
 /* =========================================
-   Edges: the page behind the scrollbar is black too, and while the loading screen
-   or the page transition covers the page, the scrollbar is hidden so nothing shows at the edge
+   Edges: the page behind the scrollbar is black too, and the scrollbar is dark,
+   so it disappears into the black loading screen
    ========================================= */
 html {
   background-color: var(--color-black);
   scrollbar-color: var(--color-scrollbar) var(--color-black);
 }
 
-html.is-loading,
-html.is-transitioning {
-  overflow: hidden;
-}
 
 /* "in a moment" in black on the cream columns. Like the sentence on the home page,
    it rises out of a mask: it starts below the mask's edge and moves up into view. */
@@ -1857,4 +1853,31 @@ html.is-transitioning {
   .sticker,
   .contact-folder:hover,
   .contact-folder:focus-visible { animation: none; }
+}
+
+/* =========================================
+   No jumps while a page opens
+   ========================================= */
+/* The scrollbar's place is always kept, so hiding and showing the scrollbar
+   (while the loading screen or the transition covers the page) doesn't move anything */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* The scrollbar never disappears, so nothing on the page moves when it comes back.
+   During the cream transition it turns cream, so the covered screen reaches every edge. */
+html.is-transitioning,
+html.is-arriving {
+  background-color: var(--color-transition);
+  scrollbar-color: var(--color-transition) var(--color-transition);
+}
+
+/* A new page reached through the menu starts covered in cream at once,
+   until nav-buttons.js puts its columns in place */
+html.is-arriving::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 899;
+  background-color: var(--color-transition);
 }

@@ -1,6 +1,7 @@
 // The projects page: when the mouse is on a work's name, a short film of that work
 // fades in behind the names and fills the screen. The name turns black (Title Sequence turns blue).
-// On a phone or tablet, the first tap plays the film and shows a "Go To" button.
+// On a phone or tablet, the first tap plays the film and shows a "Go To" button;
+// tapping the same name again (or the button) opens the project.
 
 const works = document.querySelector(".works");
 const goToButton = document.querySelector(".go-to-button");
@@ -67,13 +68,17 @@ document.querySelectorAll(".work").forEach(function (work) {
   work.addEventListener("pointerleave", function (event) {
     if (event.pointerType === "mouse") hideWork();
   });
-  work.addEventListener("focus", function () { showWork(work); });
+  // Keyboard only: a tap on some phones also focuses the link, and that must not count as the first tap
+  work.addEventListener("focus", function () {
+    if (work.matches(":focus-visible")) showWork(work);
+  });
   work.addEventListener("blur", hideWork);
 
   work.addEventListener("click", function (event) {
     const hasPage = work.getAttribute("href") !== "#";
-    // On a touch screen, the first tap only plays the film
+    // On a touch screen, the first tap plays the film; a second tap on the same name opens the project
     if (!hasMouse) {
+      if (activeWork === work && hasPage) return; // let the link open the project page
       event.preventDefault();
       showWork(work);
       return;

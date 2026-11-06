@@ -110,11 +110,17 @@ try {
   isArriving = false;
 }
 
+// Without the columns (animations turned off), the early cream cover simply goes away
+if (!isArriving || transitionReduceMotion) {
+  document.documentElement.classList.remove("is-arriving");
+}
+
 if (isArriving && !transitionReduceMotion) {
   document.documentElement.classList.add("is-transitioning");
   pageTransition.classList.add("is-instant", "is-covering", "is-covered");
   void pageTransition.offsetWidth; // applies the covered state before the columns move
   pageTransition.classList.remove("is-instant");
+  document.documentElement.classList.remove("is-arriving"); // the columns now do the covering
   setTimeout(function () {
     pageTransition.classList.remove("is-covered");  // "in a moment" sinks back into its mask
     pageTransition.classList.remove("is-covering"); // columns go down

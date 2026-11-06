@@ -10,6 +10,8 @@
     try {
       if (sessionStorage.getItem("seen-loader")) document.documentElement.classList.add("no-loader");
       else document.documentElement.classList.add("is-loading");
+      // Arriving through the menu: start covered in cream right away, before anything is drawn
+      if (sessionStorage.getItem("arriving") === "yes") document.documentElement.classList.add("is-arriving");
     } catch (error) {
       document.documentElement.classList.add("is-loading");
     }
