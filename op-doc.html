@@ -58,10 +58,13 @@
       </dl>
     </div>
 
-    <!-- The film, the full width of the screen. Clicking plays it. -->
-    <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
-      <video src="videos/opdoc-film.mp4" poster="images/projects/opdoc-poster.jpg" playsinline preload="metadata"></video>
-      <span class="film-play-button" aria-hidden="true">Play</span>
+    <!-- The film, the full width of the screen. Clicking plays it; the button in the corner opens it full screen. -->
+    <div class="film-frame">
+      <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
+        <video src="videos/opdoc-film.mp4" poster="images/projects/opdoc-poster.jpg" playsinline preload="metadata"></video>
+        <span class="film-play-button" aria-hidden="true">Play</span>
+      </div>
+      <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
     </div>
 
     <!-- The idea -->

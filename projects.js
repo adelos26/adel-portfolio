@@ -1,10 +1,9 @@
 // The projects page: when the mouse is on a work's name, a short film of that work
 // fades in behind the names and fills the screen. The name turns black (Title Sequence turns blue).
-// On a phone or tablet, the first tap plays the film and shows a "Go To" button;
-// tapping the same name again (or the button) opens the project.
+// On a phone or tablet, the first tap on a name plays its film;
+// tapping the same name again opens the project.
 
 const works = document.querySelector(".works");
-const goToButton = document.querySelector(".go-to-button");
 const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const projectsReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const FADE_TIME = 800; // the same as --speed-reveal
@@ -39,11 +38,6 @@ function showWork(work) {
       }
     }, FADE_TIME);
   });
-
-  if (!hasMouse) {
-    goToButton.href = work.href;
-    goToButton.classList.add("is-showing");
-  }
 }
 
 function hideWork() {
@@ -52,7 +46,6 @@ function hideWork() {
   activeWork = null;
   currentFilm = null;
   works.classList.remove("has-active");
-  goToButton.classList.remove("is-showing");
   document.querySelectorAll(".film-preview").forEach(function (film) {
     film.classList.remove("is-showing");
     setTimeout(function () {
@@ -91,10 +84,6 @@ document.querySelectorAll(".work").forEach(function (work) {
 // Touch screens: tapping anywhere else closes the film
 document.addEventListener("click", function (event) {
   if (hasMouse) return;
-  if (!event.target.closest(".work") && !event.target.closest(".go-to-button")) hideWork();
+  if (!event.target.closest(".work")) hideWork();
 });
 
-// The Go To button: works without a page yet don't go anywhere
-goToButton.addEventListener("click", function (event) {
-  if (goToButton.getAttribute("href") === "#") event.preventDefault();
-});

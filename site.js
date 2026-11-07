@@ -46,6 +46,7 @@ const cursorLabel = cursor.querySelector(".cursor-label");
 const CURSOR_GLIDE = 55; // milliseconds; smaller = follows the mouse more tightly
 let targetX = 0, targetY = 0, cursorX = 0, cursorY = 0, cursorStarted = false;
 let press = 1, pressTarget = 1;
+const KEYBOARD_GAP = 16; // pixels between a focused work's name and the "Go To" button
 
 // Other scripts use these to change the cursor
 const siteCursor = {
@@ -61,6 +62,25 @@ const siteCursor = {
   },
   setPlaying: function (isPlaying) {
     cursor.classList.toggle("is-playing", isPlaying);
+  },
+  // Keyboard: moves the cursor to the middle of the focused thing, like the mouse would be there.
+  // With side "after", it sits just after it instead (so it doesn't cover a work's name).
+  moveTo: function (element, side) {
+    const box = element.getBoundingClientRect();
+    const pillWidth = parseFloat(getComputedStyle(cursor).getPropertyValue("--cursor-pill-width")) || 0;
+    targetX = side === "after" ? box.right + pillWidth / 2 + KEYBOARD_GAP : box.left + box.width / 2;
+    targetY = box.top + box.height / 2;
+    if (!cursorStarted) {
+      cursorX = targetX;
+      cursorY = targetY;
+      cursorStarted = true;
+    }
+    cursor.classList.add("is-visible");
+  },
+  // Keyboard: focus left, so the cursor goes away until the mouse moves again
+  leave: function () {
+    siteCursor.hideLabel();
+    cursor.classList.remove("is-visible");
   }
 };
 
@@ -100,6 +120,13 @@ document.querySelectorAll("[data-cursor-label]").forEach(function (target) {
     siteCursor.showLabel(word, word === "Go To" ? "is-go-to" : null);
   });
   target.addEventListener("pointerleave", function () { siteCursor.hideLabel(); });
+  // Keyboard focus shows the same word as the mouse
+  target.addEventListener("focus", function () {
+    if (!target.matches(":focus-visible")) return;
+    siteCursor.moveTo(target, word === "Go To" ? "after" : null);
+    siteCursor.showLabel(word, word === "Go To" ? "is-go-to" : null);
+  });
+  target.addEventListener("blur", siteCursor.leave);
 });
 
 // The cursor glides after the mouse: fast at first, then it settles.

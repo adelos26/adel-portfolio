@@ -140,10 +140,12 @@
   --works-top: calc(170 * var(--home-unit));
   --works-side: calc(91 * var(--home-unit));
   --works-dim: 0.45;           /* the names that are not chosen */
-  --go-to-button-width: 89px;
-  --go-to-button-height: 44px;
-  --go-to-button-text: 16px;
-  --space-go-to-bottom: 32px;
+  /* The rounded buttons on a film (Play / Pause and Full Screen) */
+  --film-button-width: 89px;
+  --film-button-height: 44px;
+  --film-button-text: 16px;
+  --film-button-padding: 20px;  /* on the sides of "Full Screen" */
+  --film-button-gap: 16px;      /* from the corner of the film */
 
   /* Project page */
   --project-top: calc(170 * var(--home-unit));
@@ -166,7 +168,28 @@
   --folder-scale: 1;
   --folder-rise: 14px;
   --folder-duck: 10px;       /* the other folders move down while one is chosen (small, so no tab gets covered) */
-  --speed-wiggle: 1.6s;      /* one wiggle of the chosen folder's tab, then a rest */
+  /* The sheet of paper that rises out of a chosen folder (in Figma pixels, times --folder-scale) */
+  --paper-width: 290;
+  --paper-height: 220;
+  --paper-start: 90;         /* how far below the top of the tab it waits, hidden inside the folder */
+  --paper-rise: 176;         /* how far it rises when the folder is chosen */
+  --paper-padding: 18;
+  --paper-text: 27;
+  --paper-corner: 20;        /* 16 in the tablet frame in Figma */
+  --paper-tilt: 4.76deg;     /* how much a risen sheet leans (Figma); each folder picks a side with --paper-side */
+  --paper-hover-turn: 3deg;  /* the mouse on a sheet: both sheets turn a little more */
+  /* The second sheet behind it, in a light shade of the folder's color (Figma, "reach out - tablet") */
+  --paper-back-width: 277;
+  --paper-back-tilt: 15.07deg;
+  --paper-back-shift-x: 79;  /* to the side it leans to */
+  --paper-back-shift-y: 16;  /* and a little lower */
+  --paper-back-delay: 0.1s;  /* it follows the front sheet a moment later */
+  --color-paper-orange: #ffac59;
+  --color-paper-yellow: #ffefb4;
+  --color-paper-pink: #ffcdff;
+  --color-paper-blue: #006aff;
+  --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
+  --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
 
   /* Hi I'm Adel page */
   --about-height: calc(1008 * var(--home-unit));
@@ -960,8 +983,7 @@ body {
 }
 
 /* "Go To": only the words move, to the right and back, inviting you onward */
-.site-cursor.is-go-to .cursor-label,
-.go-to-text {
+.site-cursor.is-go-to .cursor-label {
   display: block;
   animation: go-right var(--speed-go-to) infinite;
 }
@@ -1154,27 +1176,6 @@ body {
 .work.is-active[data-film="title"],
 .works.has-active .work.is-active[data-film="title"] + .work-dot { color: var(--color-page-projects); }
 
-/* Touch screens: the button that opens the chosen project */
-.go-to-button {
-  position: fixed;
-  left: 50%;
-  bottom: var(--space-go-to-bottom);
-  z-index: 2;
-  display: none;
-  transform: translateX(-50%);
-  align-items: center;
-  justify-content: center;
-  width: var(--go-to-button-width);
-  height: var(--go-to-button-height);
-  border-radius: calc(var(--go-to-button-height) / 2);
-  background-color: var(--color-cream);
-  color: var(--color-black);
-  font-size: var(--go-to-button-text);
-  text-decoration: none;
-}
-
-.go-to-button.is-showing { display: flex; }
-
 /* =========================================
    Project page
    ========================================= */
@@ -1262,15 +1263,61 @@ body {
   transform: translate(-50%, -50%);
   align-items: center;
   justify-content: center;
-  width: var(--go-to-button-width);
-  height: var(--go-to-button-height);
-  border-radius: calc(var(--go-to-button-height) / 2);
+  width: var(--film-button-width);
+  height: var(--film-button-height);
+  border-radius: calc(var(--film-button-height) / 2);
   background-color: var(--color-cream);
   color: var(--color-black);
-  font-size: var(--go-to-button-text);
+  font-size: var(--film-button-text);
+  transition: opacity var(--speed-small) var(--ease-main);
 }
 
 .project-film.is-playing .film-play-button { background-color: var(--color-page-home); }
+
+/* While the film plays, the button fades away (project-film.js decides when) */
+.project-film.is-button-hidden .film-play-button { opacity: 0; }
+
+/* The film and its Full Screen button */
+.film-frame {
+  position: relative;
+}
+
+/* "Full Screen": a rounded button in the bottom right corner of the film, like Play */
+.film-fullscreen-button {
+  position: absolute;
+  right: var(--film-button-gap);
+  bottom: var(--film-button-gap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--film-button-height);
+  padding: 0 var(--film-button-padding);
+  border: none;
+  border-radius: calc(var(--film-button-height) / 2);
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: inherit;
+  font-size: var(--film-button-text);
+  transition: opacity var(--speed-small) var(--ease-main);
+}
+
+.film-fullscreen-button:focus-visible {
+  outline: 3px solid var(--color-page-projects);
+  outline-offset: 3px;
+}
+
+/* With a mouse it shows only while the mouse (or keyboard focus) is on the film */
+@media (hover: hover) and (pointer: fine) {
+  .film-fullscreen-button { opacity: 0; }
+  .film-frame:hover .film-fullscreen-button,
+  .film-frame:focus-within .film-fullscreen-button { opacity: 1; }
+}
+
+/* Touch screens: it fades away together with Pause while the film plays */
+.film-frame:has(.is-button-hidden) .film-fullscreen-button {
+  opacity: 0;
+  pointer-events: none;
+}
 
 @media (hover: none), (pointer: coarse) {
   .film-play-button { display: flex; }
@@ -1373,35 +1420,99 @@ body {
   --y: var(--y-desktop);
   --label-x: var(--label-x-desktop);
   --label-y: var(--label-y-desktop);
+  /* Where the sheets come out: above the name, unless a folder sets its own --paper-x-… */
+  --paper-x: var(--paper-x-desktop, var(--label-x));
   position: absolute;
   inset: 0;
   pointer-events: none;
   text-decoration: none;
-  /* It turns around the middle of its tab */
-  transform-origin:
-    calc(var(--label-x) * var(--reach-unit))
-    max(calc(100dvh - (var(--reach-cut) - var(--label-y)) * var(--reach-unit)), calc((var(--label-y) - 150) * var(--reach-unit)));
   transition: translate var(--speed-small) var(--ease-main);
   animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
   animation-delay: calc(0.4s + var(--order) * var(--reveal-step));
 }
 
 .contact-folder:hover,
-.contact-folder:focus-visible {
+.contact-folder:focus-visible,
+.contact-folder.is-open {
   translate: 0 calc(var(--folder-rise) * -1);
-  animation: tab-wiggle var(--speed-wiggle) var(--ease-playful) infinite;
 }
 
-/* While one folder is chosen, the others move down a little */
-.reach-main:has(.contact-folder:hover) .contact-folder:not(:hover) {
+/* While one folder is chosen (mouse, keyboard or a tap), the others move down a little */
+.reach-main:has(.contact-folder:hover) .contact-folder:not(:hover),
+.reach-main:has(.contact-folder:focus-visible) .contact-folder:not(:focus-visible),
+.reach-main:has(.contact-folder.is-open) .contact-folder:not(.is-open) {
   translate: 0 var(--folder-duck);
 }
 
-@keyframes tab-wiggle {
-  0%, 45%, 100% { rotate: 0deg; }
-  12% { rotate: -1deg; }
-  24% { rotate: 0.8deg; }
-  34% { rotate: -0.4deg; }
+/* The sheets of paper. They wait hidden inside the folder,
+   and when the folder is chosen they rise out of it: first the front one with the contact detail,
+   then the colored one behind it. */
+.folder-paper,
+.folder-paper-back {
+  --unit: calc(var(--folder-scale) * var(--reach-unit));
+  position: absolute;
+  left: calc(var(--paper-x) * var(--reach-unit));
+  top: calc(max(calc(100dvh - (var(--reach-cut) - var(--y)) * var(--reach-unit)), calc((var(--y) - 150) * var(--reach-unit))) + var(--paper-start) * var(--unit));
+  height: calc(var(--paper-height) * var(--unit));
+  border-radius: calc(var(--paper-corner) * var(--unit));
+  transform: translateX(-50%);
+  transform-origin: 50% 100%; /* they lean from their bottom, inside the folder */
+  pointer-events: auto;       /* the sheets are part of the link: clicking them opens the contact */
+  transition:
+    translate var(--speed-reveal) var(--ease-main),
+    rotate var(--speed-reveal) var(--ease-main),
+    scale var(--speed-reveal) var(--ease-main);
+}
+
+.folder-paper {
+  width: calc(var(--paper-width) * var(--unit));
+  padding-top: calc(var(--paper-padding) * var(--unit));
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: calc(var(--paper-text) * var(--unit));
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* The colored sheet behind: --paper-back-color is set on each folder in reach-out.html */
+.folder-paper-back {
+  width: calc(var(--paper-back-width) * var(--unit));
+  background-color: var(--paper-back-color);
+  transform-origin: 50% 50%; /* it turns around its middle, like in Figma */
+}
+
+.contact-folder:hover .folder-paper,
+.contact-folder:focus-visible .folder-paper,
+.contact-folder.is-open .folder-paper {
+  translate: 0 calc(var(--paper-rise) * var(--unit) * -1);
+  rotate: calc(var(--paper-tilt) * var(--paper-side));
+}
+
+.contact-folder:hover .folder-paper-back,
+.contact-folder:focus-visible .folder-paper-back,
+.contact-folder.is-open .folder-paper-back {
+  translate:
+    calc(var(--paper-back-shift-x) * var(--paper-side) * var(--unit))
+    calc((var(--paper-back-shift-y) - var(--paper-rise)) * var(--unit));
+  rotate: calc(var(--paper-back-tilt) * var(--paper-side));
+  transition-delay: var(--paper-back-delay);
+}
+
+/* The mouse on the sheets: both turn a little more, gently */
+.contact-folder:has(.folder-paper:hover, .folder-paper-back:hover) .folder-paper {
+  rotate: calc((var(--paper-tilt) + var(--paper-hover-turn)) * var(--paper-side));
+}
+
+.contact-folder:has(.folder-paper:hover, .folder-paper-back:hover) .folder-paper-back {
+  rotate: calc((var(--paper-back-tilt) + var(--paper-hover-turn)) * var(--paper-side));
+  transition-delay: 0s;
+}
+
+/* Phone on a computer: a click brings the sheet further out and makes it bigger (reach-out.js) */
+.contact-folder .folder-paper.is-close {
+  translate: 0 calc((var(--paper-rise) + var(--paper-close-rise)) * var(--unit) * -1);
+  rotate: calc(var(--paper-tilt) * var(--paper-side));
+  scale: var(--paper-close-size);
 }
 
 .folder-art {
@@ -1502,6 +1613,7 @@ body {
     --y: var(--y-tablet);
     --label-x: var(--label-x-tablet);
     --label-y: var(--label-y-tablet);
+    --paper-x: var(--paper-x-tablet, var(--label-x));
   }
 }
 
@@ -1517,7 +1629,8 @@ body {
     --size-logo: calc(var(--nav-phone-text) * var(--home-unit));
     --logo-left: calc(16 * var(--home-unit));
     --logo-width: calc(48 * var(--home-unit));
-    --logo-open-width: calc(124 * var(--home-unit));
+    /* Opens up to just before Home (131 - a gap of 8 - its own left of 16), so the whole sentence shows */
+    --logo-open-width: calc(107 * var(--home-unit));
     --logo-more-width: calc(52.9 * var(--home-unit));
     --button-round-corner: calc(22 * var(--home-unit));
 
@@ -1596,6 +1709,7 @@ body {
     --y: var(--y-phone);
     --label-x: var(--label-x-phone);
     --label-y: var(--label-y-phone);
+    --paper-x: var(--paper-x-phone, var(--label-x));
   }
 }
 
@@ -1606,7 +1720,6 @@ body {
   .loader-letter,
   .loader-button,
   .cursor-letter,
-  .go-to-text,
   .character,
   .character.is-asleep,
   .snore i,
@@ -1850,9 +1963,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .about-bio,
   .about-photo,
-  .sticker,
-  .contact-folder:hover,
-  .contact-folder:focus-visible { animation: none; }
+  .sticker { animation: none; }
+  .folder-paper,
+  .folder-paper-back { transition: none; }
 }
 
 /* =========================================

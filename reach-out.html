@@ -52,20 +52,31 @@
 
     <!-- The folders, in Figma's order: each one covers the one before it.
          --x-…, --y-… are where the folder starts and --label-x-…, --label-y-… the middle of its name, in Figma pixels, for desktop, tablet and phone.
-         The links are empty for now. -->
-    <a class="contact-folder" href="#" style="--order: 0; --x-desktop: 0; --y-desktop: 532; --label-x-desktop: 1182.5; --label-y-desktop: 581.5; --x-tablet: -336; --y-tablet: 520; --label-x-tablet: 610; --label-y-tablet: 559.6; --x-phone: -439.5; --y-phone: 400; --label-x-phone: 270; --label-y-phone: 429.7" data-cursor="grow">
+         --paper-x-… moves a folder's sheets away from its name (E-Mail, so they don't cover the yellow folder's name).
+         Each folder is a link: Instagram and LinkedIn open in a new tab, E-Mail opens a new email,
+         and Phone dials on a phone. On phones and tablets the first tap opens the folder and the second opens the link
+         (on a computer the Phone sheet comes further out and grows instead), see reach-out.js. -->
+    <a class="contact-folder" href="https://www.instagram.com/adelfitusi" target="_blank" rel="noopener" style="--order: 0; --paper-back-color: var(--color-paper-orange); --paper-side: 1; --x-desktop: 0; --y-desktop: 532; --label-x-desktop: 1182.5; --label-y-desktop: 581.5; --x-tablet: -336; --y-tablet: 520; --label-x-tablet: 610; --label-y-tablet: 559.6; --x-phone: -439.5; --y-phone: 400; --label-x-phone: 270; --label-y-phone: 429.7" data-cursor="grow">
+      <span class="folder-paper-back" aria-hidden="true"></span>
+      <span class="folder-paper">@adelfitusi</span>
       <svg class="folder-art" viewBox="0 0 2055.5 537" preserveAspectRatio="none" aria-hidden="true"><use href="images/folder-orange.svg#folder"></use></svg>
       <span class="folder-name" style="color: var(--color-cream)">Instagram</span>
     </a>
-    <a class="contact-folder" href="#" style="--order: 1; --x-desktop: -220; --y-desktop: 569; --label-x-desktop: 634.5; --label-y-desktop: 614.5; --x-tablet: -383.6; --y-tablet: 596; --label-x-tablet: 300; --label-y-tablet: 632.4; --x-phone: -392.7; --y-phone: 458; --label-x-phone: 120; --label-y-phone: 485.3" data-cursor="grow">
+    <a class="contact-folder" href="tel:+972526722248" style="--order: 1; --paper-back-color: var(--color-paper-yellow); --paper-side: 1; --x-desktop: -220; --y-desktop: 569; --label-x-desktop: 634.5; --label-y-desktop: 614.5; --x-tablet: -383.6; --y-tablet: 596; --label-x-tablet: 300; --label-y-tablet: 632.4; --x-phone: -392.7; --y-phone: 458; --label-x-phone: 120; --label-y-phone: 485.3" data-cursor="grow">
+      <span class="folder-paper-back" aria-hidden="true"></span>
+      <span class="folder-paper">052-672-2248</span>
       <svg class="folder-art is-flipped" viewBox="0 0 2055.5 537" preserveAspectRatio="none" aria-hidden="true"><use href="images/folder-yellow.svg#folder"></use></svg>
       <span class="folder-name" style="color: var(--color-label-on-yellow)">Phone</span>
     </a>
-    <a class="contact-folder" href="#" style="--order: 2; --x-desktop: -603; --y-desktop: 608; --label-x-desktop: 245; --label-y-desktop: 655.5; --x-tablet: -488.4; --y-tablet: 672; --label-x-tablet: 190; --label-y-tablet: 710; --x-phone: -246.8; --y-phone: 516; --label-x-phone: 262; --label-y-phone: 544.5" data-cursor="grow">
+    <a class="contact-folder" href="mailto:odelsf123@gmail.com?subject=Let%27s%20make%20something%20moving&amp;body=Hi%20Adel%2C%20I%27m%20interested%20in%20your%20work%20and%20would%20love%20to%20talk%20about%20a%20project%E2%80%A6" style="--order: 2; --paper-back-color: var(--color-paper-pink); --paper-side: -1; --paper-x-desktop: 940; --paper-x-tablet: 689; --paper-x-phone: 290; --x-desktop: -603; --y-desktop: 608; --label-x-desktop: 245; --label-y-desktop: 655.5; --x-tablet: -488.4; --y-tablet: 672; --label-x-tablet: 190; --label-y-tablet: 710; --x-phone: -246.8; --y-phone: 516; --label-x-phone: 262; --label-y-phone: 544.5" data-cursor="grow">
+      <span class="folder-paper-back" aria-hidden="true"></span>
+      <span class="folder-paper">odelsf123@gmail.com</span>
       <svg class="folder-art is-flipped" viewBox="0 0 2055.5 537" preserveAspectRatio="none" aria-hidden="true"><use href="images/folder-pink.svg#folder"></use></svg>
       <span class="folder-name" style="color: var(--color-label-on-pink)">E-Mail</span>
     </a>
-    <a class="contact-folder" href="#" style="--order: 3; --x-desktop: -93; --y-desktop: 653; --label-x-desktop: 1098.5; --label-y-desktop: 698.5; --x-tablet: -433.2; --y-tablet: 748; --label-x-tablet: 520; --label-y-tablet: 784.4; --x-phone: -586.9; --y-phone: 574; --label-x-phone: 128; --label-y-phone: 601.3" data-cursor="grow">
+    <a class="contact-folder" href="https://www.linkedin.com/in/adel-fitousi" target="_blank" rel="noopener" style="--order: 3; --paper-back-color: var(--color-paper-blue); --paper-side: 1; --x-desktop: -93; --y-desktop: 653; --label-x-desktop: 1098.5; --label-y-desktop: 698.5; --x-tablet: -433.2; --y-tablet: 748; --label-x-tablet: 520; --label-y-tablet: 784.4; --x-phone: -586.9; --y-phone: 574; --label-x-phone: 128; --label-y-phone: 601.3" data-cursor="grow">
+      <span class="folder-paper-back" aria-hidden="true"></span>
+      <span class="folder-paper">Let’s Connect</span>
       <svg class="folder-art" viewBox="0 0 2055.5 537" preserveAspectRatio="none" aria-hidden="true"><use href="images/folder-blue.svg#folder"></use></svg>
       <span class="folder-name" style="color: var(--color-cream)">LinkedIn</span>
     </a>
@@ -78,6 +89,7 @@
   <script src="site.js"></script>
   <!-- Menu buttons and the page transition -->
   <script src="nav-buttons.js"></script>
+  <script src="reach-out.js"></script>
 
 </body>
 </html>

@@ -248,10 +248,19 @@ wake();
 document.addEventListener("pointermove", function (event) { wake(); lookAt(event.clientX, event.clientY); });
 document.addEventListener("pointerdown", function (event) { wake(); lookAt(event.clientX, event.clientY); });
 
-// Surprised while the mouse is on a menu button
+// Surprised while the mouse (or keyboard focus) is on a menu button
 document.querySelectorAll(".nav-logo, .nav-button").forEach(function (button) {
   button.addEventListener("pointerenter", function () { character.classList.add("is-surprised"); });
   button.addEventListener("pointerleave", function () { character.classList.remove("is-surprised"); });
+  // The same with the keyboard
+  button.addEventListener("focus", function () {
+    if (!button.matches(":focus-visible")) return;
+    const box = button.getBoundingClientRect();
+    wake();
+    lookAt(box.left + box.width / 2, box.top + box.height / 2); // looks at the button, as it looks at the mouse
+    character.classList.add("is-surprised");
+  });
+  button.addEventListener("blur", function () { character.classList.remove("is-surprised"); });
 });
 
 // ----- One loop for the movement, once per screen refresh -----
