@@ -653,13 +653,15 @@ body {
 }
 
 /* The letters of the sentence do the same wave.
-   statement-wave.js adds "is-waving" on hover and removes it when the wave ends. */
+   statement-wave.js adds "is-waving" on hover and removes it when the wave ends.
+   The "Next Project" title on project pages does the same wave (next-project.js). */
 .statement-letter {
   display: inline-block;
   white-space: pre;
 }
 
-.statement.is-waving .statement-letter {
+.statement.is-waving .statement-letter,
+.project-next-title.is-waving .statement-letter {
   animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
   animation-delay: calc(var(--letter) * var(--letter-wave-step));
 }
@@ -758,7 +760,8 @@ body {
   .nav-button:focus-visible .nav-letter,
   .nav-logo:hover .logo-letter,
   .nav-logo:focus-visible .logo-letter,
-  .statement.is-waving .statement-letter {
+  .statement.is-waving .statement-letter,
+  .project-next-title.is-waving .statement-letter {
     animation: none;
     transition: none;
   }

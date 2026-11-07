@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adel Fitoussi</title>
+
+  <!-- The loading screen shows only on the first page of a visit -->
+  <script>
+    try {
+      if (sessionStorage.getItem("seen-loader")) document.documentElement.classList.add("no-loader");
+      else document.documentElement.classList.add("is-loading");
+      // Arriving through the menu: start covered in cream right away, before anything is drawn
+      if (sessionStorage.getItem("arriving") === "yes") document.documentElement.classList.add("is-arriving");
+    } catch (error) {
+      document.documentElement.classList.add("is-loading");
+    }
+  </script>
+
+  <!-- Stand-in font, for computers that don't have Ratzif22 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="project-page has-site-cursor">
+
+  <!-- Loading screen: "loading..." with the menu's hover animation -->
+  <div class="loader" role="status" aria-label="loading"><div class="loader-button" aria-hidden="true"></div></div>
+
+  <!-- The menu. The sizes and places of these buttons are fixed (see CLAUDE.md).
+       --left and --width are in Figma pixels: desktop, then tablet, then phone. -->
+  <header>
+    <!-- On hover the box opens and shows the rest of the sentence -->
+    <a class="nav-logo" href="about.html" aria-label="Hi I’m Adel"><span aria-hidden="true"><span class="logo-letter" style="--letter: 0">H</span><span class="logo-letter" style="--letter: 1">i</span><span class="nav-logo-more"><span class="logo-letter" style="--letter: 2"> </span><span class="logo-letter" style="--letter: 3">I</span><span class="logo-letter" style="--letter: 4">’</span><span class="logo-letter" style="--letter: 5">m</span><span class="logo-letter" style="--letter: 6"> </span><span class="logo-letter" style="--letter: 7">A</span><span class="logo-letter" style="--letter: 8">d</span><span class="logo-letter" style="--letter: 9">e</span><span class="logo-letter" style="--letter: 10">l</span></span></span></a>
+    <nav>
+      <a class="nav-button" style="--left: 523; --width: 111; --left-tablet: 247; --width-tablet: 88; --left-phone: 131; --width-phone: 62; --order: 0; --page-color: var(--color-page-home)" href="index.html" aria-label="Home">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">H</span><span class="nav-letter" style="--letter: 1">o</span><span class="nav-letter" style="--letter: 2">m</span><span class="nav-letter" style="--letter: 3">e</span></span>
+      </a>
+      <a class="nav-button nav-button-current" aria-current="page" style="--left: 681; --width: 111; --left-tablet: 351; --width-tablet: 100; --left-phone: 201; --width-phone: 76; --order: 1; --page-color: var(--color-page-projects)" href="projects.html" aria-label="Projects">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">P</span><span class="nav-letter" style="--letter: 1">r</span><span class="nav-letter" style="--letter: 2">o</span><span class="nav-letter" style="--letter: 3">j</span><span class="nav-letter" style="--letter: 4">e</span><span class="nav-letter" style="--letter: 5">c</span><span class="nav-letter" style="--letter: 6">t</span><span class="nav-letter" style="--letter: 7">s</span></span>
+      </a>
+      <a class="nav-button" style="--left: 823; --width: 135; --left-tablet: 467; --width-tablet: 120; --left-phone: 285; --width-phone: 89; --order: 2; --page-color: var(--color-page-reach-out)" href="reach-out.html" aria-label="Reach Out">
+        <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">R</span><span class="nav-letter" style="--letter: 1">e</span><span class="nav-letter" style="--letter: 2">a</span><span class="nav-letter" style="--letter: 3">c</span><span class="nav-letter" style="--letter: 4">h</span><span class="nav-letter" style="--letter: 5"> </span><span class="nav-letter" style="--letter: 6">O</span><span class="nav-letter" style="--letter: 7">u</span><span class="nav-letter" style="--letter: 8">t</span></span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="project">
+    <!-- Title and details -->
+    <div class="project-head">
+      <h1 class="project-title">Title Sequence</h1>
+      <dl class="project-details">
+        <div><dt class="project-label">Year</dt><dd class="project-small">—</dd></div>
+        <div><dt class="project-label">Role</dt><dd class="project-small">—</dd></div>
+        <div><dt class="project-label">Tools</dt><dd class="project-small">—</dd></div>
+      </dl>
+    </div>
+
+    <!-- The film, the full width of the screen. Clicking plays it; the button in the corner opens it full screen. -->
+    <div class="film-frame">
+      <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
+        <video src="videos/title-film.mp4" poster="images/projects/title-still.jpg" playsinline preload="metadata"></video>
+        <span class="film-play-button" aria-hidden="true">Play</span>
+      </div>
+      <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
+    </div>
+
+    <!-- The idea -->
+    <section class="project-block">
+      <h2 class="project-label">The Idea</h2>
+      <div class="project-block-content">
+        <p class="project-body">Text coming soon.</p>
+      </div>
+    </section>
+
+    <!-- The process: the text, then the pictures -->
+    <section class="project-process">
+      <div class="project-block">
+        <h2 class="project-label">Process</h2>
+        <div class="project-block-content">
+          <p class="project-body">Text coming soon.</p>
+        </div>
+      </div>
+      <div class="process-grid is-three">
+        <figure class="process-item"><img src="images/projects/title-still-1.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/title-still-2.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/title-still-3.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- Decisions -->
+    <section class="project-block">
+      <h2 class="project-label">Decisions</h2>
+      <div class="project-block-content">
+        <p class="project-body">Text coming soon.</p>
+      </div>
+    </section>
+
+    <!-- Credits -->
+    <section class="project-block">
+      <h2 class="project-label">Credits</h2>
+      <div class="project-block-content">
+        <p class="project-small">Animation - Adel Fitoussi</p>
+        <p class="project-small">Bezalel</p>
+      </div>
+    </section>
+
+    <!-- Next project -->
+    <section class="project-next">
+      <h2 class="project-label">Next Project</h2>
+      <a class="project-next-title" href="virtual-wandering.html" data-cursor="grow" data-page-link>Virtual Wandering</a>
+    </section>
+  </main>
+
+  <!-- The custom cursor (computer only) -->
+  <div class="site-cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+  <!-- Loading screen and cursor -->
+  <script src="site.js"></script>
+  <!-- Menu buttons and the page transition -->
+  <script src="nav-buttons.js"></script>
+  <!-- Plays and pauses the film -->
+  <script src="project-film.js"></script>
+  <!-- The letter wave on the "Next Project" title -->
+  <script src="next-project.js"></script>
+
+</body>
+</html>
