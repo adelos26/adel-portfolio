@@ -155,6 +155,7 @@
   --project-label-gap: calc(32 * var(--home-unit));
   --project-label-column: calc(432 * var(--home-unit));
   --project-grid-gap: calc(24 * var(--home-unit));
+  --process-whole-padding: 7%;
   --project-bottom: calc(120 * var(--home-unit));
   --size-project-body: calc(36 * var(--home-unit));
   --size-project-small: calc(23 * var(--home-unit));
@@ -188,6 +189,13 @@
   --color-paper-yellow: #ffefb4;
   --color-paper-pink: #ffcdff;
   --color-paper-blue: #006aff;
+
+  /* Op-Doc: the film's colors (measured from the film), shown as its palette */
+  --color-opdoc-blue: #1448b6;
+  --color-opdoc-orange: #f27550;
+  --color-opdoc-black: #111111;
+  --color-opdoc-pink: #fdc6de;
+  --color-opdoc-white: #f8f7f8;
   --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
 
@@ -1352,6 +1360,9 @@ body {
 
 .project-process { gap: var(--project-label-gap); }
 
+/* The Process text sits inside the Process section, which already has the side margins */
+.project-process .project-block { padding-inline: 0; }
+
 .process-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1376,6 +1387,25 @@ body {
 .process-item .is-whole {
   object-fit: contain;
   background-color: #ffffff;
+  box-sizing: border-box;
+  padding: var(--process-whole-padding); /* room around a whole drawing, so it doesn't touch the edges */
+}
+
+/* A row of three pictures (stills) */
+.process-grid.is-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* A film's color palette: one stripe per color, the same size as the pictures */
+.color-palette {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.color-swatch {
+  flex: 1;
+  background-color: var(--swatch);
 }
 
 .project-next { gap: var(--project-label-gap); }
@@ -1699,7 +1729,8 @@ body {
   .work { white-space: normal; }
   .work-dot { display: none; }
 
-  .process-grid { grid-template-columns: minmax(0, 1fr); }
+  .process-grid,
+  .process-grid.is-three { grid-template-columns: minmax(0, 1fr); }
   .project-details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
   .reach-title { padding-inline: calc(16 * var(--reach-unit)); }
