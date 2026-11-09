@@ -161,16 +161,15 @@
   --project-grid-gap: calc(24 * var(--home-unit));
   --process-whole-padding: 7%;
   --project-bottom: calc(120 * var(--home-unit));
-  --size-project-body: calc(36 * var(--home-unit));
   --size-project-small: calc(23 * var(--home-unit));
-  /* Project pages (Figma "op-doc - case study"): pink section titles, light body text */
-  --size-project-heading: calc(32 * var(--home-unit));
-  --size-project-text: calc(28 * var(--home-unit));
-  --weight-project-heading: 500; /* Medium */
-  --weight-project-text: 200;    /* ExtraLight */
-  /* Ratzif22 has no light weight, so the long texts use the stand-in font, as in Figma */
-  --font-project-text: "Barlow Semi Condensed", sans-serif;
-  --color-project-heading: var(--color-page-home); /* pink */
+  /* Section titles and body text, the same on every page (Figma "op-doc - case study") */
+  --size-section-title: calc(32 * var(--home-unit));
+  --size-body-text: calc(28 * var(--home-unit));
+  --weight-section-title: 500; /* Medium */
+  --weight-body-text: 200;    /* ExtraLight */
+  /* Ratzif22 has no light weight, so body text uses the stand-in font, as in Figma */
+  --font-body-text: "Barlow Semi Condensed", sans-serif;
+  --color-section-title: var(--color-page-home); /* pink */
 
   /* Reach Out page: its Figma frame is 1440 wide */
   --reach-unit: calc(100vw / 1440);
@@ -1298,9 +1297,9 @@ body {
 
 /* The titles of the sections (The Idea, Process, Decisions, Credits, Next Project) */
 h2.project-label {
-  font-size: var(--size-project-heading);
-  font-weight: var(--weight-project-heading);
-  color: var(--color-project-heading);
+  font-size: var(--size-section-title);
+  font-weight: var(--weight-section-title);
+  color: var(--color-section-title);
 }
 
 .project-small {
@@ -1416,9 +1415,9 @@ h2.project-label {
 .project-body {
   margin: 0;
   max-width: 34em;
-  font-family: var(--font-project-text);
-  font-size: var(--size-project-text);
-  font-weight: var(--weight-project-text);
+  font-family: var(--font-body-text);
+  font-size: var(--size-body-text);
+  font-weight: var(--weight-body-text);
   line-height: 1.2;
   letter-spacing: 0.02em;
 }
@@ -1678,10 +1677,9 @@ h2.project-label {
     --project-label-gap: calc(24 * var(--home-unit));
     --project-grid-gap: calc(20 * var(--home-unit));
     --project-bottom: calc(100 * var(--home-unit));
-    --size-project-body: calc(28 * var(--home-unit));
     --size-project-small: calc(18 * var(--home-unit));
-    --size-project-heading: calc(26 * var(--home-unit));
-    --size-project-text: calc(22 * var(--home-unit));
+    --size-section-title: calc(26 * var(--home-unit));
+    --size-body-text: calc(22 * var(--home-unit));
 
     --reach-unit: calc(100vw / 834);
     --reach-height: calc(1112 * var(--reach-unit));
@@ -1763,10 +1761,9 @@ h2.project-label {
     --project-label-gap: calc(16 * var(--home-unit));
     --project-grid-gap: calc(16 * var(--home-unit));
     --project-bottom: calc(64 * var(--home-unit));
-    --size-project-body: calc(20 * var(--home-unit));
     --size-project-small: calc(16 * var(--home-unit));
-    --size-project-heading: calc(20 * var(--home-unit));
-    --size-project-text: calc(18 * var(--home-unit));
+    --size-section-title: calc(20 * var(--home-unit));
+    --size-body-text: calc(18 * var(--home-unit));
 
     --reach-unit: calc(100vw / 390);
     --reach-height: calc(844 * var(--reach-unit));
@@ -1992,7 +1989,9 @@ html {
 
 .about-bio {
   width: calc(var(--w) * var(--home-unit));
-  font-size: var(--size-project-body);
+  font-family: var(--font-body-text);  /* the same body text as the project pages */
+  font-size: var(--size-body-text);
+  font-weight: var(--weight-body-text);
   line-height: 1.2;
   letter-spacing: 0.02em;
   color: var(--color-cream);
@@ -2103,3 +2102,95 @@ html.is-arriving::before {
   z-index: 899;
   background-color: var(--color-transition);
 }
+
+/* =========================================
+   Style guide page (styleguide.html)
+   Shows the colors, spaces, text styles and parts of the site.
+   It uses only the values above: nothing new is designed here.
+   ========================================= */
+.styleguide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-section-gap);
+  padding-top: var(--project-top);
+  padding-bottom: var(--project-bottom);
+}
+
+/* One part of the guide: a label, then its examples */
+.styleguide-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-head-gap);
+  padding-inline: var(--project-side);
+}
+
+/* Colors: as many tiles in a row as fit */
+.styleguide-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--project-label-column), 100%), 1fr));
+  gap: var(--project-grid-gap);
+}
+
+.styleguide-color {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-label-gap);
+}
+
+/* The tile is painted with the variable itself (--swatch is set to it in styleguide.js) */
+.styleguide-color-tile {
+  height: var(--project-section-gap);
+  background-color: var(--swatch);
+  border: var(--showreel-border) solid var(--color-scrollbar);
+}
+
+/* One example: its name and values on top, the example under them, and a line below */
+.styleguide-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--project-label-gap);
+  padding-bottom: var(--project-head-gap);
+  border-bottom: var(--showreel-border) solid var(--color-scrollbar);
+}
+
+/* Spaces: a bar as long as the space */
+.styleguide-space-bar {
+  width: var(--space);
+  max-width: 100%;
+  height: var(--size-project-small);
+  background-color: var(--color-page-projects);
+}
+
+/* Text styles are shown in the flow of the page, not in their place on the site */
+.styleguide-sample > * {
+  position: static;
+  transform: none;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  animation: none;
+}
+
+/* The menu is shown in its real place, so it gets a strip the width of the screen */
+.styleguide-nav {
+  position: relative;
+  height: calc(var(--nav-top) + var(--nav-height) + var(--nav-top));
+  margin-inline: calc(var(--project-side) * -1);
+}
+
+/* The "Hi" box shown open, as on hover */
+.styleguide-nav .nav-logo.is-open { width: var(--logo-open-width); }
+.styleguide-nav .nav-logo.is-open .nav-logo-more { max-width: var(--logo-more-width); }
+
+/* The work names have no space around them on the guide */
+.styleguide-sample > .works { padding: 0; }
+
+/* A hidden helper that measures a variable in pixels */
+.styleguide-probe {
+  position: absolute;
+  visibility: hidden;
+}
+
+/* Parts placed inside the guide's own columns don't add their side margins again */
+.styleguide-section > .styleguide-section,
+.styleguide-row > :is(.project-head, .project-block) { padding-inline: 0; }

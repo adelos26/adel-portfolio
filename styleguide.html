@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide – Adel Fitoussi</title>
+
+  <!-- Stand-in font, for computers that don't have Ratzif22 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@200;400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="project-page">
+
+  <main class="styleguide">
+
+    <!-- Title of the guide -->
+    <div class="styleguide-section">
+      <h1 class="project-title">Style Guide</h1>
+      <p class="project-small">Everything on this page comes from styles.css. The numbers are measured live, so they change with the screen size.</p>
+    </div>
+
+    <!-- Colors: styleguide.js adds one tile for every --color- variable in :root -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Colors</h2>
+      <div class="styleguide-colors" id="styleguide-colors"></div>
+    </section>
+
+    <!-- Spaces: styleguide.js adds one bar for every space variable, smallest first -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Spacing</h2>
+      <div class="styleguide-section" id="styleguide-spaces"></div>
+    </section>
+
+    <!-- Text styles: each example uses the real class. styleguide.js writes its numbers. -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Text styles</h2>
+
+      <div class="styleguide-row" data-text-style="--size-statement">
+        <p class="project-small"><span class="project-label">.statement</span> · Home sentence <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="statement">I make things move</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-statement">
+        <p class="project-small"><span class="project-label">.project-title</span> · Project page title <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="project-title">Op-Doc</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-statement">
+        <p class="project-small"><span class="project-label">.about-title</span> · Hi I’m Adel title <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="about-title">Hi I’m Adel</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-reach-title">
+        <p class="project-small"><span class="project-label">.reach-title</span> · Reach Out title <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="reach-title">Let’s talk</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-folder-name">
+        <p class="project-small"><span class="project-label">.folder-name</span> · Folder name <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="folder-name">Instagram</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-showreel">
+        <p class="project-small"><span class="project-label">.showreel-teaser</span> · Showreel place <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="showreel-teaser">Showreel Coming Soon</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-section-title">
+        <p class="project-small"><span class="project-label">h2.project-label</span> · Section title (The Idea, Process, Credits…) <span data-specs></span></p>
+        <div class="styleguide-sample"><h2 class="project-label">The Idea</h2></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-body-text">
+        <p class="project-small"><span class="project-label">.project-body</span> · Body text, on project pages <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="project-body">A solo project from my third year at Bezalel.</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-body-text">
+        <p class="project-small"><span class="project-label">.about-bio</span> · Body text, on the Hi page <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="about-bio">I create worlds and tell stories through motion, 3D, characters, and interactive experiences.</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-sticker">
+        <p class="project-small"><span class="project-label">.sticker</span> · Sticker <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="sticker sticker-pink">Motion</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-project-small">
+        <p class="project-small"><span class="project-label">.project-label</span> · Small label (Year, Role, Tools) <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="project-label">Year</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-project-small">
+        <p class="project-small"><span class="project-label">.project-small</span> · Small text <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="project-small">After Effects, Illustrator</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-nav">
+        <p class="project-small"><span class="project-label">.nav-button</span> · Menu button <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="nav-button">Projects</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-logo">
+        <p class="project-small"><span class="project-label">.nav-logo</span> · Hi box <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="nav-logo">Hi</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--film-button-text">
+        <p class="project-small"><span class="project-label">.film-fullscreen-button</span> · Film button <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="film-fullscreen-button">Full Screen</p></div>
+      </div>
+
+      <div class="styleguide-row" data-text-style="--size-loader">
+        <p class="project-small"><span class="project-label">.transition-word</span> · Loading and page change <span data-specs></span></p>
+        <div class="styleguide-sample"><p class="transition-word">in a moment</p></div>
+      </div>
+    </section>
+
+    <!-- Component: a row of the projects index (the Projects page) -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Projects row</h2>
+
+      <div class="styleguide-row">
+        <p class="project-small">Short</p>
+        <div class="styleguide-sample">
+          <ul class="works"><li><a class="work" href="op-doc.html"><span class="work-name">Op-Doc</span> <span class="work-meta">Animation, 2026</span></a></li></ul>
+        </div>
+      </div>
+
+      <div class="styleguide-row">
+        <p class="project-small">Long</p>
+        <div class="styleguide-sample">
+          <ul class="works"><li><a class="work" href="virtual-wandering.html"><span class="work-name">Virtual Wandering</span> <span class="work-meta">Virtual Experience, 2026</span></a></li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component: the menu, in its real place -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Navigation</h2>
+
+      <div class="styleguide-row">
+        <p class="project-small">Short (as on the site)</p>
+        <div class="styleguide-nav">
+          <a class="nav-logo" href="about.html" aria-label="Hi I’m Adel"><span aria-hidden="true" data-letters="logo">Hi| I’m Adel</span></a>
+          <a class="nav-button" style="--left: 523; --width: 111; --left-tablet: 247; --width-tablet: 88; --left-phone: 131; --width-phone: 62; --order: 0" href="index.html" aria-label="Home"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">Home</span></a>
+          <a class="nav-button nav-button-current" style="--left: 681; --width: 111; --left-tablet: 351; --width-tablet: 100; --left-phone: 201; --width-phone: 76; --order: 1; --page-color: var(--color-page-projects)" href="projects.html" aria-label="Projects"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">Projects</span></a>
+          <a class="nav-button" style="--left: 823; --width: 135; --left-tablet: 467; --width-tablet: 120; --left-phone: 285; --width-phone: 89; --order: 2" href="reach-out.html" aria-label="Reach Out"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">Reach Out</span></a>
+        </div>
+      </div>
+
+      <div class="styleguide-row">
+        <p class="project-small">Long (Hi open, longer names in the same fixed sizes)</p>
+        <div class="styleguide-nav">
+          <a class="nav-logo is-open" href="about.html" aria-label="Hi I’m Adel"><span aria-hidden="true" data-letters="logo">Hi| I’m Adel</span></a>
+          <a class="nav-button" style="--left: 523; --width: 111; --left-tablet: 247; --width-tablet: 88; --left-phone: 131; --width-phone: 62; --order: 0" href="index.html" aria-label="Home Page"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">Home Page</span></a>
+          <a class="nav-button nav-button-current" style="--left: 681; --width: 111; --left-tablet: 351; --width-tablet: 100; --left-phone: 201; --width-phone: 76; --order: 1; --page-color: var(--color-page-projects)" href="projects.html" aria-label="All Projects"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">All Projects</span></a>
+          <a class="nav-button" style="--left: 823; --width: 135; --left-tablet: 467; --width-tablet: 120; --left-phone: 285; --width-phone: 89; --order: 2" href="reach-out.html" aria-label="Reach Out to Me"><span class="nav-button-letters" aria-hidden="true" data-letters="nav">Reach Out to Me</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component: page title (title and details of a project) -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Page title</h2>
+
+      <div class="styleguide-row">
+        <p class="project-small">Short</p>
+        <div class="project-head">
+          <p class="project-title">Op-Doc</p>
+          <dl class="project-details">
+            <div><dt class="project-label">Year</dt><dd class="project-small">2026</dd></div>
+            <div><dt class="project-label">Role</dt><dd class="project-small">Animation</dd></div>
+            <div><dt class="project-label">Tools</dt><dd class="project-small">After Effects</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="styleguide-row">
+        <p class="project-small">Long</p>
+        <div class="project-head">
+          <p class="project-title">The Siren’s Song: A Story About Listening, Told in Three Parts</p>
+          <dl class="project-details">
+            <div><dt class="project-label">Year</dt><dd class="project-small">2025–2026</dd></div>
+            <div><dt class="project-label">Role</dt><dd class="project-small">Direction, Character Design, Animation, Compositing, Sound</dd></div>
+            <div><dt class="project-label">Tools</dt><dd class="project-small">After Effects, Illustrator, Photoshop, TVPaint, Premiere, Audition, ChatGPT</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component: text block (a label and its text) -->
+    <section class="styleguide-section">
+      <h2 class="project-label">Text block</h2>
+
+      <div class="styleguide-row">
+        <p class="project-small">Short</p>
+        <div class="project-block">
+          <h2 class="project-label">The Idea</h2>
+          <div class="project-block-content">
+            <p class="project-body">A short film about feeling different.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="styleguide-row">
+        <p class="project-small">Long</p>
+        <div class="project-block">
+          <h2 class="project-label">The Idea</h2>
+          <div class="project-block-content">
+            <p class="project-body">I Am a Tall Woman is a solo project from my third year in Bezalel’s Illustration to Animation program. The brief was an animated Op-Doc built on an audio clip. I chose a segment from Kan 11’s “Kan Mekshivim,” in which Tahel tells stories in a vivid, theatrical voice. When she said “tall people are lanky,” I knew it was the one.</p>
+            <p class="project-body">My question was how to convey feeling different in a light way, without leaning on literal visuals. I designed a minimalist, faceless figure with a small head and long limbs, and used transitions to replace literal descriptions with visual ideas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reads the variables from styles.css and fills the page -->
+  <script src="styleguide.js"></script>
+
+</body>
+</html>
