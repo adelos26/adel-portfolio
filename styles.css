@@ -211,7 +211,7 @@
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
 
   /* Hi I'm Adel page */
-  --about-height: calc(1008 * var(--home-unit));
+  --about-height: calc(920 * var(--home-unit)); /* just under the lowest sticker (Cat Lover), not the whole Figma frame */
   --size-sticker: calc(36 * var(--home-unit));
   --photo-corner: calc(26 * var(--home-unit));
   /* Reach Out is exactly one screen. The folders sit at the bottom of the screen: --reach-cut is
@@ -1688,7 +1688,7 @@ h2.project-label {
     --size-folder-name: calc(28 * var(--reach-unit));
     --folder-scale: 0.8;
     --reach-cut: 960;
-    --about-height: calc(1112 * var(--home-unit));
+    --about-height: calc(851 * var(--home-unit)); /* just under the text */
     --size-sticker: calc(28 * var(--home-unit));
     --photo-corner: calc(24 * var(--home-unit));
     --reach-title-shift: -60;
@@ -1772,7 +1772,7 @@ h2.project-label {
     --size-folder-name: calc(20 * var(--reach-unit));
     --folder-scale: 0.6;
     --reach-cut: 700;
-    --about-height: calc(900 * var(--home-unit));
+    --about-height: calc(671 * var(--home-unit)); /* just under the text */
     --size-sticker: calc(20 * var(--home-unit));
     --photo-corner: calc(20 * var(--home-unit));
     --reach-title-shift: -40;
@@ -1960,7 +1960,8 @@ html {
 
 .about-main {
   position: relative;
-  height: var(--about-height);
+  /* One screen tall; longer only when the content needs it */
+  height: max(100dvh, var(--about-height));
   overflow: clip; /* clip, not hidden: nothing can scroll it, even when a link inside gets keyboard focus */
 }
 
