@@ -20,7 +20,7 @@
   <!-- Stand-in font, for computers that don't have Ratzif22 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@200;400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -56,13 +56,15 @@
   </div>
 
   <main>
-    <!-- The works, written as one sentence. Each name opens its project page. -->
-    <h1 class="works">
-      <span class="work-line"><a class="work" href="op-doc.html" data-film="opdoc" data-cursor-label="Go To">Op-Doc</a><span class="work-dot"> . </span></span>
-      <span class="work-line"><a class="work" href="title-sequence.html" data-film="title" data-cursor-label="Go To">Title Sequence</a><span class="work-dot"> . </span></span>
-      <span class="work-line"><a class="work" href="virtual-wandering.html" data-film="wander" data-cursor-label="Go To">Virtual Wandering</a><span class="work-dot"> . </span></span>
-      <span class="work-line"><a class="work" href="sirens-song.html" data-film="siren" data-cursor-label="Go To">The Siren’s Song</a><span class="work-dot"> .</span></span>
-    </h1>
+    <!-- The works as an index: one row per work between thin lines, the name on the left and its type and year on the right.
+         Each row opens its project page. -->
+    <h1 class="visually-hidden">Projects</h1>
+    <ul class="works">
+      <li><a class="work" href="op-doc.html" data-film="opdoc" data-cursor-label="Go To"><span class="work-name">Op-Doc</span> <span class="work-meta">Animation, 2026</span></a></li>
+      <li><a class="work" href="title-sequence.html" data-film="title" data-cursor-label="Go To"><span class="work-name">Title Sequence</span> <span class="work-meta">Animation, 2025</span></a></li>
+      <li><a class="work" href="virtual-wandering.html" data-film="wander" data-cursor-label="Go To"><span class="work-name">Virtual Wandering</span> <span class="work-meta">Virtual Experience, 2026</span></a></li>
+      <li><a class="work" href="sirens-song.html" data-film="siren" data-cursor-label="Go To"><span class="work-name">The Siren’s Song</span> <span class="work-meta">Animation, 2026</span></a></li>
+    </ul>
   </main>
 
   <!-- Touch screens: opens the chosen project -->

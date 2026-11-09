@@ -2,12 +2,12 @@
 // - its pupils follow the mouse (computer) or the finger (phone/tablet)
 // - it blinks when its eyes are clicked, and by itself every few seconds
 // - it is surprised (the pupils grow) while the mouse is on a menu button
-// - after 6 seconds without movement it falls asleep: the eyes close, it breathes, and z's float up
+// - after 3 seconds without movement it falls asleep: the eyes close, it breathes, and z's float up
 
 const character = document.querySelector(".character");
 const eyePair = character.querySelector(".eye-pair");
 const characterReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const SLEEP_AFTER = 6000; // milliseconds without movement
+const SLEEP_AFTER = 3000; // milliseconds without movement
 
 // ----- Drawing the eyes -----
 // Each eye has its own outline, because the outline itself changes as the eye closes.

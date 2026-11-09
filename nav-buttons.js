@@ -7,6 +7,8 @@
 const COLUMN_COUNT = 10;
 const HOLD_TIME = 300;    // how long the screen stays covered before the next page opens, in milliseconds
 const ARRIVE_HOLD = 450;  // how long the new page stays covered before the columns go down
+const HI_HOLD = 500;      // the "Hi" box: how long "Hi I'm Adel" stays open before the next page
+const HI_OPEN_TIME = 800; // the "Hi" box takes this long to open (the same as --speed-reveal)
 
 const navButtons = document.querySelectorAll(".nav-button");
 // The menu, plus other links that should open their page with the same transition
@@ -83,6 +85,22 @@ function goToPage(link) {
   });
 }
 
+// The "Hi" box: it opens all the way to "Hi I'm Adel" (on a phone too, where there is no hover),
+// the sentence stays for a moment, and only then the page transition starts
+function openHiThenGo(link) {
+  isTransitionRunning = true;
+  link.classList.add("is-open");
+  const opening = link.getAnimations().find(function (animation) {
+    return animation.transitionProperty === "width";
+  });
+  const opened = opening ? opening.finished.catch(function () {}) : Promise.resolve();
+  // Never wait longer than the opening itself takes (--speed-reveal), even if the animation is held up
+  const longest = new Promise(function (resolve) { setTimeout(resolve, HI_OPEN_TIME); });
+  Promise.race([opened, longest]).then(function () {
+    setTimeout(function () { goToPage(link); }, HI_HOLD);
+  });
+}
+
 menuLinks.forEach(function (link) {
   link.addEventListener("click", function (event) {
     event.preventDefault();
@@ -95,6 +113,8 @@ menuLinks.forEach(function (link) {
 
     if (transitionReduceMotion) {
       window.location.href = link.href;
+    } else if (link.classList.contains("nav-logo")) {
+      openHiThenGo(link);
     } else {
       goToPage(link);
     }
@@ -136,5 +156,6 @@ window.addEventListener("pageshow", function (event) {
     pageTransition.classList.remove("is-covering", "is-covered");
     document.documentElement.classList.remove("is-transitioning");
     isTransitionRunning = false;
+    document.querySelectorAll(".nav-logo.is-open").forEach(function (logo) { logo.classList.remove("is-open"); });
   }
 });

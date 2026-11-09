@@ -140,6 +140,10 @@
   --works-top: calc(170 * var(--home-unit));
   --works-side: calc(91 * var(--home-unit));
   --works-dim: 0.45;           /* the names that are not chosen */
+  --size-work-name: var(--size-statement);
+  --work-row-top: calc(20 * var(--home-unit));    /* the space above a name, under its line */
+  --work-row-bottom: calc(16 * var(--home-unit));
+  --color-works-line: rgba(254, 255, 222, 0.22);  /* cream, faint */
   /* The rounded buttons on a film (Play / Pause and Full Screen) */
   --film-button-width: 89px;
   --film-button-height: 44px;
@@ -148,9 +152,9 @@
   --film-button-gap: 16px;      /* from the corner of the film */
 
   /* Project page */
-  --project-top: calc(170 * var(--home-unit));
+  --project-top: calc(120 * var(--home-unit));  /* less room above the title (was 170) */
   --project-side: calc(91 * var(--home-unit));
-  --project-section-gap: calc(120 * var(--home-unit));
+  --project-section-gap: calc(88 * var(--home-unit));
   --project-head-gap: calc(40 * var(--home-unit));
   --project-label-gap: calc(32 * var(--home-unit));
   --project-label-column: calc(432 * var(--home-unit));
@@ -159,6 +163,14 @@
   --project-bottom: calc(120 * var(--home-unit));
   --size-project-body: calc(36 * var(--home-unit));
   --size-project-small: calc(23 * var(--home-unit));
+  /* Project pages (Figma "op-doc - case study"): pink section titles, light body text */
+  --size-project-heading: calc(32 * var(--home-unit));
+  --size-project-text: calc(28 * var(--home-unit));
+  --weight-project-heading: 500; /* Medium */
+  --weight-project-text: 200;    /* ExtraLight */
+  /* Ratzif22 has no light weight, so the long texts use the stand-in font, as in Figma */
+  --font-project-text: "Barlow Semi Condensed", sans-serif;
+  --color-project-heading: var(--color-page-home); /* pink */
 
   /* Reach Out page: its Figma frame is 1440 wide */
   --reach-unit: calc(100vw / 1440);
@@ -286,6 +298,23 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Phones: no colored flash on what is tapped */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* No box around titles, menu buttons, works, films and folders when they get keyboard focus:
+   each of them already changes the way it does under the mouse (see their :focus-visible rules) */
+.nav-logo:focus-visible,
+.nav-button:focus-visible,
+.work:focus-visible,
+.project-next-title:focus-visible,
+.project-film:focus-visible,
+.showreel-teaser:focus-visible,
+.contact-folder:focus-visible {
+  outline: none;
 }
 
 body {
@@ -579,12 +608,15 @@ body {
 /* On hover the box opens to its size in Figma and the sentence opens with it.
    Both end together, so "Hi" doesn't slide sideways. */
 .nav-logo:hover,
-.nav-logo:focus-visible {
+.nav-logo:focus-visible,
+.nav-logo.is-open {
   width: var(--logo-open-width);
 }
 
+/* .is-open: the box was clicked or tapped, so it stays open until the next page (nav-buttons.js) */
 .nav-logo:hover .nav-logo-more,
-.nav-logo:focus-visible .nav-logo-more {
+.nav-logo:focus-visible .nav-logo-more,
+.nav-logo.is-open .nav-logo-more {
   max-width: var(--logo-more-width);
 }
 
@@ -1147,45 +1179,70 @@ body {
 .works {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: var(--works-top) var(--works-side) var(--works-side);
-  font-size: var(--size-statement);
-  font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: 0.04em;
-  color: var(--color-cream);
+  list-style: none;
 }
 
-.work-line > * {
-  transition: opacity var(--speed-small) var(--ease-main), color var(--speed-small) var(--ease-main);
-}
-
+/* One row: a thin line above it (and under the last one), the name on the left, type and year on the right */
 .work {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--works-side);
+  padding: var(--work-row-top) 0 var(--work-row-bottom);
+  border-top: 1px solid var(--color-works-line);
   color: var(--color-cream);
   text-decoration: none;
-  white-space: nowrap;
+  transition:
+    opacity var(--speed-small) var(--ease-main),
+    color var(--speed-small) var(--ease-main),
+    border-color var(--speed-small) var(--ease-main);
 }
 
-.work:focus-visible {
-  outline: 3px solid var(--color-page-projects);
-  outline-offset: 2px;
+.works li:last-child .work { border-bottom: 1px solid var(--color-works-line); }
+
+.work-name {
+  flex: none;
+  white-space: nowrap; /* the name stays on one line; if room runs out, the type and year wrap instead */
+  font-size: var(--size-work-name);
+  line-height: 1.04;
+  letter-spacing: 0.04em;
 }
 
-.work-dot { white-space: pre; }
+.work-meta {
+  text-align: right;
+  font-size: var(--size-nav);
+  letter-spacing: 0.04em;
+  opacity: var(--works-dim);
+}
 
-/* While one work is showing, the others step back, and the chosen one turns black */
-.works.has-active .work:not(.is-active),
-.works.has-active .work-dot { opacity: var(--works-dim); }
 
-.work.is-active,
-.works.has-active .work.is-active + .work-dot {
+/* While one work is showing, the others step back, and the chosen one turns black with no line */
+.works.has-active .work:not(.is-active) { opacity: var(--works-dim); }
+
+.work.is-active {
   color: var(--color-black);
+  border-color: transparent;
   opacity: 1;
 }
 
+.work.is-active .work-meta { opacity: 1; }
+
 /* Title Sequence has a lot of black in its film, so it turns blue instead */
-.work.is-active[data-film="title"],
-.works.has-active .work.is-active[data-film="title"] + .work-dot { color: var(--color-page-projects); }
+.work.is-active[data-film="title"] { color: var(--color-page-projects); }
+
+/* For screen readers only: the page's name, without showing it */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 /* =========================================
    Project page
@@ -1239,6 +1296,13 @@ body {
   color: var(--color-page-projects);
 }
 
+/* The titles of the sections (The Idea, Process, Decisions, Credits, Next Project) */
+h2.project-label {
+  font-size: var(--size-project-heading);
+  font-weight: var(--weight-project-heading);
+  color: var(--color-project-heading);
+}
+
 .project-small {
   margin: 0;
   font-size: var(--size-project-small);
@@ -1260,10 +1324,6 @@ body {
   object-fit: cover;
 }
 
-.project-film:focus-visible {
-  outline: 3px solid var(--color-page-projects);
-  outline-offset: -3px;
-}
 
 /* Touch screens have no cursor, so the film shows the Play button itself */
 .film-play-button {
@@ -1356,7 +1416,9 @@ body {
 .project-body {
   margin: 0;
   max-width: 34em;
-  font-size: var(--size-project-body);
+  font-family: var(--font-project-text);
+  font-size: var(--size-project-text);
+  font-weight: var(--weight-project-text);
   line-height: 1.2;
   letter-spacing: 0.02em;
 }
@@ -1455,6 +1517,8 @@ body {
   --label-y: var(--label-y-desktop);
   /* Where the sheets come out: above the name, unless a folder sets its own --paper-x-… */
   --paper-x: var(--paper-x-desktop, var(--label-x));
+  /* How far they come out: the same for all, unless a folder sets its own --paper-rise-… */
+  --paper-rise-now: var(--paper-rise);
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -1517,7 +1581,7 @@ body {
 .contact-folder:hover .folder-paper,
 .contact-folder:focus-visible .folder-paper,
 .contact-folder.is-open .folder-paper {
-  translate: 0 calc(var(--paper-rise) * var(--unit) * -1);
+  translate: 0 calc(var(--paper-rise-now) * var(--unit) * -1);
   rotate: calc(var(--paper-tilt) * var(--paper-side));
 }
 
@@ -1526,7 +1590,7 @@ body {
 .contact-folder.is-open .folder-paper-back {
   translate:
     calc(var(--paper-back-shift-x) * var(--paper-side) * var(--unit))
-    calc((var(--paper-back-shift-y) - var(--paper-rise)) * var(--unit));
+    calc((var(--paper-back-shift-y) - var(--paper-rise-now)) * var(--unit));
   rotate: calc(var(--paper-back-tilt) * var(--paper-side));
   transition-delay: var(--paper-back-delay);
 }
@@ -1543,7 +1607,7 @@ body {
 
 /* Phone on a computer: a click brings the sheet further out and makes it bigger (reach-out.js) */
 .contact-folder .folder-paper.is-close {
-  translate: 0 calc((var(--paper-rise) + var(--paper-close-rise)) * var(--unit) * -1);
+  translate: 0 calc((var(--paper-rise-now) + var(--paper-close-rise)) * var(--unit) * -1);
   rotate: calc(var(--paper-tilt) * var(--paper-side));
   scale: var(--paper-close-size);
 }
@@ -1604,16 +1668,20 @@ body {
 
     --works-top: calc(140 * var(--home-unit));
     --works-side: calc(40 * var(--home-unit));
+    --work-row-top: calc(16 * var(--home-unit));
+    --work-row-bottom: calc(12 * var(--home-unit));
 
-    --project-top: calc(120 * var(--home-unit));
+    --project-top: calc(96 * var(--home-unit));
     --project-side: calc(40 * var(--home-unit));
-    --project-section-gap: calc(88 * var(--home-unit));
+    --project-section-gap: calc(68 * var(--home-unit));
     --project-head-gap: calc(32 * var(--home-unit));
     --project-label-gap: calc(24 * var(--home-unit));
     --project-grid-gap: calc(20 * var(--home-unit));
     --project-bottom: calc(100 * var(--home-unit));
     --size-project-body: calc(28 * var(--home-unit));
     --size-project-small: calc(18 * var(--home-unit));
+    --size-project-heading: calc(26 * var(--home-unit));
+    --size-project-text: calc(22 * var(--home-unit));
 
     --reach-unit: calc(100vw / 834);
     --reach-height: calc(1112 * var(--reach-unit));
@@ -1647,6 +1715,7 @@ body {
     --label-x: var(--label-x-tablet);
     --label-y: var(--label-y-tablet);
     --paper-x: var(--paper-x-tablet, var(--label-x));
+    --paper-rise-now: var(--paper-rise-tablet, var(--paper-rise));
   }
 }
 
@@ -1683,16 +1752,21 @@ body {
 
     --works-top: calc(100 * var(--home-unit));
     --works-side: calc(20 * var(--home-unit));
+    --size-work-name: calc(46 * var(--home-unit)); /* smaller than the sentence, so each name fits on one line */
+    --work-row-top: calc(14 * var(--home-unit));
+    --work-row-bottom: calc(12 * var(--home-unit));
 
-    --project-top: calc(92 * var(--home-unit));
+    --project-top: calc(80 * var(--home-unit));
     --project-side: calc(20 * var(--home-unit));
-    --project-section-gap: calc(64 * var(--home-unit));
+    --project-section-gap: calc(52 * var(--home-unit));
     --project-head-gap: calc(24 * var(--home-unit));
     --project-label-gap: calc(16 * var(--home-unit));
     --project-grid-gap: calc(16 * var(--home-unit));
     --project-bottom: calc(64 * var(--home-unit));
     --size-project-body: calc(20 * var(--home-unit));
     --size-project-small: calc(16 * var(--home-unit));
+    --size-project-heading: calc(20 * var(--home-unit));
+    --size-project-text: calc(18 * var(--home-unit));
 
     --reach-unit: calc(100vw / 390);
     --reach-height: calc(844 * var(--reach-unit));
@@ -1727,10 +1801,14 @@ body {
     animation-name: rise-in;
   }
 
-  /* One work on each line, without the dots */
-  .work-line { display: block; }
-  .work { white-space: normal; }
-  .work-dot { display: none; }
+  /* Phone: the type and year go under the name */
+  .work {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(4 * var(--home-unit));
+  }
+
+  .work-meta { text-align: left; }
 
   .process-grid,
   .process-grid.is-three { grid-template-columns: minmax(0, 1fr); }
@@ -1744,6 +1822,7 @@ body {
     --label-x: var(--label-x-phone);
     --label-y: var(--label-y-phone);
     --paper-x: var(--paper-x-phone, var(--label-x));
+    --paper-rise-now: var(--paper-rise-phone, var(--paper-rise));
   }
 }
 
@@ -1761,7 +1840,7 @@ body {
   .contact-folder,
   .film-preview,
   .pupil,
-  .work-line > * {
+  .work {
     animation: none !important;
     transition: none !important;
   }
@@ -1847,10 +1926,6 @@ html {
   animation-delay: 0.7s;
 }
 
-.showreel-teaser:focus-visible {
-  outline: 3px solid var(--color-page-projects);
-  outline-offset: 4px;
-}
 
 .is-loading .showreel-teaser { animation-play-state: paused; }
 

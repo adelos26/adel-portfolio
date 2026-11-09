@@ -1,12 +1,13 @@
 // The projects page: when the mouse is on a work's name, a short film of that work
 // fades in behind the names and fills the screen. The name turns black (Title Sequence turns blue).
-// On a phone or tablet, the first tap on a name plays its film;
-// tapping the same name again opens the project.
+// Phones and tablets have no mouse, so there the films play by themselves, one after another,
+// and the name of the film that is playing changes color. One tap on a name opens the project.
 
 const works = document.querySelector(".works");
 const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const projectsReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const FADE_TIME = 800; // the same as --speed-reveal
+const LOOP_TIME = 4000; // touch screens: how long each film plays before the next one, in milliseconds
 
 let activeWork = null;
 let currentFilm = null;
@@ -67,23 +68,21 @@ document.querySelectorAll(".work").forEach(function (work) {
   });
   work.addEventListener("blur", hideWork);
 
+  // Works without a page yet don't go anywhere
   work.addEventListener("click", function (event) {
-    const hasPage = work.getAttribute("href") !== "#";
-    // On a touch screen, the first tap plays the film; a second tap on the same name opens the project
-    if (!hasMouse) {
-      if (activeWork === work && hasPage) return; // let the link open the project page
-      event.preventDefault();
-      showWork(work);
-      return;
-    }
-    // Works without a page yet don't go anywhere
-    if (!hasPage) event.preventDefault();
+    if (work.getAttribute("href") === "#") event.preventDefault();
   });
 });
 
-// Touch screens: tapping anywhere else closes the film
-document.addEventListener("click", function (event) {
-  if (hasMouse) return;
-  if (!event.target.closest(".work")) hideWork();
-});
+// Touch screens: the films take turns by themselves
+if (!hasMouse) {
+  const allWorks = document.querySelectorAll(".work");
+  let loopIndex = 0;
+  function playNextInLoop() {
+    showWork(allWorks[loopIndex]);
+    loopIndex = (loopIndex + 1) % allWorks.length;
+  }
+  playNextInLoop();
+  setInterval(playNextInLoop, LOOP_TIME);
+}
 

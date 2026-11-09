@@ -66,7 +66,8 @@ const siteCursor = {
   // Keyboard: moves the cursor to the middle of the focused thing, like the mouse would be there.
   // With side "after", it sits just after it instead (so it doesn't cover a work's name).
   moveTo: function (element, side) {
-    const box = element.getBoundingClientRect();
+    // On a work's row, the pill goes after the name, not after the whole row
+    const box = (element.querySelector(".work-name") || element).getBoundingClientRect();
     const pillWidth = parseFloat(getComputedStyle(cursor).getPropertyValue("--cursor-pill-width")) || 0;
     targetX = side === "after" ? box.right + pillWidth / 2 + KEYBOARD_GAP : box.left + box.width / 2;
     targetY = box.top + box.height / 2;
