@@ -185,17 +185,23 @@
   /* Project page */
   --project-top: calc(120 * var(--home-unit));  /* less room above the title (was 170) */
   --project-side: calc(91 * var(--home-unit));
-  --project-section-gap: calc(88 * var(--home-unit));
-  --project-head-gap: calc(40 * var(--home-unit));
+  --project-section-gap: calc(47 * var(--home-unit)); /* between the sections (Figma) */
+  --project-film-gap: calc(21 * var(--home-unit));    /* above and below the film (Figma) */
+  --project-head-gap: calc(11 * var(--home-unit));    /* between the title and the details (Figma) */
   --project-label-gap: calc(32 * var(--home-unit));
   --project-label-column: calc(432 * var(--home-unit));
   --project-grid-gap: calc(24 * var(--home-unit));
+  --palette-gap: calc(6 * var(--home-unit));     /* between the color pills */
+  --palette-corner: calc(12 * var(--home-unit));  /* the pills' rounded corners */
+  --palette-wide: 9;                              /* the wide pill is this many times wider */
+  --palette-step: 0.5s;                           /* the wide pill moves to the next color this often */
+  --palette-rest: 2s;                             /* after the last color it rests on the first */
   --process-whole-padding: 7%;
   --project-bottom: calc(120 * var(--home-unit));
   --size-project-small: calc(23 * var(--home-unit));
   /* Section titles and body text, the same on every page (Figma "op-doc - case study") */
   --size-section-title: calc(32 * var(--home-unit));
-  --size-body-text: calc(28 * var(--home-unit));
+  --size-body-text: calc(32 * var(--home-unit)); /* Figma: ExtraLight 32 */
   --weight-section-title: 500; /* Medium */
   --weight-body-text: 200;    /* ExtraLight */
   /* Ratzif22 has no light weight, so body text uses the stand-in font, as in Figma */
@@ -238,6 +244,12 @@
   --color-opdoc-black: #111111;
   --color-opdoc-pink: #fdc6de;
   --color-opdoc-white: #f8f7f8;
+
+  /* Title Sequence: the film's colors (measured from the film), shown as its palette */
+  --color-title-blue: #2a00fd;
+  --color-title-black: #000000;
+  --color-title-red: #d9252c;
+  --color-title-white: #fdfdfd;
   --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
 
@@ -1395,6 +1407,8 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0;
+  row-gap: var(--project-head-gap); /* more than three details wrap to a second row */
+  column-gap: var(--project-grid-gap); /* long details (on a phone) don't touch the next one */
 }
 
 .project-label {
@@ -1459,6 +1473,8 @@ h2.project-label {
 /* The film and its Full Screen button */
 .film-frame {
   position: relative;
+  /* Less room above and below the film than between the sections: takes the difference off both gaps */
+  margin-block: calc(var(--project-film-gap) - var(--project-section-gap));
 }
 
 /* "Full Screen": a rounded button in the bottom right corner of the film, like Play */
@@ -1569,16 +1585,29 @@ h2.project-label {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* A film's color palette: one stripe per color, the same size as the pictures */
+/* A film's color palette: a row of rounded color pills, the same size as the pictures.
+   One pill is wide, and palette.js moves the wide one along the colors, one after another. */
 .color-palette {
   display: flex;
+  gap: var(--palette-gap);
   width: 100%;
   aspect-ratio: 16 / 9;
 }
 
 .color-swatch {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: var(--palette-corner);
   background-color: var(--swatch);
+  outline: 1px solid var(--color-works-line); /* a faint edge, so a black pill still shows on the black page */
+  outline-offset: -1px;
+  transition: flex-grow var(--speed-small) var(--ease-main);
+}
+
+.color-swatch.is-wide { flex-grow: var(--palette-wide); }
+
+@media (prefers-reduced-motion: reduce) {
+  .color-swatch { transition: none; }
 }
 
 .project-next { gap: var(--project-label-gap); }
@@ -1787,14 +1816,15 @@ h2.project-label {
 
     --project-top: calc(96 * var(--home-unit));
     --project-side: calc(40 * var(--home-unit));
-    --project-section-gap: calc(68 * var(--home-unit));
-    --project-head-gap: calc(32 * var(--home-unit));
+    --project-section-gap: calc(36 * var(--home-unit));
+    --project-film-gap: calc(16 * var(--home-unit));
+    --project-head-gap: calc(10 * var(--home-unit));
     --project-label-gap: calc(24 * var(--home-unit));
     --project-grid-gap: calc(20 * var(--home-unit));
     --project-bottom: calc(100 * var(--home-unit));
     --size-project-small: calc(18 * var(--home-unit));
     --size-section-title: calc(26 * var(--home-unit));
-    --size-body-text: calc(22 * var(--home-unit));
+    --size-body-text: calc(26 * var(--home-unit)); /* the same size as the section titles, like on desktop */
 
     --reach-unit: calc(100vw / 834);
     --reach-height: calc(1112 * var(--reach-unit));
@@ -1877,14 +1907,15 @@ h2.project-label {
 
     --project-top: calc(80 * var(--home-unit));
     --project-side: calc(20 * var(--home-unit));
-    --project-section-gap: calc(52 * var(--home-unit));
-    --project-head-gap: calc(24 * var(--home-unit));
+    --project-section-gap: calc(28 * var(--home-unit));
+    --project-film-gap: calc(12 * var(--home-unit));
+    --project-head-gap: calc(8 * var(--home-unit));
     --project-label-gap: calc(16 * var(--home-unit));
     --project-grid-gap: calc(16 * var(--home-unit));
     --project-bottom: calc(64 * var(--home-unit));
     --size-project-small: calc(16 * var(--home-unit));
     --size-section-title: calc(20 * var(--home-unit));
-    --size-body-text: calc(18 * var(--home-unit));
+    --size-body-text: calc(20 * var(--home-unit)); /* the same size as the section titles, like on desktop */
 
     --reach-unit: calc(100vw / 390);
     --reach-height: calc(844 * var(--reach-unit));
