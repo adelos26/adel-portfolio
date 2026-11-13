@@ -136,6 +136,37 @@
   --speed-breath: 3.6s;
   --breath-size: 1.035;
 
+  /* The red character's grain shadow. The light starts at the top right;
+     character.js moves it to the side of the mouse, and the shadow goes to the other side. */
+  --character-light: 68% 18%;
+  --color-character-shadow-soft: rgba(80, 5, 0, 0.3);   /* where the shadow begins */
+  --color-character-shadow: rgba(60, 0, 0, 0.62);
+  --color-character-shadow-deep: rgba(50, 0, 0, 0.75);  /* at the far edge */
+  --color-eye-shadow: rgba(120, 40, 20, 0.12);          /* soft shadow on the white of the eye */
+  --color-iris-shadow: rgba(0, 10, 60, 0.18);           /* soft shadow on the blue */
+  --grain-size: 300px;      /* one tile of dots; the eyes use the same size */
+  --grain-strength: 0.85;
+  --grain-eye-white-strength: 0.6;
+  --grain-pupil-strength: 0.55;
+  /* The dots themselves: tiny pictures of random noise, one per color
+     (dark red on the body, warm brown on the white, dark blue on the iris, light grey on the pupil) */
+  --grain-character: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.02 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-eye-white: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.2 0 0 0 0 0.15 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-iris: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.02 0 0 0 0 0.04 0 0 0 0 0.25 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-pupil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 0 0.6 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 0 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* The character leans toward the mouse (character.js sets --lean-x and --lean-y, from -1 to 1) */
+  --lean-move: 3%;     /* of its own size */
+  --lean-turn: 4deg;
+  /* ...and its eyes move toward the mouse inside the circle, like a face turning
+     (cqw = a hundredth of the circle's width; character.js sets --face-x and --face-y) */
+  --face-move-x: 4cqw;
+  --face-move-y: 6cqw;
+  /* ...and jumps softly when a menu button is hovered */
+  --jump-squash: translateY(1%) scale(1.02, 0.975);
+  --jump-stretch: translateY(-1.2%) scale(0.992, 1.012);
+  --ease-soft: cubic-bezier(0.45, 0, 0.55, 1); /* starts and ends softly */
+
   /* Projects page */
   --works-top: calc(170 * var(--home-unit));
   --works-side: calc(91 * var(--home-unit));
@@ -227,6 +258,23 @@
   --showreel-height: calc(368 * var(--home-unit));
   --showreel-border: 2px;
   --size-showreel: calc(36 * var(--home-unit));
+  /* The moving strip of shorts in that place */
+  --shorts-gap: calc(24 * var(--home-unit));
+  --shorts-corner: calc(20 * var(--home-unit));
+  --shorts-fade: 6%;         /* how much of each end fades out */
+  --shorts-loop: 45s;        /* one full round of the strip */
+  --shorts-dim: 0.45;        /* the other shorts, while one is hovered */
+  --shorts-dim-scale: 0.94;
+  /* A short open full screen, like a story */
+  --color-story-backdrop: rgba(0, 0, 0, 0.92);
+  --color-story-bar: rgba(254, 255, 222, 0.35); /* cream, see-through */
+  --story-height: 88dvh;
+  --story-max-width: 92vw;
+  --story-corner: 24px;
+  --story-padding: 12px;
+  --story-bar-height: 3px;
+  --story-bar-gap: 4px;
+  --story-close-size: 32px;
 
   /* The character comes in from the edge where it is cut (desktop: top right) */
   --character-enter-from: translate(45%, -45%);
@@ -311,7 +359,6 @@ html {
 .work:focus-visible,
 .project-next-title:focus-visible,
 .project-film:focus-visible,
-.showreel-teaser:focus-visible,
 .contact-folder:focus-visible {
   outline: none;
 }
@@ -1065,6 +1112,58 @@ body {
   container-type: inline-size; /* lets the z's be sized by the circle */
   animation: character-enter var(--speed-large) var(--ease-main) backwards;
   animation-delay: 0.45s;
+  /* Leaning toward the mouse. translate and rotate are kept apart from transform,
+     which the slide in, the breathing and the jump use. */
+  translate: calc(var(--lean-x, 0) * var(--lean-move)) calc(var(--lean-y, 0) * var(--lean-move));
+  rotate: calc(var(--lean-x, 0) * var(--lean-turn));
+}
+
+/* The grain shadow, in two layers under the eyes:
+   1. a smooth shadow that darkens toward the side away from the light */
+.character::before,
+.character::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.character::before {
+  background: radial-gradient(circle at var(--character-light),
+    transparent 30%,
+    var(--color-character-shadow-soft) 58%,
+    var(--color-character-shadow) 80%,
+    var(--color-character-shadow-deep) 100%);
+}
+
+/* 2. dots, that appear where the shadow starts and grow thicker toward the edge */
+.character::after {
+  background-image: var(--grain-character);
+  background-size: var(--grain-size) var(--grain-size);
+  -webkit-mask-image: radial-gradient(circle at var(--character-light), transparent 24%, rgba(0, 0, 0, 0.75) 46%, black 62%);
+          mask-image: radial-gradient(circle at var(--character-light), transparent 24%, rgba(0, 0, 0, 0.75) 46%, black 62%);
+  opacity: var(--grain-strength);
+}
+
+/* The eyes and the z's stay above the shadow */
+.eye-pair,
+.snore {
+  z-index: 1;
+}
+
+/* The grain on the eyes is drawn inside each eye by character.js; these are its colors */
+.eye-white-shadow { fill: var(--color-eye-shadow); }
+.eye-iris-shadow { fill: var(--color-iris-shadow); }
+.eye-white-grain { opacity: var(--grain-eye-white-strength); }
+.eye-pupil-grain { opacity: var(--grain-pupil-strength); }
+
+/* Surprised (a menu button is hovered): she squashes down a little, rises a little, and settles.
+   character.js adds "is-jumping" and takes it off when the jump ends. */
+@keyframes character-jump {
+  0%, 100% { transform: none; }
+  30% { transform: var(--jump-squash); }
+  65% { transform: var(--jump-stretch); }
 }
 
 /* Comes in from the edge where it is cut: top right on desktop, the bottom on tablet and phone */
@@ -1079,6 +1178,7 @@ body {
   width: var(--eyes-width);
   display: flex;
   justify-content: space-between;
+  translate: calc(var(--face-x, 0) * var(--face-move-x)) calc(var(--face-y, 0) * var(--face-move-y));
 }
 
 .eye {
@@ -1651,7 +1751,8 @@ h2.project-label {
     --logo-more-width: calc(59.5 * var(--home-unit));
     --button-round-corner: calc(24 * var(--home-unit));
 
-    --home-height: calc(1112 * var(--home-unit));
+    /* The page is longer by the strip of shorts and its gap (was 1112) */
+    --home-height: calc(1467 * var(--home-unit));
     --size-statement: calc(72 * var(--home-unit));
     --statement-line-height: calc(69.12 * var(--home-unit));
     --statement-top: calc(140 * var(--home-unit));
@@ -1660,8 +1761,13 @@ h2.project-label {
     --statement-height: calc(207.4 * var(--home-unit));
 
     --character-left: calc(-81 * var(--home-unit));
-    --character-top: calc(406 * var(--home-unit));
+    --character-top: calc(761 * var(--home-unit)); /* under the strip of shorts (was 406) */
     --character-size: calc(1003 * var(--home-unit));
+    /* The strip of shorts: between the sentence and the character, the whole width of the screen */
+    --showreel-left: 0px;
+    --showreel-top: calc(381 * var(--home-unit));
+    --showreel-width: calc(834 * var(--home-unit));
+    --showreel-height: calc(340 * var(--home-unit));
     --eyes-left: 26%;
     --eyes-top: 20.7%;
 
@@ -1734,7 +1840,8 @@ h2.project-label {
     --logo-more-width: calc(52.9 * var(--home-unit));
     --button-round-corner: calc(22 * var(--home-unit));
 
-    --home-height: calc(844 * var(--home-unit));
+    /* The page is longer by the strip of shorts and its gap (was 844) */
+    --home-height: calc(1151 * var(--home-unit));
     --size-statement: calc(56 * var(--home-unit));
     --statement-line-height: calc(53.76 * var(--home-unit));
     --statement-top: calc(100 * var(--home-unit));
@@ -1743,8 +1850,13 @@ h2.project-label {
     --statement-height: auto;
 
     --character-left: calc(-45 * var(--home-unit));
-    --character-top: calc(462 * var(--home-unit));
+    --character-top: calc(769 * var(--home-unit)); /* under the strip of shorts (was 462) */
     --character-size: calc(509 * var(--home-unit));
+    /* The strip of shorts: between the sentence and the character, the whole width of the screen */
+    --showreel-left: 0px;
+    --showreel-top: calc(469 * var(--home-unit));
+    --showreel-width: calc(390 * var(--home-unit));
+    --showreel-height: calc(260 * var(--home-unit));
     --eyes-left: 23.2%;
     --eyes-top: 16.1%;
 
@@ -1832,6 +1944,7 @@ h2.project-label {
   .cursor-letter,
   .character,
   .character.is-asleep,
+  .character.is-jumping,
   .snore i,
   .reach-title,
   .contact-folder,
@@ -1901,38 +2014,209 @@ html {
 }
 
 /* =========================================
-   Home page, desktop: a place for the showreel under the statement.
-   For now it says "Showreel Coming Soon" and leads to the projects page.
+   Home page, desktop: a moving strip of short works under the statement
+   (in the place the showreel box used to be). Clicking one opens it full screen, like a story.
    ========================================= */
-.showreel-teaser {
+.shorts {
   position: absolute;
   left: var(--showreel-left);
   top: var(--showreel-top);
   width: var(--showreel-width);
   height: var(--showreel-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: var(--showreel-border) solid var(--color-cream);
-  color: var(--color-cream);
-  font-family: var(--font-new-home);
-  font-size: var(--size-showreel);
-  letter-spacing: 0.04em;
-  text-decoration: none;
+  overflow: hidden;
+  /* The strip fades out at both ends */
+  -webkit-mask-image: linear-gradient(90deg, transparent, black var(--shorts-fade), black calc(100% - var(--shorts-fade)), transparent);
+          mask-image: linear-gradient(90deg, transparent, black var(--shorts-fade), black calc(100% - var(--shorts-fade)), transparent);
   animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
   animation-delay: 0.7s;
 }
 
+.is-loading .shorts { animation-play-state: paused; }
 
-.is-loading .showreel-teaser { animation-play-state: paused; }
+/* The list is written twice (stories.js copies it), and moves left by exactly one copy, so it loops with no jump */
+.shorts-track {
+  display: flex;
+  gap: var(--shorts-gap);
+  width: max-content;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: shorts-move var(--shorts-loop) linear infinite;
+}
 
-/* Tablet and phone: the character fills the bottom of the screen, so there is no showreel place */
-@media (max-width: 900px) {
-  .showreel-teaser { display: none; }
+@keyframes shorts-move {
+  to { translate: calc(-50% - var(--shorts-gap) / 2) 0; }
+}
+
+/* It stops while the mouse is on it, while a short has keyboard focus, and while a short is open */
+.shorts:hover .shorts-track,
+.shorts:focus-within .shorts-track,
+.shorts.is-paused .shorts-track {
+  animation-play-state: paused;
+}
+
+/* Each short keeps its own shape (square, tall or wide); --ratio is written on it in index.html */
+.short {
+  display: block;
+  height: 100%;
+  aspect-ratio: var(--ratio);
+  padding: 0;
+  border: 0;
+  border-radius: var(--shorts-corner);
+  overflow: hidden;
+  background-color: var(--color-scrollbar);
+  cursor: pointer;
+  transition: opacity var(--speed-small) var(--ease-main), scale var(--speed-small) var(--ease-main);
+}
+
+.short video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* On hover, the other shorts step back */
+.shorts:hover .short,
+.shorts:focus-within .short {
+  opacity: var(--shorts-dim);
+  scale: var(--shorts-dim-scale);
+}
+
+.shorts .short:hover,
+.shorts .short:focus-visible {
+  opacity: 1;
+  scale: 1;
+}
+
+.short:focus-visible { outline: none; }
+
+/* ----- A short, open full screen, like a story ----- */
+.story-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 800; /* above the page and the menu, under the page change and the cursor */
+  display: grid;
+  place-items: center;
+  background-color: var(--color-story-backdrop);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--speed-small) var(--ease-main), visibility 0s var(--speed-small);
+}
+
+.story-viewer.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--speed-small) var(--ease-main);
+}
+
+/* The frame takes the short's own shape, as big as fits the screen */
+.story-frame {
+  position: relative;
+  width: min(var(--story-max-width), var(--story-height) * var(--ratio, 1));
+  aspect-ratio: var(--ratio, 1);
+  max-height: var(--story-height);
+  border-radius: var(--story-corner);
+  overflow: hidden;
+  background-color: var(--color-black);
+  scale: 0.9;
+  transition: scale var(--speed-reveal) var(--ease-main);
+}
+
+.story-viewer.is-open .story-frame { scale: 1; }
+
+.story-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The bars on top: one for each short; the current one fills as it plays */
+.story-bars {
+  position: absolute;
+  z-index: 2;
+  top: var(--story-padding);
+  left: var(--story-padding);
+  right: var(--story-padding);
+  display: flex;
+  gap: var(--story-bar-gap);
+}
+
+.story-bar {
+  flex: 1;
+  height: var(--story-bar-height);
+  border-radius: var(--story-bar-height);
+  background-color: var(--color-story-bar);
+  overflow: hidden;
+}
+
+.story-bar-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-cream);
+  transform-origin: left;
+  transform: scaleX(var(--progress, 0));
+}
+
+/* The left and right halves of the frame go back and forward */
+.story-tap {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.story-tap.is-back { left: 0; }
+.story-tap.is-next { right: 0; }
+
+.story-close {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--story-padding) * 2);
+  right: var(--story-padding);
+  width: var(--story-close-size);
+  height: var(--story-close-size);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-cream);
+  font-size: var(--story-close-size);
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--speed-small) var(--ease-main), rotate var(--speed-playful) var(--ease-playful);
+}
+
+/* On a light video the × turns black (stories.js measures the corner under it) */
+.story-viewer.is-on-light .story-close { color: var(--color-black); }
+
+/* Hover: the × turns a quarter, with a little bounce */
+.story-close:hover,
+.story-close:focus-visible {
+  rotate: 90deg;
+  outline: none;
+}
+
+/* On a phone the story fills the whole screen */
+@media (max-width: 600px) {
+  .story-frame { width: 100vw; max-height: 100dvh; border-radius: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .showreel-teaser { animation: none; }
+  .shorts { animation: none; }
+  .shorts-track { animation: none; }
+  .shorts { overflow-x: auto; } /* without movement, the strip can be scrolled sideways */
+  .story-frame { transition: none; scale: 1; }
+  .story-close { transition: none; }
 }
 
 /* Project pages are long, so the menu stays at the top of the screen while scrolling,
@@ -1948,6 +2232,10 @@ html {
 /* Once the character has come in, it doesn't slide in again (for example when it wakes up) */
 .character.has-entered { animation: none; }
 .character.has-entered.is-asleep { animation: breathe var(--speed-breath) ease-in-out infinite; }
+.character.has-entered.is-jumping {
+  transform-origin: 50% 100%; /* squashes onto its bottom */
+  animation: character-jump var(--speed-large) var(--ease-soft);
+}
 
 /* =========================================
    Hi I'm Adel page

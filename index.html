@@ -62,16 +62,42 @@
       </span>
     </h1>
 
-    <!-- A place for the showreel (desktop only). For now it leads to the projects page. -->
-    <a class="showreel-teaser" href="projects.html" data-cursor-label="Watch It" data-page-link>Showreel Coming Soon</a>
+    <!-- Short works on a moving strip (on phone and tablet: between the sentence and the character).
+         Clicking one opens it full screen, like a story.
+         To add a short: put the video in videos/shorts and a still in images/shorts, and add a line here.
+         --ratio is the video's shape: width / height. -->
+    <section class="shorts" aria-label="Short works">
+      <ul class="shorts-track">
+        <li><button class="short" type="button" style="--ratio: 1 / 1" data-cursor-label="Watch It" aria-label="Watch: Dolls"><video src="videos/shorts/dolls.mp4" poster="images/shorts/dolls.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: Op-Doc"><video src="videos/opdoc-preview.mp4" poster="images/projects/opdoc-still.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 4 / 5" data-cursor-label="Watch It" aria-label="Watch: The New Yorker"><video src="videos/shorts/adel-fitoussi.mp4" poster="images/shorts/adel-fitoussi.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: Title Sequence"><video src="videos/title-preview.mp4" poster="images/projects/title-still.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: 5 Seconds"><video src="videos/shorts/five-seconds.mp4" poster="images/shorts/five-seconds.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: Virtual Wandering"><video src="videos/wander-preview.mp4" poster="images/projects/wander-still.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: The Siren’s Song"><video src="videos/siren-preview.mp4" poster="images/projects/siren-still.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
+      </ul>
+    </section>
 
     <!-- The red character. character.js draws the eyes and makes them move. -->
     <div class="character" aria-hidden="true"><div class="eye-pair"></div></div>
   </main>
 
+  <!-- A short, open full screen, like a story (stories.js fills it) -->
+  <div class="story-viewer" role="dialog" aria-modal="true" aria-label="Short works" inert>
+    <div class="story-frame">
+      <div class="story-bars"></div>
+      <video class="story-video" playsinline></video>
+      <button class="story-tap is-back" type="button" aria-label="Previous"></button>
+      <button class="story-tap is-next" type="button" aria-label="Next"></button>
+      <button class="story-close" type="button" aria-label="Close">×</button>
+    </div>
+  </div>
+
   <!-- The custom cursor (computer only) -->
   <div class="site-cursor" aria-hidden="true"><span class="cursor-label"></span></div>
 
+  <!-- The moving strip of shorts, and opening one full screen (before site.js, so the copies get the cursor word too) -->
+  <script src="stories.js"></script>
   <!-- Loading screen and cursor -->
   <script src="site.js"></script>
   <!-- Menu buttons and the page transition -->

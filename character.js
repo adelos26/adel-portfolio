@@ -1,8 +1,9 @@
 // The red character on the home page:
 // - its pupils follow the mouse (computer) or the finger (phone/tablet)
 // - it blinks when its eyes are clicked, and by itself every few seconds
-// - it is surprised (the pupils grow) while the mouse is on a menu button
+// - it is surprised (the pupils grow, and it jumps softly) while the mouse is on a menu button
 // - after 3 seconds without movement it falls asleep: the eyes close, it breathes, and z's float up
+// - it has a grain shadow; the light follows the mouse, and the body leans toward it
 
 const character = document.querySelector(".character");
 const eyePair = character.querySelector(".eye-pair");
@@ -15,15 +16,49 @@ let eyeCount = 0;
 function makeEye() {
   eyeCount += 1;
   const clipId = "eye-clip-" + eyeCount;
+  // Names for this eye's own grain pieces (each eye needs its own)
+  const id = function (name) { return name + "-" + eyeCount; };
   return `
   <svg class="eye" viewBox="0 0 127 69" aria-hidden="true">
-    <defs><clipPath id="${clipId}"><path class="eye-clip-shape"></path></clipPath></defs>
+    <defs>
+      <clipPath id="${clipId}"><path class="eye-clip-shape"></path></clipPath>
+      <clipPath id="${id("iris-clip")}"><circle cx="63" cy="34" r="30"></circle></clipPath>
+      <clipPath id="${id("pupil-clip")}"><circle cx="63" cy="34" r="14"></circle></clipPath>
+      <!-- Tiles of grain dots; the pictures come from styles.css (see setGrainTiles) -->
+      <pattern id="${id("grain-white")}" class="grain-tile" patternUnits="userSpaceOnUse"><image data-grain="--grain-eye-white"></image></pattern>
+      <pattern id="${id("grain-iris")}" class="grain-tile" patternUnits="userSpaceOnUse"><image data-grain="--grain-iris"></image></pattern>
+      <pattern id="${id("grain-pupil")}" class="grain-tile" patternUnits="userSpaceOnUse"><image data-grain="--grain-pupil"></image></pattern>
+      <!-- Where the shadow is: hidden (black) on the light side, shown (white) on the far side.
+           drawLight moves the center of these with the light. -->
+      <radialGradient id="${id("light")}" class="eye-light" r="0.95">
+        <stop offset="0.35" stop-color="black"></stop><stop offset="0.7" stop-color="rgb(140, 140, 140)"></stop><stop offset="1" stop-color="white"></stop>
+      </radialGradient>
+      <radialGradient id="${id("light-soft")}" class="eye-light" r="0.95">
+        <stop offset="0.45" stop-color="black"></stop><stop offset="1" stop-color="rgb(120, 120, 120)"></stop>
+      </radialGradient>
+      <mask id="${id("shadow")}" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#${id("light")})"></rect></mask>
+      <mask id="${id("shadow-soft")}" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#${id("light-soft")})"></rect></mask>
+    </defs>
     <path class="eye-white"></path>
+    <!-- Grain on the white of the eye -->
+    <g class="eye-white-grain" clip-path="url(#${clipId})" mask="url(#${id("shadow-soft")})">
+      <rect class="eye-white-shadow" width="127" height="69"></rect>
+      <rect width="127" height="69" fill="url(#${id("grain-white")})"></rect>
+    </g>
     <g clip-path="url(#${clipId})">
       <g class="iris">
         <circle class="eye-iris" cx="63" cy="34" r="30"></circle>
+        <!-- Grain on the blue; it moves with the iris -->
+        <g clip-path="url(#${id("iris-clip")})" mask="url(#${id("shadow")})">
+          <rect class="eye-iris-shadow" x="33" y="4" width="60" height="60"></rect>
+          <rect x="33" y="4" width="60" height="60" fill="url(#${id("grain-iris")})"></rect>
+        </g>
         <g class="pupil">
           <path d="M77 34C77 37.5252 75.6701 40.9206 73.276 43.5081C70.8818 46.0956 67.5997 47.6847 64.0851 47.9579C60.5705 48.2311 57.0822 47.1684 54.3169 44.982C51.5516 42.7956 49.713 39.6464 49.1682 36.1636C48.6234 32.6807 49.4126 29.1206 51.3781 26.1942C53.3436 23.2678 56.3408 21.1906 59.7709 20.3775C63.2011 19.5644 66.8117 20.0753 69.8816 21.8081C72.9515 23.5409 75.2548 26.368 76.3313 29.7248L63 34H77Z" fill="black"></path>
+          <!-- A few light dots on the black pupil -->
+          <g class="eye-pupil-grain" clip-path="url(#${id("pupil-clip")})" mask="url(#${id("shadow-soft")})">
+            <rect x="49" y="20" width="28" height="28" fill="url(#${id("grain-pupil")})"></rect>
+          </g>
           <path d="M77 34C77 32.4366 76.7381 30.8843 76.2253 29.4074L63 34H77Z" fill="white"></path>
         </g>
       </g>
@@ -35,6 +70,63 @@ function makeEye() {
 eyePair.innerHTML = makeEye() + makeEye();
 const eyes = eyePair.querySelectorAll(".eye");
 const irises = eyePair.querySelectorAll(".iris");
+
+// The grain dots inside the eyes are as big on screen as the dots on the body.
+// The eye is 127 units wide, so one tile is --grain-size turned into eye units.
+function setGrainTiles() {
+  const styles = getComputedStyle(document.documentElement);
+  const tileOnScreen = parseFloat(styles.getPropertyValue("--grain-size"));
+  const eyeWidth = eyes[0].getBoundingClientRect().width;
+  if (!eyeWidth) return;
+  const tile = (tileOnScreen * 127 / eyeWidth).toFixed(1);
+  eyePair.querySelectorAll(".grain-tile").forEach(function (pattern) {
+    const image = pattern.querySelector("image");
+    const picture = styles.getPropertyValue(image.dataset.grain).trim().replace(/^url\(["']?/, "").replace(/["']?\)$/, "");
+    image.setAttribute("href", picture);
+    [pattern, image].forEach(function (element) {
+      element.setAttribute("width", tile);
+      element.setAttribute("height", tile);
+    });
+  });
+}
+setGrainTiles();
+window.addEventListener("resize", setGrainTiles);
+
+// ----- The light -----
+// The light sits on the side of the mouse, so the grain shadow goes to the other side.
+// lightX and lightY point from the middle of the character toward the light (-1 to 1).
+// It starts at the top right, like --character-light in styles.css.
+let lightX = 0.6, lightY = -0.94, lightTargetX = lightX, lightTargetY = lightY;
+
+function drawLight() {
+  const x = 50 + lightX * 30;
+  const y = 50 + lightY * 34;
+  character.style.setProperty("--character-light", x.toFixed(1) + "% " + y.toFixed(1) + "%");
+  eyePair.querySelectorAll(".eye-light").forEach(function (gradient) {
+    gradient.setAttribute("cx", (0.5 + lightX * 0.3).toFixed(3));
+    gradient.setAttribute("cy", (0.5 + lightY * 0.5).toFixed(3));
+  });
+}
+drawLight();
+
+// ----- Leaning -----
+// The whole body leans and turns a little toward the mouse (the amounts are in styles.css)
+let leanX = 0, leanY = 0, leanTargetX = 0, leanTargetY = 0;
+
+function followWithBody(x, y) {
+  const box = character.getBoundingClientRect();
+  const dx = x - (box.left + box.width / 2);
+  const dy = y - (box.top + box.height / 2);
+  const distance = Math.hypot(dx, dy) || 1;
+  // The farther the mouse, the more it leans, up to a full lean
+  const lean = Math.min(distance / (box.width * 0.9), 1);
+  leanTargetX = (dx / distance) * lean;
+  leanTargetY = (dy / distance) * lean;
+  // The light reaches the edge when the mouse is half a body away
+  const light = Math.min(distance / (box.width * 0.5), 1);
+  lightTargetX = (dx / distance) * light;
+  lightTargetY = (dy / distance) * light;
+}
 
 // Three small z's for when the character sleeps
 const snore = document.createElement("div");
@@ -245,12 +337,23 @@ function wake() {
 }
 wake();
 
-document.addEventListener("pointermove", function (event) { wake(); lookAt(event.clientX, event.clientY); });
-document.addEventListener("pointerdown", function (event) { wake(); lookAt(event.clientX, event.clientY); });
+document.addEventListener("pointermove", function (event) { wake(); lookAt(event.clientX, event.clientY); followWithBody(event.clientX, event.clientY); });
+document.addEventListener("pointerdown", function (event) { wake(); lookAt(event.clientX, event.clientY); followWithBody(event.clientX, event.clientY); });
+
+// A soft jump (the movement is in styles.css). It plays to its end even if the mouse leaves.
+function jump() {
+  if (characterReduceMotion || !character.classList.contains("has-entered")) return;
+  character.classList.remove("is-jumping");
+  void character.offsetWidth; // lets the jump start again from the beginning
+  character.classList.add("is-jumping");
+}
+character.addEventListener("animationend", function (event) {
+  if (event.animationName === "character-jump") character.classList.remove("is-jumping");
+});
 
 // Surprised while the mouse (or keyboard focus) is on a menu button
 document.querySelectorAll(".nav-logo, .nav-button").forEach(function (button) {
-  button.addEventListener("pointerenter", function () { character.classList.add("is-surprised"); });
+  button.addEventListener("pointerenter", function () { character.classList.add("is-surprised"); jump(); });
   button.addEventListener("pointerleave", function () { character.classList.remove("is-surprised"); });
   // The same with the keyboard
   button.addEventListener("focus", function () {
@@ -258,13 +361,25 @@ document.querySelectorAll(".nav-logo, .nav-button").forEach(function (button) {
     const box = button.getBoundingClientRect();
     wake();
     lookAt(box.left + box.width / 2, box.top + box.height / 2); // looks at the button, as it looks at the mouse
+    followWithBody(box.left + box.width / 2, box.top + box.height / 2);
     character.classList.add("is-surprised");
+    jump();
   });
   button.addEventListener("blur", function () { character.classList.remove("is-surprised"); });
 });
 
+// Also surprised (only the pupils, no jump) while the mouse or keyboard is on a short in the moving strip
+document.querySelectorAll(".short").forEach(function (short) {
+  short.addEventListener("pointerenter", function () { character.classList.add("is-surprised"); });
+  short.addEventListener("pointerleave", function () { character.classList.remove("is-surprised"); });
+  short.addEventListener("focus", function () { if (short.matches(":focus-visible")) character.classList.add("is-surprised"); });
+  short.addEventListener("blur", function () { character.classList.remove("is-surprised"); });
+});
+
 // ----- One loop for the movement, once per screen refresh -----
-const EYES_GLIDE = 120; // milliseconds; the eyes are a little lazier than the cursor
+const EYES_GLIDE = 120;  // milliseconds; the eyes are a little lazier than the cursor
+const BODY_GLIDE = 270;  // the body follows later than the eyes
+const LIGHT_GLIDE = 330; // and the light a little later still
 let lastEyesFrame = performance.now();
 
 function animateCharacter(now) {
@@ -272,6 +387,23 @@ function animateCharacter(now) {
   lastEyesFrame = now;
   lookX += (lookTargetX - lookX) * (1 - Math.exp(-milliseconds / EYES_GLIDE));
   lookY += (lookTargetY - lookY) * (1 - Math.exp(-milliseconds / EYES_GLIDE));
+
+  // While coming in or asleep it stands straight
+  const standStill = introRunning || character.classList.contains("is-asleep");
+  const body = 1 - Math.exp(-milliseconds / BODY_GLIDE);
+  leanX += ((standStill ? 0 : leanTargetX) - leanX) * body;
+  leanY += ((standStill ? 0 : leanTargetY) - leanY) * body;
+  character.style.setProperty("--lean-x", leanX.toFixed(4));
+  character.style.setProperty("--lean-y", leanY.toFixed(4));
+  // The eyes themselves move with the look, a little, like a face turning
+  character.style.setProperty("--face-x", (lookX / LOOK_SIDEWAYS).toFixed(4));
+  character.style.setProperty("--face-y", (lookY / LOOK_UP_DOWN).toFixed(4));
+
+  const light = 1 - Math.exp(-milliseconds / LIGHT_GLIDE);
+  lightX += (lightTargetX - lightX) * light;
+  lightY += (lightTargetY - lightY) * light;
+  drawLight();
+
   updateOpenness(now);
   // The pupils sink a little as the eye closes, like a real eye
   drawLook(lookX, lookY + (1 - openness) * 8);
