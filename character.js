@@ -1,7 +1,7 @@
 // The red character on the home page:
 // - its pupils follow the mouse (computer) or the finger (phone/tablet)
 // - it blinks when its eyes are clicked, and by itself every few seconds
-// - it is surprised (the pupils grow, and it jumps softly) while the mouse is on a menu button
+// - it is surprised (the pupils grow, and it jumps softly on a spring) while the mouse is on a menu button
 // - after 3 seconds without movement it falls asleep: the eyes close, it breathes, and z's float up
 // - it has a grain shadow; the light follows the mouse, and the body leans toward it
 
@@ -340,16 +340,34 @@ wake();
 document.addEventListener("pointermove", function (event) { wake(); lookAt(event.clientX, event.clientY); followWithBody(event.clientX, event.clientY); });
 document.addEventListener("pointerdown", function (event) { wake(); lookAt(event.clientX, event.clientY); followWithBody(event.clientX, event.clientY); });
 
-// A soft jump (the movement is in styles.css). It plays to its end even if the mouse leaves.
+// ----- The jump: a spring -----
+// A hover gives the character a push upward; a spring pulls it back to its place, with a small bounce.
+// It never starts over: a new push while it is still moving just adds to the movement, so it stays smooth.
+const jumpStyles = getComputedStyle(document.documentElement);
+const JUMP_HEIGHT = parseFloat(jumpStyles.getPropertyValue("--jump-height"));           // % of its size
+const JUMP_SPEED = (2 * Math.PI) / parseFloat(jumpStyles.getPropertyValue("--jump-time")); // how fast the spring swings
+const JUMP_BOUNCE = parseFloat(jumpStyles.getPropertyValue("--jump-bounce"));
+const JUMP_STRETCH = parseFloat(jumpStyles.getPropertyValue("--jump-stretch"));
+const JUMP_PUSH = (JUMP_HEIGHT * JUMP_SPEED) / 0.573; // the push that rises exactly JUMP_HEIGHT (worked out for this bounce)
+let jumpY = 0, jumpSpeed = 0; // where it is (in %, up is negative) and how fast it moves
+
 function jump() {
   if (characterReduceMotion || !character.classList.contains("has-entered")) return;
-  character.classList.remove("is-jumping");
-  void character.offsetWidth; // lets the jump start again from the beginning
-  character.classList.add("is-jumping");
+  if (jumpY < -JUMP_HEIGHT * 0.5) return; // still high up from the last push: no extra push
+  jumpSpeed = Math.max(jumpSpeed - JUMP_PUSH, -JUMP_PUSH);
 }
-character.addEventListener("animationend", function (event) {
-  if (event.animationName === "character-jump") character.classList.remove("is-jumping");
-});
+
+function moveJump(seconds) {
+  const pull = -JUMP_SPEED * JUMP_SPEED * jumpY - 2 * JUMP_BOUNCE * JUMP_SPEED * jumpSpeed;
+  jumpSpeed += pull * seconds;
+  jumpY += jumpSpeed * seconds;
+  if (Math.abs(jumpY) < 0.001 && Math.abs(jumpSpeed) < 0.01) { jumpY = 0; jumpSpeed = 0; }
+  // Moving up it stretches a little, coming down it squashes a little
+  const stretch = Math.max(-1, Math.min(1, -jumpSpeed / JUMP_PUSH)) * JUMP_STRETCH;
+  character.style.setProperty("--jump-y", jumpY.toFixed(3) + "%");
+  character.style.setProperty("--jump-scale-x", (1 - stretch * 0.7).toFixed(4));
+  character.style.setProperty("--jump-scale-y", (1 + stretch).toFixed(4));
+}
 
 // Surprised while the mouse (or keyboard focus) is on a menu button
 document.querySelectorAll(".nav-logo, .nav-button").forEach(function (button) {
@@ -398,6 +416,9 @@ function animateCharacter(now) {
   // The eyes themselves move with the look, a little, like a face turning
   character.style.setProperty("--face-x", (lookX / LOOK_SIDEWAYS).toFixed(4));
   character.style.setProperty("--face-y", (lookY / LOOK_UP_DOWN).toFixed(4));
+
+  // The jump moves in small steps, so the spring stays steady even if the screen is slow
+  for (let left = milliseconds / 1000; left > 0; left -= 1 / 120) moveJump(Math.min(left, 1 / 120));
 
   const light = 1 - Math.exp(-milliseconds / LIGHT_GLIDE);
   lightX += (lightTargetX - lightX) * light;

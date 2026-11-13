@@ -162,10 +162,12 @@
      (cqw = a hundredth of the circle's width; character.js sets --face-x and --face-y) */
   --face-move-x: 4cqw;
   --face-move-y: 6cqw;
-  /* ...and jumps softly when a menu button is hovered */
-  --jump-squash: translateY(1%) scale(1.02, 0.975);
-  --jump-stretch: translateY(-1.2%) scale(0.992, 1.012);
-  --ease-soft: cubic-bezier(0.45, 0, 0.55, 1); /* starts and ends softly */
+  /* ...and jumps softly when a menu button is hovered. The jump is a spring (character.js),
+     so it is always smooth, even when it gets pushed again in the middle. */
+  --jump-height: 1.4;    /* how high it rises, in % of its size */
+  --jump-time: 1.1s;     /* how long one bounce takes */
+  --jump-bounce: 0.45;   /* 1 = no bounce; smaller = it bounces a little before it settles */
+  --jump-stretch: 0.012; /* how much it stretches while moving up, and squashes while coming down */
 
   /* Projects page */
   --works-top: calc(170 * var(--home-unit));
@@ -191,6 +193,9 @@
   --project-label-gap: calc(32 * var(--home-unit));
   --project-label-column: calc(432 * var(--home-unit));
   --project-grid-gap: calc(24 * var(--home-unit));
+  --back-to-top-size: 56px;   /* the blue round button that goes back to the top */
+  --back-to-top-edge: 24px;   /* its distance from the corner of the screen */
+  --back-to-top-arrow: 26px;
   --palette-gap: calc(6 * var(--home-unit));     /* between the color pills */
   --palette-corner: calc(12 * var(--home-unit));  /* the pills' rounded corners */
   --palette-wide: 9;                              /* the wide pill is this many times wider */
@@ -1133,10 +1138,11 @@ body {
   container-type: inline-size; /* lets the z's be sized by the circle */
   animation: character-enter var(--speed-large) var(--ease-main) backwards;
   animation-delay: 0.45s;
-  /* Leaning toward the mouse. translate and rotate are kept apart from transform,
-     which the slide in, the breathing and the jump use. */
-  translate: calc(var(--lean-x, 0) * var(--lean-move)) calc(var(--lean-y, 0) * var(--lean-move));
+  /* Leaning toward the mouse, and the jump. translate, rotate and scale are kept apart from transform,
+     which the slide in and the breathing use. character.js sets the numbers. */
+  translate: calc(var(--lean-x, 0) * var(--lean-move)) calc(var(--lean-y, 0) * var(--lean-move) + var(--jump-y, 0%));
   rotate: calc(var(--lean-x, 0) * var(--lean-turn));
+  scale: var(--jump-scale-x, 1) var(--jump-scale-y, 1);
 }
 
 /* The grain shadow, in two layers under the eyes:
@@ -1178,14 +1184,6 @@ body {
 .eye-iris-shadow { fill: var(--color-iris-shadow); }
 .eye-white-grain { opacity: var(--grain-eye-white-strength); }
 .eye-pupil-grain { opacity: var(--grain-pupil-strength); }
-
-/* Surprised (a menu button is hovered): she squashes down a little, rises a little, and settles.
-   character.js adds "is-jumping" and takes it off when the jump ends. */
-@keyframes character-jump {
-  0%, 100% { transform: none; }
-  30% { transform: var(--jump-squash); }
-  65% { transform: var(--jump-stretch); }
-}
 
 /* Comes in from the edge where it is cut: top right on desktop, the bottom on tablet and phone */
 @keyframes character-enter {
@@ -1984,7 +1982,6 @@ h2.project-label {
   .cursor-letter,
   .character,
   .character.is-asleep,
-  .character.is-jumping,
   .snore i,
   .reach-title,
   .contact-folder,
@@ -2272,10 +2269,6 @@ html {
 /* Once the character has come in, it doesn't slide in again (for example when it wakes up) */
 .character.has-entered { animation: none; }
 .character.has-entered.is-asleep { animation: breathe var(--speed-breath) ease-in-out infinite; }
-.character.has-entered.is-jumping {
-  transform-origin: 50% 100%; /* squashes onto its bottom */
-  animation: character-jump var(--speed-large) var(--ease-soft);
-}
 
 /* =========================================
    Hi I'm Adel page
@@ -2623,4 +2616,69 @@ html.is-arriving::before {
   .not-found-digit,
   .not-found-box { animation: none; }
   .not-found-home { transition: none; }
+}
+
+/* =========================================
+   Back to top (project pages): a blue round button in the bottom right corner.
+   It pops in after scrolling down. On hover the arrow flies up and a new one comes in from below.
+   ========================================= */
+.back-to-top {
+  position: fixed;
+  right: var(--back-to-top-edge);
+  bottom: var(--back-to-top-edge);
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: var(--back-to-top-size);
+  height: var(--back-to-top-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-page-projects); /* blue */
+  color: var(--color-cream);
+  cursor: pointer;
+  overflow: hidden;
+  /* Hidden until the page has been scrolled down */
+  opacity: 0;
+  scale: 0.6;
+  pointer-events: none;
+  transition: opacity var(--speed-small) var(--ease-main), scale var(--speed-playful) var(--ease-playful);
+}
+
+.back-to-top.is-shown {
+  opacity: 1;
+  scale: 1;
+  pointer-events: auto;
+}
+
+.back-to-top-arrow {
+  grid-area: 1 / 1;
+  width: var(--back-to-top-arrow);
+  height: var(--back-to-top-arrow);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: translate var(--speed-letter-flip) var(--ease-letter-flip);
+}
+
+/* The second arrow waits below the button */
+.back-to-top-arrow.is-next { translate: 0 var(--back-to-top-size); }
+
+.back-to-top:hover .back-to-top-arrow,
+.back-to-top:focus-visible .back-to-top-arrow { translate: 0 calc(var(--back-to-top-size) * -1); }
+
+.back-to-top:hover .back-to-top-arrow.is-next,
+.back-to-top:focus-visible .back-to-top-arrow.is-next { translate: 0 0; }
+
+.back-to-top:focus-visible { outline: none; }
+
+@media (max-width: 600px) {
+  :root { --back-to-top-size: 48px; --back-to-top-edge: 16px; --back-to-top-arrow: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .back-to-top-arrow { transition: none; }
 }
