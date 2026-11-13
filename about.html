@@ -53,17 +53,23 @@
       <span class="statement-mask"><span class="statement-line" style="--order: 0">Hi I’m Adel</span></span>
     </h1>
 
-    <p class="about-bio placed" style="--x-desktop: 91; --y-desktop: 330; --w-desktop: 780; --x-tablet: 40; --y-tablet: 720; --w-tablet: 754; --x-phone: 20; --y-phone: 480; --w-phone: 350">I’m Adel, a visual communication design student and motion designer working in the Motion and Creative department at Facetune. I create worlds and tell stories through motion, 3D, characters, and interactive experiences. I’m drawn to visual experimentation, unconventional ideas, and finding new ways to bring concepts to life.</p>
+    <p class="about-bio placed" style="--x-desktop: 91; --y-desktop: 330; --w-desktop: 780; --x-tablet: 40; --y-tablet: 720; --w-tablet: 754; --x-phone: 20; --y-phone: 480; --w-phone: 350">I’m a visual communication design student and motion designer at Facetune’s Motion and Creative department. I build worlds and tell stories through motion, 3D, and characters. I’m drawn to visual experimentation and unconventional ideas, and I’m always looking for new ways to bring a concept to life.</p>
 
-    <!-- A place for your photo -->
-    <div class="about-photo placed" style="--x-desktop: 1000; --y-desktop: 170; --w-desktop: 380; --h-desktop: 475; --r-desktop: 4; --x-tablet: 40; --y-tablet: 260; --w-tablet: 320; --h-tablet: 400; --r-tablet: -3; --x-phone: 20; --y-phone: 190; --w-phone: 200; --h-phone: 250; --r-phone: -3">Photo</div>
+    <!-- My photo -->
+    <div class="about-photo placed" style="--x-desktop: 1000; --y-desktop: 170; --w-desktop: 380; --h-desktop: 475; --r-desktop: 4; --x-tablet: 40; --y-tablet: 260; --w-tablet: 320; --h-tablet: 400; --r-tablet: -3; --x-phone: 20; --y-phone: 190; --w-phone: 200; --h-phone: 250; --r-phone: -3"><img src="images/adel.jpg" alt="Adel Fitoussi" width="800" height="1200"></div>
 
-    <!-- Word stickers: they can be dragged anywhere on the page -->
-    <div class="stickers">
-      <button class="sticker sticker-pink placed" type="button" style="--order: 0; --x-desktop: 930; --y-desktop: 560; --r-desktop: -8; --x-tablet: 420; --y-tablet: 300; --r-tablet: -8; --x-phone: 236; --y-phone: 200; --r-phone: -8" aria-label="Color (you can drag it)">Color</button>
-      <button class="sticker sticker-blue placed" type="button" style="--order: 1; --x-desktop: 1180; --y-desktop: 660; --r-desktop: 6; --x-tablet: 560; --y-tablet: 410; --r-tablet: 6; --x-phone: 262; --y-phone: 262; --r-phone: 6" aria-label="Dream (you can drag it)">Dream</button>
-      <button class="sticker sticker-yellow placed" type="button" style="--order: 2; --x-desktop: 1010; --y-desktop: 760; --r-desktop: -3; --x-tablet: 440; --y-tablet: 520; --r-tablet: -3; --x-phone: 232; --y-phone: 324; --r-phone: -3" aria-label="Shapes (you can drag it)">Shapes</button>
-      <button class="sticker sticker-orange placed" type="button" style="--order: 3; --x-desktop: 560; --y-desktop: 820; --r-desktop: 5; --x-tablet: 580; --y-tablet: 610; --r-tablet: 5; --x-phone: 250; --y-phone: 386; --r-phone: 5" aria-label="Cat Lover (you can drag it)">Cat Lover</button>
+    <!-- The tools I use: they fall from above a second after the page opens, and can be picked up and thrown (tool-drop.js) -->
+    <div class="tools" role="list" aria-label="Tools I use">
+      <img class="tool" role="listitem" src="images/tools/after-effects.svg" alt="After Effects" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/cinema-4d.svg" alt="Cinema 4D" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/illustrator.svg" alt="Illustrator" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/photoshop.svg" alt="Photoshop" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/figma.svg" alt="Figma" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/indesign.svg" alt="InDesign" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/audition.svg" alt="Audition" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/claude.svg" alt="Claude" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/pink-tool.svg" alt="Tool" draggable="false" data-cursor="grow">
+      <img class="tool" role="listitem" src="images/tools/procreate.svg" alt="Procreate" draggable="false" data-cursor="grow">
     </div>
   </main>
 
@@ -74,8 +80,10 @@
   <script src="site.js"></script>
   <!-- Menu buttons and the page transition -->
   <script src="nav-buttons.js"></script>
-  <!-- The stickers can be dragged -->
-  <script src="stickers.js"></script>
+  <!-- "Hi I’m Adel" waves on hover, like the home sentence -->
+  <script src="statement-wave.js"></script>
+  <!-- The tool icons fall and pile up -->
+  <script src="tool-drop.js"></script>
 
 </body>
 </html>

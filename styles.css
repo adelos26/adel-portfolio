@@ -242,8 +242,8 @@
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
 
   /* Hi I'm Adel page */
-  --about-height: calc(920 * var(--home-unit)); /* just under the lowest sticker (Cat Lover), not the whole Figma frame */
-  --size-sticker: calc(36 * var(--home-unit));
+  --about-height: calc(700 * var(--home-unit)); /* just under the photo, so on most screens the page is one screen tall */
+  --tool-size: calc(120 * var(--home-unit)); /* the falling tool icons */
   --photo-corner: calc(26 * var(--home-unit));
   /* Reach Out is exactly one screen. The folders sit at the bottom of the screen: --reach-cut is
      where the screen ends, in Figma pixels, so only a strip of the blue folder shows under its tab.
@@ -278,6 +278,13 @@
 
   /* The character comes in from the edge where it is cut (desktop: top right) */
   --character-enter-from: translate(45%, -45%);
+
+  /* Page not found (404) */
+  --not-found-size: 31dvh;        /* each digit is about a third of the screen tall */
+  --not-found-line: 0.82;          /* rows are this much of the digit size apart: they almost touch */
+  --not-found-hold: 1.3s;          /* the rows stand still this long between jumps */
+  --not-found-box-padding: 24px;
+  --not-found-text: clamp(18px, 2vw, 28px);
 
   /* Motion rules (see CLAUDE.md) */
   --ease-main: cubic-bezier(0.19, 1, 0.22, 1);  /* starts fast, settles slowly */
@@ -731,7 +738,7 @@ body {
 }
 
 /* The letters of the sentence do the same wave.
-   statement-wave.js adds "is-waving" on hover and removes it when the wave ends.
+   statement-wave.js adds "is-waving" on hover and removes it when the wave ends (also "Hi I’m Adel").
    The "Next Project" title on project pages does the same wave (next-project.js). */
 .statement-letter {
   display: inline-block;
@@ -739,6 +746,7 @@ body {
 }
 
 .statement.is-waving .statement-letter,
+.about-title.is-waving .statement-letter,
 .project-next-title.is-waving .statement-letter {
   animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
   animation-delay: calc(var(--letter) * var(--letter-wave-step));
@@ -839,6 +847,7 @@ body {
   .nav-logo:hover .logo-letter,
   .nav-logo:focus-visible .logo-letter,
   .statement.is-waving .statement-letter,
+  .about-title.is-waving .statement-letter,
   .project-next-title.is-waving .statement-letter {
     animation: none;
     transition: none;
@@ -1794,8 +1803,8 @@ h2.project-label {
     --size-folder-name: calc(28 * var(--reach-unit));
     --folder-scale: 0.8;
     --reach-cut: 960;
-    --about-height: calc(851 * var(--home-unit)); /* just under the text */
-    --size-sticker: calc(28 * var(--home-unit));
+    --about-height: calc(1060 * var(--home-unit)); /* the text, then room for the pile of tool icons */
+    --tool-size: calc(104 * var(--home-unit));
     --photo-corner: calc(24 * var(--home-unit));
     --reach-title-shift: -60;
     --character-enter-from: translateY(45%);
@@ -1884,8 +1893,8 @@ h2.project-label {
     --size-folder-name: calc(20 * var(--reach-unit));
     --folder-scale: 0.6;
     --reach-cut: 700;
-    --about-height: calc(671 * var(--home-unit)); /* just under the text */
-    --size-sticker: calc(20 * var(--home-unit));
+    --about-height: calc(800 * var(--home-unit)); /* the text, then room for the pile of tool icons */
+    --tool-size: calc(64 * var(--home-unit));
     --photo-corner: calc(20 * var(--home-unit));
     --reach-title-shift: -40;
     --character-enter-from: translateY(45%);
@@ -2295,6 +2304,7 @@ html {
   align-items: center;
   justify-content: center;
   border-radius: var(--photo-corner);
+  overflow: hidden; /* the photo takes the rounded corners */
   background-color: var(--color-cream);
   color: var(--color-black);
   font-size: var(--size-project-small);
@@ -2302,40 +2312,41 @@ html {
   animation-delay: 0.4s;
 }
 
-/* Stickers: pop in one after another, and can be dragged */
-.sticker {
-  padding: 0.25em 0.6em;
-  border: 0;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: var(--size-sticker);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
+/* The photo fills the frame; the frame is shorter than the photo, so the bottom is cut, not the face */
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+
+/* The tool icons: a layer over the whole page; tool-drop.js moves and turns each icon */
+.tools {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none; /* only the icons themselves can be grabbed */
+}
+
+.tool {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--tool-size);
+  height: auto;
+  visibility: hidden; /* until it starts falling */
+  pointer-events: auto;
   cursor: grab;
-  touch-action: none; /* lets a finger drag it instead of scrolling the page */
+  touch-action: none; /* a finger picks it up instead of scrolling the page */
   user-select: none;
-  transition: scale var(--speed-small) var(--ease-playful);
-  animation: pop-in var(--speed-playful) var(--ease-playful) backwards;
-  animation-delay: calc(0.8s + var(--order) * var(--reveal-step));
+  -webkit-user-drag: none;
 }
 
-.sticker.is-dragging {
-  scale: 1.08;
-  cursor: grabbing;
-}
+.tool.is-falling { visibility: visible; }
+.tool.is-held { cursor: grabbing; }
 
-.sticker:focus-visible {
-  outline: 3px solid var(--color-cream);
-  outline-offset: 3px;
-}
-
-.sticker-pink { background-color: var(--color-page-home); color: var(--color-black); }
-.sticker-blue { background-color: var(--color-page-projects); color: var(--color-cream); }
-.sticker-yellow { background-color: var(--color-page-reach-out); color: var(--color-black); }
-.sticker-orange { background-color: var(--color-folder-orange); color: var(--color-black); }
-
-.is-loading :is(.about-bio, .about-photo, .sticker) { animation-play-state: paused; }
+.is-loading :is(.about-bio, .about-photo) { animation-play-state: paused; }
 
 @media (max-width: 900px) {
   .placed {
@@ -2359,8 +2370,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .about-bio,
-  .about-photo,
-  .sticker { animation: none; }
+  .about-photo { animation: none; }
   .folder-paper,
   .folder-paper-back { transition: none; }
 }
@@ -2483,3 +2493,103 @@ html.is-arriving::before {
 /* Parts placed inside the guide's own columns don't add their side margins again */
 .styleguide-section > .styleguide-section,
 .styleguide-row > :is(.project-head, .project-block) { padding-inline: 0; }
+
+/* =========================================
+   Page not found (404): a grid of huge 4s and 0s covers the screen, like a checkerboard.
+   In turns, the rows jump sideways (one right, the next left) and the columns jump up and down.
+   In the middle, a line and the way back home.
+   ========================================= */
+.not-found-page {
+  background-color: var(--color-black);
+  font-family: var(--font-new-home);
+  overflow: hidden;
+}
+
+.not-found {
+  position: relative;
+  height: 100dvh;
+  overflow: clip;
+}
+
+/* not-found.js fills this with one span for every digit */
+.not-found-grid {
+  position: absolute;
+  inset: 0;
+  font-size: var(--not-found-size);
+  line-height: 1;
+  font-variant-numeric: tabular-nums; /* 4 and 0 the same width, so one jump = one digit */
+}
+
+.not-found-digit {
+  position: absolute;
+  color: var(--color-cream);
+  transition: color var(--speed-small) var(--ease-main);
+  /* The digits rise in row by row, like the site's titles */
+  animation: rise-in var(--speed-large) var(--ease-main) backwards;
+  animation-delay: calc(var(--row) * var(--reveal-step));
+}
+
+/* A jump: a tiny pull back, a quick move, a small overshoot, then still */
+.not-found-digit.is-jumping {
+  transition:
+    color var(--speed-small) var(--ease-main),
+    translate var(--speed-playful) var(--ease-playful);
+}
+
+/* Mouse on a digit: it turns pink, orange or yellow (and the jumping waits) */
+.not-found-digit.is-pink { color: var(--color-page-home); }
+.not-found-digit.is-orange { color: var(--color-folder-orange); }
+.not-found-digit.is-yellow { color: var(--color-page-reach-out); }
+
+.is-loading .not-found-digit { animation-play-state: paused; }
+
+/* The middle: a blue box with a short line and a cream button */
+.not-found-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--not-found-box-padding);
+  padding: var(--not-found-box-padding) calc(var(--not-found-box-padding) * 1.5);
+  background-color: var(--color-page-projects); /* blue */
+  color: var(--color-cream);
+  animation: pop-in var(--speed-playful) var(--ease-playful) backwards;
+  animation-delay: 0.8s;
+}
+
+.not-found-text {
+  margin: 0;
+  font-size: var(--not-found-text);
+  white-space: nowrap;
+}
+
+/* Looks and moves like the menu buttons: cream, and round with the page color on hover */
+.not-found-home {
+  display: flex;
+  align-items: center;
+  height: var(--nav-height);
+  padding: 0 1.2em;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: var(--size-nav);
+  text-decoration: none;
+  transition:
+    border-radius var(--speed-large) var(--ease-main),
+    background-color var(--speed-small) var(--ease-main);
+}
+
+.not-found-home:hover,
+.not-found-home:focus-visible {
+  border-radius: var(--button-round-corner);
+  background-color: var(--color-page-home);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found-digit,
+  .not-found-box { animation: none; }
+  .not-found-home { transition: none; }
+}
