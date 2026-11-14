@@ -257,10 +257,23 @@
   --color-title-white: #fdfdfd;
   --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
+  --email-copied-time: 1.6s; /* E-Mail: how long the sheet says "Copied!" after a click (reach-out.js) */
 
   /* Hi I'm Adel page */
   --about-height: calc(700 * var(--home-unit)); /* just under the photo, so on most screens the page is one screen tall */
-  --tool-size: calc(120 * var(--home-unit)); /* the falling tool icons */
+  /* The row of tool icons under the text: its bottom lines up with the bottom of the photo */
+  --tool-size: calc(64 * var(--home-unit));
+  --tools-per-row: 11;
+  --tools-row-top: calc(587 * var(--home-unit));
+  --tools-row-left: calc(91 * var(--home-unit));   /* the same as the text */
+  --tools-row-width: calc(780 * var(--home-unit)); /* the same as the text */
+  --tools-row-gap: 0px;                            /* only one row */
+  --size-tool-name: calc(20 * var(--home-unit));
+  --tool-name-rise: 0.75;    /* how far above the icon its name comes up, in icon heights */
+  --tool-name-tilt: -4deg;
+  --tool-lean: -6deg;        /* the icon under the pointer leans and grows a little */
+  --tool-grow: 1.08;
+  --tool-name-time: 1.8s;    /* phone: how long a tapped icon shows its name */
   --photo-corner: calc(26 * var(--home-unit));
   /* Reach Out is exactly one screen. The folders sit at the bottom of the screen: --reach-cut is
      where the screen ends, in Figma pixels, so only a strip of the blue folder shows under its tab.
@@ -1831,8 +1844,12 @@ h2.project-label {
     --size-folder-name: calc(28 * var(--reach-unit));
     --folder-scale: 0.8;
     --reach-cut: 960;
-    --about-height: calc(1060 * var(--home-unit)); /* the text, then room for the pile of tool icons */
-    --tool-size: calc(104 * var(--home-unit));
+    --about-height: calc(1030 * var(--home-unit)); /* the text, then the row of tool icons */
+    --tool-size: calc(62 * var(--home-unit));
+    --tools-row-top: calc(904 * var(--home-unit));  /* just under the text */
+    --tools-row-left: calc(40 * var(--home-unit));
+    --tools-row-width: calc(754 * var(--home-unit));
+    --size-tool-name: calc(18 * var(--home-unit));
     --photo-corner: calc(24 * var(--home-unit));
     --reach-title-shift: -60;
     --character-enter-from: translateY(45%);
@@ -1922,8 +1939,14 @@ h2.project-label {
     --size-folder-name: calc(20 * var(--reach-unit));
     --folder-scale: 0.6;
     --reach-cut: 700;
-    --about-height: calc(800 * var(--home-unit)); /* the text, then room for the pile of tool icons */
-    --tool-size: calc(64 * var(--home-unit));
+    --about-height: calc(850 * var(--home-unit)); /* the text, then the two rows of tool icons */
+    --tools-row-top: calc(684 * var(--home-unit));  /* just under the text, in two rows of six */
+    --tools-per-row: 6;
+    --tools-row-left: calc(20 * var(--home-unit));
+    --tools-row-width: calc(350 * var(--home-unit));
+    --tools-row-gap: calc(7.5 * var(--home-unit)); /* the same as the gap between icons in a row */
+    --size-tool-name: calc(15 * var(--home-unit));
+    --tool-size: calc(52 * var(--home-unit));
     --photo-corner: calc(20 * var(--home-unit));
     --reach-title-shift: -40;
     --character-enter-from: translateY(45%);
@@ -2345,30 +2368,74 @@ html {
   object-position: 50% 15%;
 }
 
-/* The tool icons: a layer over the whole page; tool-drop.js moves and turns each icon */
+/* The tool icons: a row under the text (two rows on a phone) */
 .tools {
   position: absolute;
-  inset: 0;
+  left: var(--tools-row-left);
+  top: var(--tools-row-top);
+  width: var(--tools-row-width);
   z-index: 2;
-  pointer-events: none; /* only the icons themselves can be grabbed */
+  display: grid;
+  grid-template-columns: repeat(var(--tools-per-row), var(--tool-size));
+  justify-content: space-between; /* the first and last icon of a row touch the edges of the text */
+  row-gap: var(--tools-row-gap);
+}
+
+.tool-slot {
+  position: relative;
+  width: var(--tool-size);
 }
 
 .tool {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--tool-size);
+  position: relative;
+  z-index: 1; /* the name waits behind the icon */
+  display: block;
+  width: 100%;
   height: auto;
-  visibility: hidden; /* until it starts falling */
-  pointer-events: auto;
-  cursor: grab;
-  touch-action: none; /* a finger picks it up instead of scrolling the page */
+  aspect-ratio: 1; /* the icons in Figma are a little different in size: here they are all the same square */
   user-select: none;
   -webkit-user-drag: none;
+  scale: 0; /* until the row comes into view */
+  transition: scale var(--speed-playful) var(--ease-playful), rotate var(--speed-playful) var(--ease-playful);
+  transition-delay: calc(var(--order) * var(--reveal-step));
 }
 
-.tool.is-falling { visibility: visible; }
-.tool.is-held { cursor: grabbing; }
+/* One after another, each with a small bounce (tool-names.js adds is-shown).
+   Once they are all in (is-settled), they answer the pointer at once. */
+.tools.is-shown .tool { scale: 1; }
+.tools.is-settled .tool { transition-delay: 0s; }
+
+/* The name: a cream label that waits behind the icon */
+.tool-name {
+  position: absolute;
+  left: 50%;
+  bottom: 30%;
+  translate: -50% 0;
+  padding: 0.3em 0.6em 0.25em;
+  border-radius: 0.6em;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-size: var(--size-tool-name);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    translate var(--speed-reveal) var(--ease-main),
+    rotate var(--speed-reveal) var(--ease-main),
+    opacity var(--speed-small) var(--ease-main);
+}
+
+/* Pointing at an icon (or tapping it on a phone): it leans and grows, and its name rises out from behind it */
+.tool-slot.is-named { z-index: 3; }
+.tools.is-shown .tool-slot.is-named .tool {
+  scale: var(--tool-grow);
+  rotate: var(--tool-lean);
+}
+.tool-slot.is-named .tool-name {
+  opacity: 1;
+  translate: -50% calc(var(--tool-size) * var(--tool-name-rise) * -1);
+  rotate: var(--tool-name-tilt);
+}
 
 .is-loading :is(.about-bio, .about-photo) { animation-play-state: paused; }
 
@@ -2390,11 +2457,19 @@ html {
     --h: var(--h-phone);
     --r: var(--r-phone, 0);
   }
+
+  /* Phone: the first and last icon of each row keep their names on the screen */
+  .tool-slot:nth-child(6n + 1) .tool-name { left: 0; translate: 0 0; }
+  .tool-slot:nth-child(6n) .tool-name { left: auto; right: 0; translate: 0 0; }
+  .tool-slot:nth-child(6n + 1).is-named .tool-name,
+  .tool-slot:nth-child(6n).is-named .tool-name { translate: 0 calc(var(--tool-size) * var(--tool-name-rise) * -1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .about-bio,
   .about-photo { animation: none; }
+  .tool,
+  .tool-name { scale: 1; transition: none; }
   .folder-paper,
   .folder-paper-back { transition: none; }
 }

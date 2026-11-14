@@ -48,3 +48,20 @@ function putPaperBack() {
 
 phoneFolder.addEventListener("pointerleave", putPaperBack);
 phoneFolder.addEventListener("blur", putPaperBack);
+
+// ----- E-Mail: a click also copies the address -----
+// Not every computer has a mail app set up, so the click copies the address too,
+// and the sheet says "Copied!" for a moment (--email-copied-time in styles.css). Then the new email opens, if it can.
+const emailFolder = document.querySelector('.contact-folder[href^="mailto:"]');
+const emailPaper = emailFolder.querySelector(".folder-paper");
+const emailAddress = emailPaper.textContent;
+const EMAIL_COPIED_TIME = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--email-copied-time")) * 1000;
+let emailCopiedTimer = null;
+
+emailFolder.addEventListener("click", function (event) {
+  if (event.defaultPrevented) return; // a first tap on a phone or tablet only opened the folder
+  if (navigator.clipboard) navigator.clipboard.writeText(emailAddress).catch(function () {});
+  emailPaper.textContent = "Copied!";
+  clearTimeout(emailCopiedTimer);
+  emailCopiedTimer = setTimeout(function () { emailPaper.textContent = emailAddress; }, EMAIL_COPIED_TIME);
+});
