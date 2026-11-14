@@ -1,8 +1,8 @@
 // Makes the letters of a big title jump up one after another when the mouse is on it:
-// the opening sentence on the home page, and "Hi I’m Adel" on the Hi page.
+// the opening sentence on the home page, the title of the strip of shorts, and "Hi I’m Adel" on the Hi page.
 // The wave always finishes, even if the mouse leaves in the middle.
 
-document.querySelectorAll(".statement, .about-title").forEach(function (title) {
+document.querySelectorAll(".statement, .shorts-title, .about-title").forEach(function (title) {
   const lines = title.querySelectorAll(".statement-line");
   const letterElements = [];
 

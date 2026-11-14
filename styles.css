@@ -114,6 +114,8 @@
   --size-loader: clamp(23px, calc(40 * var(--home-unit)), 40px);
   --speed-loader-loop: 1.6s;
   --transition-word-delay: 0.45s; /* "in a moment" waits for the cream to rise behind it */
+  --transition-wave-time: 1s;      /* "in a moment": one wave through all its letters, then a short rest */
+  --transition-wave-step: 50ms;    /* time between one letter and the next */
 
   /* Custom cursor */
   --cursor-dot: 24px;
@@ -189,6 +191,12 @@
   --project-side: calc(91 * var(--home-unit));
   --project-section-gap: calc(47 * var(--home-unit)); /* between the sections (Figma) */
   --project-film-gap: calc(21 * var(--home-unit));    /* above and below the film (Figma) */
+  --wander-button-height: calc(64 * var(--home-unit)); /* the "Wander It Yourself" button */
+  --wander-button-arrow: calc(48 * var(--home-unit));
+  --wander-button-arrow-gap: calc(8 * var(--home-unit));  /* the arrow's circle sits this far from the button's end */
+  --wander-button-padding: calc(28 * var(--home-unit));
+  --wander-button-gap: calc(14 * var(--home-unit));
+  --wander-link-gap: calc(20 * var(--home-unit));         /* between the button and its note */
   --project-head-gap: calc(11 * var(--home-unit));    /* between the title and the details (Figma) */
   --project-label-gap: calc(32 * var(--home-unit));
   --project-label-column: calc(432 * var(--home-unit));
@@ -255,6 +263,12 @@
   --color-title-black: #000000;
   --color-title-red: #d9252c;
   --color-title-white: #fdfdfd;
+  /* Virtual Wandering: the world's colors (measured from its pictures), shown as its palette */
+  --color-wander-dusk: #926292;
+  --color-wander-plum: #8b3d61;
+  --color-wander-red: #ca3250;
+  --color-wander-pink: #e485b4;
+  --color-wander-glow: #ffd8e8;
   --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
   --paper-close-size: 1.25;  /* ...and how much it grows, so the number is easy to read */
   --email-copied-time: 1.6s; /* E-Mail: how long the sheet says "Copied!" after a click (reach-out.js) */
@@ -283,7 +297,9 @@
 
   /* Home page: the showreel placeholder under the statement (desktop only) */
   --showreel-left: calc(91 * var(--home-unit));
-  --showreel-top: calc(560 * var(--home-unit));
+  --shorts-title-left: calc(91 * var(--home-unit)); /* the same as the sentence */
+  --shorts-title-gap: calc(14 * var(--home-unit));  /* between the title and the strip */
+  --showreel-top: calc(576 * var(--home-unit)); /* was 560: a little lower, to make room for its title */
   --showreel-width: calc(1292 * var(--home-unit));
   --showreel-height: calc(368 * var(--home-unit));
   --showreel-border: 2px;
@@ -776,6 +792,7 @@ body {
 }
 
 .statement.is-waving .statement-letter,
+.shorts-title.is-waving .statement-letter,
 .about-title.is-waving .statement-letter,
 .project-next-title.is-waving .statement-letter {
   animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
@@ -877,6 +894,7 @@ body {
   .nav-logo:hover .logo-letter,
   .nav-logo:focus-visible .logo-letter,
   .statement.is-waving .statement-letter,
+  .shorts-title.is-waving .statement-letter,
   .about-title.is-waving .statement-letter,
   .project-next-title.is-waving .statement-letter {
     animation: none;
@@ -1596,6 +1614,67 @@ h2.project-label {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* Virtual Wandering: the gate picture is tall, so its crop keeps the top, where the horses are */
+.process-item img.wander-gate { object-position: 50% 0%; }
+
+/* Virtual Wandering: the pink button under the film that opens the world on itch.io.
+   On hover the arrow flies out to the corner and a new one comes in from the other side
+   (like the back to top button). */
+.wander-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--wander-link-gap);
+  padding-inline: var(--project-side); /* the same side margins as the text */
+}
+
+.wander-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wander-button-gap);
+  height: var(--wander-button-height);
+  padding: 0 var(--wander-button-arrow-gap) 0 var(--wander-button-padding);
+  border-radius: calc(var(--wander-button-height) / 2);
+  background-color: var(--color-page-home);
+  color: var(--color-black);
+  font-family: var(--font-new-home);
+  font-size: var(--size-section-title);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wander-button-arrow {
+  display: grid;
+  place-items: center;
+  width: var(--wander-button-arrow);
+  height: var(--wander-button-arrow);
+  border-radius: 50%;
+  background-color: var(--color-black);
+  color: var(--color-page-home);
+  overflow: hidden;
+}
+
+.wander-arrow {
+  grid-area: 1 / 1;
+  width: 50%;
+  height: 50%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: translate var(--speed-playful) var(--ease-main);
+}
+
+.wander-arrow.is-next { translate: -150% 150%; }
+
+.wander-button:hover .wander-arrow,
+.wander-button:focus-visible .wander-arrow { translate: 150% -150%; }
+.wander-button:hover .wander-arrow.is-next,
+.wander-button:focus-visible .wander-arrow.is-next { translate: 0 0; }
+
+.wander-link-note { opacity: 0.6; }
+
 /* A film's color palette: a row of rounded color pills, the same size as the pictures.
    One pill is wide, and palette.js moves the wide one along the colors, one after another. */
 .color-palette {
@@ -1801,7 +1880,7 @@ h2.project-label {
     --button-round-corner: calc(24 * var(--home-unit));
 
     /* The page is longer by the strip of shorts and its gap (was 1112) */
-    --home-height: calc(1467 * var(--home-unit));
+    --home-height: calc(1503 * var(--home-unit));
     --size-statement: calc(72 * var(--home-unit));
     --statement-line-height: calc(69.12 * var(--home-unit));
     --statement-top: calc(140 * var(--home-unit));
@@ -1810,11 +1889,12 @@ h2.project-label {
     --statement-height: calc(207.4 * var(--home-unit));
 
     --character-left: calc(-81 * var(--home-unit));
-    --character-top: calc(761 * var(--home-unit)); /* under the strip of shorts (was 406) */
+    --character-top: calc(797 * var(--home-unit)); /* under the strip of shorts and its title (was 406) */
     --character-size: calc(1003 * var(--home-unit));
     /* The strip of shorts: between the sentence and the character, the whole width of the screen */
     --showreel-left: 0px;
-    --showreel-top: calc(381 * var(--home-unit));
+    --shorts-title-left: calc(40 * var(--home-unit));
+    --showreel-top: calc(417 * var(--home-unit)); /* room above it for its title */
     --showreel-width: calc(834 * var(--home-unit));
     --showreel-height: calc(340 * var(--home-unit));
     --eyes-left: 26%;
@@ -1829,6 +1909,12 @@ h2.project-label {
     --project-side: calc(40 * var(--home-unit));
     --project-section-gap: calc(36 * var(--home-unit));
     --project-film-gap: calc(16 * var(--home-unit));
+    --wander-button-height: calc(56 * var(--home-unit));
+    --wander-button-arrow: calc(42 * var(--home-unit));
+    --wander-button-arrow-gap: calc(7 * var(--home-unit));
+    --wander-button-padding: calc(24 * var(--home-unit));
+    --wander-button-gap: calc(12 * var(--home-unit));
+    --wander-link-gap: calc(16 * var(--home-unit));
     --project-head-gap: calc(10 * var(--home-unit));
     --project-label-gap: calc(24 * var(--home-unit));
     --project-grid-gap: calc(20 * var(--home-unit));
@@ -1895,7 +1981,7 @@ h2.project-label {
     --button-round-corner: calc(22 * var(--home-unit));
 
     /* The page is longer by the strip of shorts and its gap (was 844) */
-    --home-height: calc(1151 * var(--home-unit));
+    --home-height: calc(1193 * var(--home-unit));
     --size-statement: calc(56 * var(--home-unit));
     --statement-line-height: calc(53.76 * var(--home-unit));
     --statement-top: calc(100 * var(--home-unit));
@@ -1904,11 +1990,12 @@ h2.project-label {
     --statement-height: auto;
 
     --character-left: calc(-45 * var(--home-unit));
-    --character-top: calc(769 * var(--home-unit)); /* under the strip of shorts (was 462) */
+    --character-top: calc(811 * var(--home-unit)); /* under the strip of shorts and its title (was 462) */
     --character-size: calc(509 * var(--home-unit));
     /* The strip of shorts: between the sentence and the character, the whole width of the screen */
     --showreel-left: 0px;
-    --showreel-top: calc(469 * var(--home-unit));
+    --shorts-title-left: calc(20 * var(--home-unit));
+    --showreel-top: calc(511 * var(--home-unit)); /* room above it for its title */
     --showreel-width: calc(390 * var(--home-unit));
     --showreel-height: calc(260 * var(--home-unit));
     --eyes-left: 23.2%;
@@ -1924,6 +2011,12 @@ h2.project-label {
     --project-side: calc(20 * var(--home-unit));
     --project-section-gap: calc(28 * var(--home-unit));
     --project-film-gap: calc(12 * var(--home-unit));
+    --wander-button-height: calc(48 * var(--home-unit));
+    --wander-button-arrow: calc(36 * var(--home-unit));
+    --wander-button-arrow-gap: calc(6 * var(--home-unit));
+    --wander-button-padding: calc(20 * var(--home-unit));
+    --wander-button-gap: calc(10 * var(--home-unit));
+    --wander-link-gap: calc(12 * var(--home-unit));
     --project-head-gap: calc(8 * var(--home-unit));
     --project-label-gap: calc(16 * var(--home-unit));
     --project-grid-gap: calc(16 * var(--home-unit));
@@ -2068,9 +2161,27 @@ html {
 
 .page-transition.is-instant .transition-line { transition: none; }
 
+/* While the screen is covered, the letters of "in a moment" move in a wave, again and again,
+   like the sentence on the home page */
+.transition-letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+.page-transition.is-covered .transition-letter {
+  animation: transition-wave var(--transition-wave-time) var(--ease-letter-wave) infinite;
+  animation-delay: calc(var(--letter) * var(--transition-wave-step));
+}
+
+@keyframes transition-wave {
+  0%, 45%, 100% { transform: translateY(0); }
+  20% { transform: translateY(var(--letter-wave-height)); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .transition-line,
   .page-transition.is-covered .transition-line { transition: none; }
+  .page-transition.is-covered .transition-letter { animation: none; }
 }
 
 /* =========================================
@@ -2092,6 +2203,25 @@ html {
 }
 
 .is-loading .shorts { animation-play-state: paused; }
+
+/* The title above the strip: like the section titles on the project pages (pink, Medium),
+   it sits just above the strip, lined up with the sentence */
+.shorts-title {
+  position: absolute;
+  left: var(--shorts-title-left);
+  bottom: calc(var(--home-height) - var(--showreel-top) + var(--shorts-title-gap));
+  margin: 0;
+  font-family: var(--font-new-home);
+  font-size: var(--size-section-title);
+  font-weight: var(--weight-section-title);
+  line-height: 1;
+  text-wrap: balance; /* on a phone it breaks into two even lines, not one word alone */
+  color: var(--color-section-title);
+  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
+  animation-delay: 0.6s;
+}
+
+.is-loading .shorts-title { animation-play-state: paused; }
 
 /* The list is written twice (stories.js copies it), and moves left by exactly one copy, so it loops with no jump */
 .shorts-track {

@@ -53,25 +53,38 @@
       <h1 class="project-title">Virtual Wandering</h1>
       <dl class="project-details">
         <div><dt class="project-label">Year</dt><dd class="project-small">2026</dd></div>
-        <div><dt class="project-label">Role</dt><dd class="project-small">—</dd></div>
-        <div><dt class="project-label">Tools</dt><dd class="project-small">—</dd></div>
+        <div><dt class="project-label">Role</dt><dd class="project-small">World design &amp; development</dd></div>
+        <div><dt class="project-label">Tools</dt><dd class="project-small">Unity, Cinema 4D, vibe coding with ChatGPT and Claude</dd></div>
       </dl>
     </div>
 
     <!-- The film, the full width of the screen. Clicking plays it; the button in the corner opens it full screen. -->
     <div class="film-frame">
       <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
-        <video src="videos/wander-film.mp4" poster="images/projects/wander-still.jpg" playsinline preload="metadata"></video>
+        <video src="videos/wander-film.mp4" poster="images/projects/wander-cover.jpg" playsinline preload="metadata"></video>
         <span class="film-play-button" aria-hidden="true">Play</span>
       </div>
       <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
+    </div>
+
+    <!-- The world itself is a download on itch.io: a pink button opens it in a new tab.
+         On hover its arrow flies out to the corner and a new one comes in. -->
+    <div class="wander-link">
+      <a class="wander-button" href="https://adelf.itch.io/shells-to-collect" target="_blank" rel="noopener" data-cursor="grow">
+        Wander It Yourself
+        <span class="wander-button-arrow" aria-hidden="true">
+          <svg class="wander-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          <svg class="wander-arrow is-next" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
+        </span>
+      </a>
+      <span class="project-small wander-link-note">A download on itch.io</span>
     </div>
 
     <!-- The idea -->
     <section class="project-block">
       <h2 class="project-label">The Idea</h2>
       <div class="project-block-content">
-        <p class="project-body">Text coming soon.</p>
+        <p class="project-body">This project was made for a virtual wandering course, where the brief was to choose a song and build a world the viewer could wander through, shaped by the feeling the song gives. I chose “Gam HaYam Nasog” (Even the Sea Retreats) by Evyatar Banai and Efrat Ben Tzur. I knew right away what feeling I wanted to carry: femininity and dreaminess. What I didn’t have was a story, and that absence followed me through the whole process. The path I built was linear, but a user moving through it wasn’t always sure where to go next.</p>
       </div>
     </section>
 
@@ -80,13 +93,28 @@
       <div class="project-block">
         <h2 class="project-label">Process</h2>
         <div class="project-block-content">
-          <p class="project-body">Text coming soon.</p>
+          <p class="project-body">I built the world’s atmosphere around a set of deliberate choices: a pinkish palette, organic shapes, dusk-like lighting, and a bloom filter that pushed everything a little further into a dream. The elements themselves were modeled in Cinema 4D, while the ground, grass and water were built as a living system in Unity. Some of the Cinema 4D elements, especially the trees, looked too static once they were in the scene, so I used Claude to write code that moved them using their own maps and topology, rather than animating them by hand.</p>
+          <p class="project-body">Midway through the project I realized the world conveyed a feeling but told no story. To give the wanderer something to follow, I introduced a human presence that reveals itself gradually along the path: legs appear first, then hands, then a head. The intention was to build curiosity scene by scene, rather than relying on a plot. By the end of the path, the head faces a glowing pearl inside a shell, a closing image I still think of as open rather than resolved.</p>
         </div>
       </div>
+      <!-- Pictures from the world (from its itch.io page), and its colors, measured from them -->
+      <div class="process-grid">
+        <figure class="process-item"><img class="wander-gate" src="images/projects/wander-gate.jpg" alt="A glowing arch between two columns with horses on top"><figcaption class="project-small">The gate with the horses</figcaption></figure>
+        <figure class="process-item">
+          <div class="color-palette" role="img" aria-label="The world’s colors: dusk purple, plum, red, pink and a pale glow">
+            <span class="color-swatch" style="--swatch: var(--color-wander-dusk)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-plum)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-red)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-pink)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-glow)"></span>
+          </div>
+          <figcaption class="project-small">Color Palette</figcaption>
+        </figure>
+      </div>
       <div class="process-grid is-three">
-        <figure class="process-item"><img src="images/projects/wander-still-1.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/wander-still-2.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/wander-still-3.jpg" alt="A frame from the film"><figcaption class="project-small">Still</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/wander-hand.jpg" alt="A pale hand rising out of a pink field"><figcaption class="project-small">First, hands along the path</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/wander-head.jpg" alt="A head lying in red grass"><figcaption class="project-small">Then, a head in the grass</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/wander-shell.jpg" alt="A large glowing shell at dusk"><figcaption class="project-small">The shell at the end of the path</figcaption></figure>
       </div>
     </section>
 
@@ -94,7 +122,15 @@
     <section class="project-block">
       <h2 class="project-label">Decisions</h2>
       <div class="project-block-content">
-        <p class="project-body">Text coming soon.</p>
+        <p class="project-body">The color palette was chosen specifically to carry the feeling of the song, since there was no narrative to lean on instead. The organic elements were chosen to build a consistent, dreamlike aesthetic across the world. The fragmented human body parts were chosen deliberately to create a sense of mystery, standing in for the story the piece doesn’t otherwise tell. And the workflow itself was split by tool on purpose: static elements in Cinema 4D, the living systems of ground, grass and water in Unity, and any motion that needed intelligence, like the trees responding to their own topology, handled through AI-assisted code.</p>
+      </div>
+    </section>
+
+    <!-- What I'd do differently -->
+    <section class="project-block">
+      <h2 class="project-label">What I’d Do Differently</h2>
+      <div class="project-block-content">
+        <p class="project-body">The ending remains the piece’s open question. Both my instructor and the guests who experienced the wander found it confusing, and I agree with them. If I returned to this project, I’d look for a way to close the experience rather than leave it open, for instance by letting the wanderer enter a different space at the end and see what the figure went through, so the piece resolves into a feeling of completion instead of a question mark.</p>
       </div>
     </section>
 
@@ -102,8 +138,10 @@
     <section class="project-block">
       <h2 class="project-label">Credits</h2>
       <div class="project-block-content">
-        <p class="project-small">Animation - Adel Fitoussi</p>
-        <p class="project-small">Bezalel</p>
+        <p class="project-small">World design &amp; development - Adel Fitoussi</p>
+        <p class="project-small">Song - “Gam HaYam Nasog”, Evyatar Banai &amp; Efrat Ben Tzur</p>
+        <p class="project-small">Instructor - Eran Hilleli</p>
+        <p class="project-small">Bezalel, 2026</p>
       </div>
     </section>
 
@@ -133,6 +171,8 @@
   <script src="project-film.js"></script>
   <!-- The letter wave on the "Next Project" title -->
   <script src="next-project.js"></script>
+  <!-- The moving color palette -->
+  <script src="palette.js"></script>
 
 </body>
 </html>

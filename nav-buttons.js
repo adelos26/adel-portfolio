@@ -28,10 +28,15 @@ for (let index = 0; index < COLUMN_COUNT; index++) {
 }
 
 // "in a moment" in black, shown while the columns cover the screen.
-// It rises out of a mask, like the sentence on the home page.
+// It rises out of a mask, like the sentence on the home page,
+// and while it's there its letters move in a wave, one after another (each letter is its own span).
+const TRANSITION_TEXT = "in a moment";
+const transitionLetters = TRANSITION_TEXT.split("").map(function (letter, index) {
+  return '<span class="transition-letter" style="--letter: ' + index + '">' + letter + "</span>";
+}).join("");
 const transitionWord = document.createElement("div");
 transitionWord.className = "transition-word";
-transitionWord.innerHTML = '<span class="transition-mask"><span class="transition-line">in a moment</span></span>';
+transitionWord.innerHTML = '<span class="transition-mask"><span class="transition-line">' + transitionLetters + "</span></span>";
 pageTransition.appendChild(transitionWord);
 
 document.body.appendChild(pageTransition);
