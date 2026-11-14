@@ -263,6 +263,14 @@
   --color-title-black: #000000;
   --color-title-red: #d9252c;
   --color-title-white: #fdfdfd;
+  /* The Siren's Song: the film's colors (measured from the film, without its black), shown as its palette */
+  --color-siren-teal: #1f8cad;
+  --color-siren-sky: #6aaed8;
+  --color-siren-coral: #db605c;
+  --color-siren-peach: #f09973;
+  --color-siren-yellow: #f8f661;
+  --color-siren-pale: #f0dfd8;
+
   /* Virtual Wandering: the world's colors (measured from its pictures), shown as its palette */
   --color-wander-dusk: #926292;
   --color-wander-plum: #8b3d61;
