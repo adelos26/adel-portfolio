@@ -191,6 +191,10 @@
   --project-side: calc(91 * var(--home-unit));
   --project-section-gap: calc(47 * var(--home-unit)); /* between the sections (Figma) */
   --project-film-gap: calc(21 * var(--home-unit));    /* above and below the film (Figma) */
+  /* Opening a project page: the title rises, then the film rises out of a mask (project-film.js) */
+  --film-reveal-delay: 0.35s;  /* the film waits this long after the title */
+  --film-reveal-shift: 25%;    /* the picture inside starts this much lower */
+  --film-reveal-zoom: 1.2;     /* and this much bigger, then settles */
   --wander-button-height: calc(64 * var(--home-unit)); /* the "Wander It Yourself" button */
   --wander-button-arrow: calc(48 * var(--home-unit));
   --wander-button-arrow-gap: calc(8 * var(--home-unit));  /* the arrow's circle sits this far from the button's end */
@@ -1514,6 +1518,42 @@ h2.project-label {
   margin-block: calc(var(--project-film-gap) - var(--project-section-gap));
 }
 
+/* Opening the page: the title rises, then the film rises out of a mask, from the bottom up,
+   while the picture inside moves up and settles. project-film.js puts "is-waiting" on the page
+   at once, and takes it off when the loading screen or the page change is out of the way. */
+.project .project-head {
+  transition:
+    translate var(--speed-reveal) var(--ease-main),
+    opacity var(--speed-reveal) var(--ease-main);
+}
+
+/* The mask reaches a little past the edges, so a keyboard focus ring around the film still shows */
+.project .film-frame {
+  clip-path: inset(-12px);
+  transition: clip-path var(--speed-large) var(--ease-main) var(--film-reveal-delay);
+}
+
+.project .film-frame video {
+  transition:
+    translate var(--speed-large) var(--ease-main) var(--film-reveal-delay),
+    scale var(--speed-large) var(--ease-main) var(--film-reveal-delay);
+}
+
+/* Waiting: hidden at once (no transition on the way in), so only the opening moves */
+.project.is-waiting :is(.project-head, .film-frame, .film-frame video) { transition: none; }
+
+.project.is-waiting .project-head {
+  translate: 0 40px;
+  opacity: 0;
+}
+
+.project.is-waiting .film-frame { clip-path: inset(100% 0 0 0); }
+
+.project.is-waiting .film-frame video {
+  translate: 0 var(--film-reveal-shift);
+  scale: var(--film-reveal-zoom);
+}
+
 /* "Full Screen": a rounded button in the bottom right corner of the film, like Play */
 .film-fullscreen-button {
   position: absolute;
@@ -1602,7 +1642,9 @@ h2.project-label {
   gap: 8px;
 }
 
-.process-item img {
+/* Pictures, and the short shots from the film that play in place of stills (process-clips.js) */
+.process-item img,
+.process-item .process-clip {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -2606,6 +2648,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .about-bio,
   .about-photo { animation: none; }
+  .project .project-head,
+  .project .film-frame,
+  .project .film-frame video { translate: none; opacity: 1; scale: none; clip-path: none; transition: none; }
   .tool,
   .tool-name { scale: 1; transition: none; }
   .folder-paper,

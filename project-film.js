@@ -87,3 +87,21 @@ function onFullScreenChange() {
 fullScreenButton.addEventListener("click", openFullScreen);
 document.addEventListener("fullscreenchange", onFullScreenChange);
 filmVideo.addEventListener("webkitendfullscreen", function () { filmVideo.controls = false; }); // iPhone
+
+// ----- Opening the page: the title rises, then the film rises out of a mask (styles.css) -----
+// The page waits, hidden, until the loading screen is gone and the cream columns of the
+// page change have gone all the way down (so the entrance isn't hidden behind them).
+// People who turned off animations see it at once.
+const projectPage = document.querySelector(".project");
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  projectPage.classList.add("is-waiting");
+  const waitToOpen = setInterval(function () {
+    const root = document.documentElement.classList;
+    if (root.contains("is-loading") || root.contains("is-arriving") || root.contains("is-transitioning")) return;
+    clearInterval(waitToOpen);
+    // Two frames later: the hidden start has surely been drawn, so the browser animates from it
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { projectPage.classList.remove("is-waiting"); });
+    });
+  }, 50);
+}

@@ -93,9 +93,9 @@
       </div>
       <!-- Three frames from the film (at 0:19, 0:40 and 0:37) and its colors, two by two -->
       <div class="process-grid">
-        <figure class="process-item"><img src="images/projects/siren-still-19.jpg" alt="Talila in a red dress in the office, against a flat blue background"><figcaption class="project-small">The office scene, on a flat blue background</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/siren-still-40.jpg" alt="A row of legs in heels on a yellow background, one pair in red"><figcaption class="project-small">The legs scene, my favorite</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/siren-still-37.jpg" alt="A couple kissing, seen in a car's mirror"><figcaption class="project-small">The night drive, in the mirror</figcaption></figure>
+        <figure class="process-item"><video class="process-clip" src="videos/clips/siren-19.mp4" poster="images/projects/siren-still-19.jpg" muted loop playsinline preload="metadata" aria-label="Talila in a red dress in the office, against a flat blue background"></video><figcaption class="project-small">The office scene, on a flat blue background</figcaption></figure>
+        <figure class="process-item"><video class="process-clip" src="videos/clips/siren-40.mp4" poster="images/projects/siren-still-40.jpg" muted loop playsinline preload="metadata" aria-label="A row of legs in heels on a yellow background, one pair in red"></video><figcaption class="project-small">The legs scene, my favorite</figcaption></figure>
+        <figure class="process-item"><video class="process-clip" src="videos/clips/siren-37.mp4" poster="images/projects/siren-still-37.jpg" muted loop playsinline preload="metadata" aria-label="A couple kissing, seen in a car's mirror"></video><figcaption class="project-small">The night drive, in the mirror</figcaption></figure>
         <figure class="process-item">
           <div class="color-palette" role="img" aria-label="The film's colors: deep teal, sky blue, coral red, peach, yellow and pale pink">
             <span class="color-swatch" style="--swatch: var(--color-siren-teal)"></span>
@@ -170,6 +170,8 @@
   <script src="next-project.js"></script>
   <!-- The moving color palette -->
   <script src="palette.js"></script>
+  <!-- The short shots from the film: they play, without sound, while they can be seen -->
+  <script src="process-clips.js"></script>
 
 </body>
 </html>
