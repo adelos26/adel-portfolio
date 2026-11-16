@@ -82,6 +82,7 @@
   --size-logo: calc(20 * var(--home-unit));
   --size-statement: calc(96 * var(--home-unit));
   --statement-line-height: calc(92.16 * var(--home-unit));
+  --size-home-statement: var(--size-statement); /* the opening sentence on the home page (smaller on a phone) */
   --statement-mask-room: 0.25em; /* room in each line for letters like "g" and for the wave */
   --nav-top: calc(40 * var(--home-unit));
   --nav-height: calc(52 * var(--home-unit));
@@ -211,14 +212,12 @@
   --palette-gap: calc(6 * var(--home-unit));     /* between the color pills */
   --palette-corner: calc(12 * var(--home-unit));  /* the pills' rounded corners */
   --palette-wide: 9;                              /* the wide pill is this many times wider */
-  --palette-step: 0.5s;                           /* the wide pill moves to the next color this often */
-  --palette-rest: 2s;                             /* after the last color it rests on the first */
   --process-whole-padding: 7%;
   --project-bottom: calc(120 * var(--home-unit));
   --size-project-small: calc(23 * var(--home-unit));
   /* Section titles and body text, the same on every page (Figma "op-doc - case study") */
-  --size-section-title: calc(32 * var(--home-unit));
-  --size-body-text: calc(32 * var(--home-unit)); /* Figma: ExtraLight 32 */
+  --size-section-title: calc(24 * var(--home-unit)); /* was 32 (Figma); smaller after the lecturer's notes */
+  --size-body-text: calc(24 * var(--home-unit));     /* was 32 (Figma: ExtraLight 32) */
   --weight-section-title: 500; /* Medium */
   --weight-body-text: 200;    /* ExtraLight */
   /* Ratzif22 has no light weight, so body text uses the stand-in font, as in Figma */
@@ -309,9 +308,7 @@
 
   /* Home page: the showreel placeholder under the statement (desktop only) */
   --showreel-left: calc(91 * var(--home-unit));
-  --shorts-title-left: calc(91 * var(--home-unit)); /* the same as the sentence */
-  --shorts-title-gap: calc(14 * var(--home-unit));  /* between the title and the strip */
-  --showreel-top: calc(576 * var(--home-unit)); /* was 560: a little lower, to make room for its title */
+  --showreel-top: calc(560 * var(--home-unit));
   --showreel-width: calc(1292 * var(--home-unit));
   --showreel-height: calc(368 * var(--home-unit));
   --showreel-border: 2px;
@@ -320,7 +317,8 @@
   --shorts-gap: calc(24 * var(--home-unit));
   --shorts-corner: calc(20 * var(--home-unit));
   --shorts-fade: 6%;         /* how much of each end fades out */
-  --shorts-loop: 45s;        /* one full round of the strip */
+  --strip-speed: 40;         /* how fast the strip moves by itself, in frame pixels per second */
+  --strip-resume: 2.5s;      /* after someone scrolls it, it waits this long before moving again */
   --shorts-dim: 0.45;        /* the other shorts, while one is hovered */
   --shorts-dim-scale: 0.94;
   /* A short open full screen, like a story */
@@ -804,7 +802,6 @@ body {
 }
 
 .statement.is-waving .statement-letter,
-.shorts-title.is-waving .statement-letter,
 .about-title.is-waving .statement-letter,
 .project-next-title.is-waving .statement-letter {
   animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
@@ -841,6 +838,14 @@ body {
   transform: scaleY(1);
 }
 
+/* While the columns fully cover the screen, the mouse can't reach the page under them:
+   nothing there reacts (the cursor doesn't grow, buttons don't change). nav-buttons.js adds "is-blocking". */
+.page-transition.is-blocking { pointer-events: auto; }
+
+/* The loading screen and the early cream cover block the mouse in the same way */
+.loader:not(.is-done),
+html.is-arriving::before { pointer-events: auto; }
+
 /* The statement: a block in Figma's position, with its lines in the middle */
 .statement {
   position: absolute;
@@ -852,7 +857,7 @@ body {
   flex-direction: column;
   justify-content: center;
   font-family: var(--font-new-home);
-  font-size: var(--size-statement);
+  font-size: var(--size-home-statement);
   font-weight: 400;
   line-height: var(--statement-line-height);
   letter-spacing: 0.04em;
@@ -906,7 +911,6 @@ body {
   .nav-logo:hover .logo-letter,
   .nav-logo:focus-visible .logo-letter,
   .statement.is-waving .statement-letter,
-  .shorts-title.is-waving .statement-letter,
   .about-title.is-waving .statement-letter,
   .project-next-title.is-waving .statement-letter {
     animation: none;
@@ -1726,7 +1730,7 @@ h2.project-label {
 .wander-link-note { opacity: 0.6; }
 
 /* A film's color palette: a row of rounded color pills, the same size as the pictures.
-   One pill is wide, and palette.js moves the wide one along the colors, one after another. */
+   One pill is wide; pointing at a color (or tapping it) makes that one wide (palette.js). */
 .color-palette {
   display: flex;
   gap: var(--palette-gap);
@@ -1745,6 +1749,11 @@ h2.project-label {
 }
 
 .color-swatch.is-wide { flex-grow: var(--palette-wide); }
+
+/* With a mouse, a color can be pointed at (palette.js opens it) */
+@media (hover: hover) and (pointer: fine) {
+  .color-swatch { cursor: pointer; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .color-swatch { transition: none; }
@@ -1930,7 +1939,7 @@ h2.project-label {
     --button-round-corner: calc(24 * var(--home-unit));
 
     /* The page is longer by the strip of shorts and its gap (was 1112) */
-    --home-height: calc(1503 * var(--home-unit));
+    --home-height: calc(1467 * var(--home-unit));
     --size-statement: calc(72 * var(--home-unit));
     --statement-line-height: calc(69.12 * var(--home-unit));
     --statement-top: calc(140 * var(--home-unit));
@@ -1939,12 +1948,11 @@ h2.project-label {
     --statement-height: calc(207.4 * var(--home-unit));
 
     --character-left: calc(-81 * var(--home-unit));
-    --character-top: calc(797 * var(--home-unit)); /* under the strip of shorts and its title (was 406) */
+    --character-top: calc(761 * var(--home-unit)); /* under the strip of projects (was 406) */
     --character-size: calc(1003 * var(--home-unit));
     /* The strip of shorts: between the sentence and the character, the whole width of the screen */
     --showreel-left: 0px;
-    --shorts-title-left: calc(40 * var(--home-unit));
-    --showreel-top: calc(417 * var(--home-unit)); /* room above it for its title */
+    --showreel-top: calc(381 * var(--home-unit));
     --showreel-width: calc(834 * var(--home-unit));
     --showreel-height: calc(340 * var(--home-unit));
     --eyes-left: 26%;
@@ -2031,21 +2039,21 @@ h2.project-label {
     --button-round-corner: calc(22 * var(--home-unit));
 
     /* The page is longer by the strip of shorts and its gap (was 844) */
-    --home-height: calc(1193 * var(--home-unit));
+    --home-height: calc(1056 * var(--home-unit));
     --size-statement: calc(56 * var(--home-unit));
-    --statement-line-height: calc(53.76 * var(--home-unit));
+    --size-home-statement: calc(46 * var(--home-unit)); /* the home sentence, a little smaller than the other titles */
+    --statement-line-height: calc(44.16 * var(--home-unit));
     --statement-top: calc(100 * var(--home-unit));
     --statement-left: calc(20 * var(--home-unit));
     --statement-width: calc(350 * var(--home-unit));
     --statement-height: auto;
 
     --character-left: calc(-45 * var(--home-unit));
-    --character-top: calc(811 * var(--home-unit)); /* under the strip of shorts and its title (was 462) */
+    --character-top: calc(674 * var(--home-unit)); /* under the strip of projects (was 462) */
     --character-size: calc(509 * var(--home-unit));
     /* The strip of shorts: between the sentence and the character, the whole width of the screen */
     --showreel-left: 0px;
-    --shorts-title-left: calc(20 * var(--home-unit));
-    --showreel-top: calc(511 * var(--home-unit)); /* room above it for its title */
+    --showreel-top: calc(374 * var(--home-unit)); /* under the smaller sentence */
     --showreel-width: calc(390 * var(--home-unit));
     --showreel-height: calc(260 * var(--home-unit));
     --eyes-left: 23.2%;
@@ -2244,7 +2252,13 @@ html {
   top: var(--showreel-top);
   width: var(--showreel-width);
   height: var(--showreel-height);
-  overflow: hidden;
+  /* It can be scrolled sideways (projects-strip.js also moves it by itself); no scrollbar shows */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  user-select: none;
+  -webkit-user-select: none;
   /* The strip fades out at both ends */
   -webkit-mask-image: linear-gradient(90deg, transparent, black var(--shorts-fade), black calc(100% - var(--shorts-fade)), transparent);
           mask-image: linear-gradient(90deg, transparent, black var(--shorts-fade), black calc(100% - var(--shorts-fade)), transparent);
@@ -2254,26 +2268,16 @@ html {
 
 .is-loading .shorts { animation-play-state: paused; }
 
-/* The title above the strip: like the section titles on the project pages (pink, Medium),
-   it sits just above the strip, lined up with the sentence */
-.shorts-title {
-  position: absolute;
-  left: var(--shorts-title-left);
-  bottom: calc(var(--home-height) - var(--showreel-top) + var(--shorts-title-gap));
-  margin: 0;
-  font-family: var(--font-new-home);
-  font-size: var(--size-section-title);
-  font-weight: var(--weight-section-title);
-  line-height: 1;
-  text-wrap: balance; /* on a phone it breaks into two even lines, not one word alone */
-  color: var(--color-section-title);
-  animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
-  animation-delay: 0.6s;
+.shorts::-webkit-scrollbar { display: none; }
+
+/* With a mouse, the strip can be dragged */
+@media (hover: hover) and (pointer: fine) {
+  .shorts { cursor: grab; }
+  .shorts.is-dragging { cursor: grabbing; }
+  .shorts.is-dragging .short { pointer-events: none; } /* a drag never opens a project */
 }
 
-.is-loading .shorts-title { animation-play-state: paused; }
-
-/* The list is written twice (stories.js copies it), and moves left by exactly one copy, so it loops with no jump */
+/* The projects, written three times (projects-strip.js copies them), so the strip can loop in both directions */
 .shorts-track {
   display: flex;
   gap: var(--shorts-gap);
@@ -2281,12 +2285,6 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
-  list-style: none;
-  animation: shorts-move var(--shorts-loop) linear infinite;
-}
-
-@keyframes shorts-move {
-  to { translate: calc(-50% - var(--shorts-gap) / 2) 0; }
 }
 
 /* It stops while the mouse is on it, while a short has keyboard focus, and while a short is open */

@@ -1,5 +1,5 @@
 // The projects page: when the mouse is on a work's name, a short film of that work
-// fades in behind the names and fills the screen. The name turns black (Title Sequence turns blue).
+// fades in behind the names and fills the screen. The name turns black (CMYK turns blue).
 // Phones and tablets have no mouse, so there the films play by themselves, one after another,
 // and the name of the film that is playing changes color. One tap on a name opens the project.
 

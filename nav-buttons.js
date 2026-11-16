@@ -77,6 +77,7 @@ function goToPage(link) {
 
   afterColumnsFinish(function () {
     setCurrentButton(link); // the screen is covered, so the change can't be seen
+    pageTransition.classList.add("is-blocking"); // and the mouse can't reach the page under it
 
     setTimeout(function () {
       // Tells the next page to start covered
@@ -142,13 +143,13 @@ if (!isArriving || transitionReduceMotion) {
 
 if (isArriving && !transitionReduceMotion) {
   document.documentElement.classList.add("is-transitioning");
-  pageTransition.classList.add("is-instant", "is-covering", "is-covered");
+  pageTransition.classList.add("is-instant", "is-covering", "is-covered", "is-blocking");
   void pageTransition.offsetWidth; // applies the covered state before the columns move
   pageTransition.classList.remove("is-instant");
   document.documentElement.classList.remove("is-arriving"); // the columns now do the covering
   setTimeout(function () {
     pageTransition.classList.remove("is-covered");  // "in a moment" sinks back into its mask
-    pageTransition.classList.remove("is-covering"); // columns go down
+    pageTransition.classList.remove("is-covering", "is-blocking"); // columns go down, and the page can be pointed at again
     afterColumnsFinish(function () {
       document.documentElement.classList.remove("is-transitioning");
     });
@@ -158,7 +159,7 @@ if (isArriving && !transitionReduceMotion) {
 // Coming back with the browser's back button: the page may be restored still covered
 window.addEventListener("pageshow", function (event) {
   if (event.persisted) {
-    pageTransition.classList.remove("is-covering", "is-covered");
+    pageTransition.classList.remove("is-covering", "is-covered", "is-blocking");
     document.documentElement.classList.remove("is-transitioning");
     isTransitionRunning = false;
     document.querySelectorAll(".nav-logo.is-open").forEach(function (logo) { logo.classList.remove("is-open"); });

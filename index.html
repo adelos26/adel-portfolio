@@ -39,13 +39,13 @@
     <!-- On hover the box opens and shows the rest of the sentence -->
     <a class="nav-logo" href="about.html" aria-label="Hi I’m Adel"><span aria-hidden="true"><span class="logo-letter" style="--letter: 0">H</span><span class="logo-letter" style="--letter: 1">i</span><span class="nav-logo-more"><span class="logo-letter" style="--letter: 2"> </span><span class="logo-letter" style="--letter: 3">I</span><span class="logo-letter" style="--letter: 4">’</span><span class="logo-letter" style="--letter: 5">m</span><span class="logo-letter" style="--letter: 6"> </span><span class="logo-letter" style="--letter: 7">A</span><span class="logo-letter" style="--letter: 8">d</span><span class="logo-letter" style="--letter: 9">e</span><span class="logo-letter" style="--letter: 10">l</span></span></span></a>
     <nav>
-      <a class="nav-button nav-button-current" aria-current="page" style="--left: 523; --width: 111; --left-tablet: 247; --width-tablet: 88; --left-phone: 131; --width-phone: 62; --order: 0; --page-color: var(--color-page-home)" href="index.html" aria-label="Home">
+      <a class="nav-button nav-button-current" aria-current="page" style="--left: 518.5; --width: 135; --left-tablet: 221; --width-tablet: 120; --left-phone: 131; --width-phone: 62; --order: 0; --page-color: var(--color-page-home)" href="index.html" aria-label="Home">
         <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">H</span><span class="nav-letter" style="--letter: 1">o</span><span class="nav-letter" style="--letter: 2">m</span><span class="nav-letter" style="--letter: 3">e</span></span>
       </a>
-      <a class="nav-button" style="--left: 681; --width: 111; --left-tablet: 351; --width-tablet: 100; --left-phone: 201; --width-phone: 76; --order: 1; --page-color: var(--color-page-projects)" href="projects.html" aria-label="Projects">
+      <a class="nav-button" style="--left: 669.5; --width: 135; --left-tablet: 357; --width-tablet: 120; --left-phone: 201; --width-phone: 76; --order: 1; --page-color: var(--color-page-projects)" href="projects.html" aria-label="Projects">
         <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">P</span><span class="nav-letter" style="--letter: 1">r</span><span class="nav-letter" style="--letter: 2">o</span><span class="nav-letter" style="--letter: 3">j</span><span class="nav-letter" style="--letter: 4">e</span><span class="nav-letter" style="--letter: 5">c</span><span class="nav-letter" style="--letter: 6">t</span><span class="nav-letter" style="--letter: 7">s</span></span>
       </a>
-      <a class="nav-button" style="--left: 823; --width: 135; --left-tablet: 467; --width-tablet: 120; --left-phone: 285; --width-phone: 89; --order: 2; --page-color: var(--color-page-reach-out)" href="reach-out.html" aria-label="Reach Out">
+      <a class="nav-button" style="--left: 820.5; --width: 135; --left-tablet: 493; --width-tablet: 120; --left-phone: 285; --width-phone: 89; --order: 2; --page-color: var(--color-page-reach-out)" href="reach-out.html" aria-label="Reach Out">
         <span class="nav-button-letters" aria-hidden="true"><span class="nav-letter" style="--letter: 0">R</span><span class="nav-letter" style="--letter: 1">e</span><span class="nav-letter" style="--letter: 2">a</span><span class="nav-letter" style="--letter: 3">c</span><span class="nav-letter" style="--letter: 4">h</span><span class="nav-letter" style="--letter: 5"> </span><span class="nav-letter" style="--letter: 6">O</span><span class="nav-letter" style="--letter: 7">u</span><span class="nav-letter" style="--letter: 8">t</span></span>
       </a>
     </nav>
@@ -66,49 +66,27 @@
       </span>
     </h1>
 
-    <!-- The title of the strip of shorts. Its letters jump in a wave on hover, like the sentence (statement-wave.js). -->
-    <h2 class="shorts-title"><span class="statement-line">Snack-Sized Motion and other stuff I made for fun:</span></h2>
-
-    <!-- Short works on a moving strip (on phone and tablet: between the sentence and the character).
-         Clicking one opens it full screen, like a story.
-         Only the shorts are here; the projects have their own page.
-         They are in an order where no two of the same shape sit side by side.
-         To add a short: put the video in videos/shorts and a still in images/shorts, and add a line here.
-         --ratio is the video's shape: width / height. -->
-    <section class="shorts" aria-label="Short works">
-      <ul class="shorts-track">
-        <li><button class="short" type="button" style="--ratio: 1 / 1" data-cursor-label="Watch It" aria-label="Watch: Dolls"><video src="videos/shorts/dolls.mp4" poster="images/shorts/dolls.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 9 / 16" data-cursor-label="Watch It" aria-label="Watch: Horse"><video src="videos/shorts/horse.mp4" poster="images/shorts/horse.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 4 / 5" data-cursor-label="Watch It" aria-label="Watch: Concert poster"><video src="videos/shorts/poster.mp4" poster="images/shorts/poster.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 1 / 1" data-cursor-label="Watch It" aria-label="Watch: Planet"><video src="videos/shorts/planet.mp4" poster="images/shorts/planet.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 16 / 9" data-cursor-label="Watch It" aria-label="Watch: 5 Seconds"><video src="videos/shorts/five-seconds.mp4" poster="images/shorts/five-seconds.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 9 / 16" data-cursor-label="Watch It" aria-label="Watch: Shell"><video src="videos/shorts/shell.mp4" poster="images/shorts/shell.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 1 / 1" data-cursor-label="Watch It" aria-label="Watch: War"><video src="videos/shorts/war.mp4" poster="images/shorts/war.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 9 / 16" data-cursor-label="Watch It" aria-label="Watch: Shana Tova"><video src="videos/shorts/shana-tova.mp4" poster="images/shorts/shana-tova.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-        <li><button class="short" type="button" style="--ratio: 4 / 5" data-cursor-label="Watch It" aria-label="Watch: The New Yorker"><video src="videos/shorts/adel-fitoussi.mp4" poster="images/shorts/adel-fitoussi.jpg" muted loop playsinline autoplay preload="metadata"></video></button></li>
-      </ul>
+    <!-- The main projects on a moving strip (on phone and tablet: between the sentence and the character).
+         It moves by itself, and it can also be scrolled sideways: by dragging, swiping, or a trackpad (projects-strip.js).
+         Clicking a project opens its page. --ratio is the video's shape: width / height. -->
+    <section class="shorts" aria-label="Projects">
+      <div class="shorts-track">
+        <a class="short" href="op-doc.html" data-page-link style="--ratio: 16 / 9" data-cursor-label="Go To" aria-label="I Am a Tall Woman"><video src="videos/opdoc-preview.mp4" poster="images/projects/opdoc-cover.jpg" muted loop playsinline autoplay preload="metadata"></video></a>
+        <a class="short" href="title-sequence.html" data-page-link style="--ratio: 16 / 9" data-cursor-label="Go To" aria-label="CMYK"><video src="videos/title-preview.mp4" poster="images/projects/title-still-40.jpg" muted loop playsinline autoplay preload="metadata"></video></a>
+        <a class="short" href="virtual-wandering.html" data-page-link style="--ratio: 16 / 9" data-cursor-label="Go To" aria-label="Virtual Wandering"><video src="videos/wander-preview.mp4" poster="images/projects/wander-cover.jpg" muted loop playsinline autoplay preload="metadata"></video></a>
+        <a class="short" href="sirens-song.html" data-page-link style="--ratio: 16 / 9" data-cursor-label="Go To" aria-label="The Siren’s Song"><video src="videos/siren-preview.mp4" poster="images/projects/siren-cover.jpg" muted loop playsinline autoplay preload="metadata"></video></a>
+      </div>
     </section>
 
     <!-- The red character. character.js draws the eyes and makes them move. -->
     <div class="character" aria-hidden="true"><div class="eye-pair"></div></div>
   </main>
 
-  <!-- A short, open full screen, like a story (stories.js fills it) -->
-  <div class="story-viewer" role="dialog" aria-modal="true" aria-label="Short works" inert>
-    <div class="story-frame">
-      <div class="story-bars"></div>
-      <video class="story-video" playsinline></video>
-      <button class="story-tap is-back" type="button" aria-label="Previous"></button>
-      <button class="story-tap is-next" type="button" aria-label="Next"></button>
-      <button class="story-close" type="button" aria-label="Close">×</button>
-    </div>
-  </div>
-
   <!-- The custom cursor (computer only) -->
   <div class="site-cursor" aria-hidden="true"><span class="cursor-label"></span></div>
 
-  <!-- The moving strip of shorts, and opening one full screen (before site.js, so the copies get the cursor word too) -->
-  <script src="stories.js"></script>
+  <!-- The strip of projects: it moves by itself and can be scrolled (before site.js and nav-buttons.js, so its copies get the cursor word and the page change) -->
+  <script src="projects-strip.js"></script>
   <!-- Loading screen and cursor -->
   <script src="site.js"></script>
   <!-- Menu buttons and the page transition -->
