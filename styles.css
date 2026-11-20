@@ -426,6 +426,11 @@ html {
   outline: none;
 }
 
+/* Keyboard focus on the next project title and on Back to top: they turn pink and stay pink
+   while they have focus (the wave and the flying arrow alone end looking the same as at rest) */
+.project-next-title { transition: color var(--speed-small) var(--ease-main); }
+.project-next-title:focus-visible { color: var(--color-page-home); }
+
 body {
   background-color: var(--color-background);
   color: var(--color-text);
@@ -1988,7 +1993,7 @@ h2.project-label {
     --size-folder-name: calc(28 * var(--reach-unit));
     --folder-scale: 0.8;
     --reach-cut: 960;
-    --about-height: calc(1030 * var(--home-unit)); /* the text, then the row of tool icons */
+    --about-height: calc(1165 * var(--home-unit)); /* the photo, then the text under it */
     --tool-size: calc(62 * var(--home-unit));
     --tools-row-top: calc(904 * var(--home-unit));  /* just under the text */
     --tools-row-left: calc(40 * var(--home-unit));
@@ -2090,7 +2095,7 @@ h2.project-label {
     --size-folder-name: calc(20 * var(--reach-unit));
     --folder-scale: 0.6;
     --reach-cut: 700;
-    --about-height: calc(850 * var(--home-unit)); /* the text, then the two rows of tool icons */
+    --about-height: calc(1000 * var(--home-unit)); /* the photo, then the text under it */
     --tools-row-top: calc(684 * var(--home-unit));  /* just under the text, in two rows of six */
     --tools-per-row: 6;
     --tools-row-left: calc(20 * var(--home-unit));
@@ -2520,7 +2525,13 @@ html {
   color: var(--color-cream);
   animation: rise-in var(--speed-reveal) var(--ease-main) backwards;
   animation-delay: 0.55s;
+  /* Several short paragraphs, with the same space between them as on the project pages */
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
 }
+
+.about-bio p { margin: 0; }
 
 .about-photo {
   width: calc(var(--w) * var(--home-unit));
@@ -2898,7 +2909,11 @@ html.is-arriving::before {
   opacity: 0;
   scale: 0.6;
   pointer-events: none;
-  transition: opacity var(--speed-small) var(--ease-main), scale var(--speed-playful) var(--ease-playful);
+  transition:
+    opacity var(--speed-small) var(--ease-main),
+    scale var(--speed-playful) var(--ease-playful),
+    background-color var(--speed-small) var(--ease-main),
+    color var(--speed-small) var(--ease-main);
 }
 
 .back-to-top.is-shown {
@@ -2928,7 +2943,11 @@ html.is-arriving::before {
 .back-to-top:hover .back-to-top-arrow.is-next,
 .back-to-top:focus-visible .back-to-top-arrow.is-next { translate: 0 0; }
 
-.back-to-top:focus-visible { outline: none; }
+.back-to-top:focus-visible {
+  outline: none;
+  background-color: var(--color-page-home); /* pink */
+  color: var(--color-black);                /* the arrow */
+}
 
 @media (max-width: 600px) {
   :root { --back-to-top-size: 48px; --back-to-top-edge: 16px; --back-to-top-arrow: 22px; }
