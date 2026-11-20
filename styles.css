@@ -178,6 +178,8 @@
   --works-side: calc(91 * var(--home-unit));
   --works-dim: 0.45;           /* the names that are not chosen */
   --work-meta-opacity: 0.6;    /* type and year under each name: enough contrast to read (7.2:1) */
+  --works-dim-window: 0.6;     /* tablet and phone: the names that are not playing, on black (7.2:1) */
+  --size-small-text-min: 15px; /* small phones: small text never gets smaller than this */
   --size-work-name: var(--size-statement);
   --work-row-top: calc(20 * var(--home-unit));    /* the space above a name, under its line */
   --work-row-bottom: calc(16 * var(--home-unit));
@@ -1418,6 +1420,25 @@ html.is-arriving::before { pointer-events: auto; }
 /* Title Sequence has a lot of black in its film, so it turns blue instead */
 .work.is-active[data-film="title"] { color: var(--color-page-projects); }
 
+/* Tablet and phone: the films play by themselves all the time, so instead of filling the screen
+   behind the names they play in a window under the list, and the names stay on black (20.11.2026) */
+@media (max-width: 900px) {
+  .films {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    aspect-ratio: 16 / 9;
+    margin: 0 var(--works-side) var(--works-side);
+    overflow: hidden;
+  }
+  .works.has-active .work:not(.is-active) { opacity: var(--works-dim-window); }
+  .work.is-active,
+  .work.is-active[data-film="title"] {
+    color: var(--color-cream);
+    border-color: var(--color-works-line);
+  }
+}
+
 /* For screen readers only: the page's name, without showing it */
 .visually-hidden {
   position: absolute;
@@ -1996,7 +2017,7 @@ h2.project-label {
     --project-label-gap: calc(24 * var(--home-unit));
     --project-grid-gap: calc(20 * var(--home-unit));
     --project-bottom: calc(100 * var(--home-unit));
-    --size-project-small: calc(18 * var(--home-unit));
+    --size-project-small: max(var(--size-small-text-min), calc(18 * var(--home-unit))); /* not under 15px on narrow tablets */
     --size-section-title: calc(26 * var(--home-unit));
     --size-body-text: calc(26 * var(--home-unit)); /* the same size as the section titles, like on desktop */
 
@@ -2048,6 +2069,14 @@ h2.project-label {
 /* =========================================
    Phone: sizes from the phone frames in Figma (390 wide)
    ========================================= */
+/* Tablets and phones: small text never gets smaller than 15px, even on narrow screens (20.11.2026).
+   The menu buttons stay as they are. */
+@media (max-width: 900px) {
+  .work-meta,
+  .not-found-page .not-found-home { font-size: max(var(--size-small-text-min), var(--size-nav)); }
+  .folder-paper { font-size: max(var(--size-small-text-min), calc(var(--paper-text) * var(--unit))); }
+}
+
 @media (max-width: 600px) {
   :root {
     --home-unit: calc(100vw / 390);
@@ -2103,7 +2132,7 @@ h2.project-label {
     --project-label-gap: calc(16 * var(--home-unit));
     --project-grid-gap: calc(16 * var(--home-unit));
     --project-bottom: calc(64 * var(--home-unit));
-    --size-project-small: calc(16 * var(--home-unit));
+    --size-project-small: max(var(--size-small-text-min), calc(16 * var(--home-unit))); /* not under 15px on small phones */
     --size-section-title: calc(20 * var(--home-unit));
     --size-body-text: calc(20 * var(--home-unit)); /* the same size as the section titles, like on desktop */
 

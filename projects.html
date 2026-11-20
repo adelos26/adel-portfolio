@@ -51,14 +51,6 @@
     </nav>
   </header>
 
-  <!-- Short films of the works. They fill the screen behind the names and fade in on hover. -->
-  <div class="films" aria-hidden="true">
-    <video class="film-preview" id="film-opdoc" src="videos/opdoc-preview.mp4" poster="images/projects/opdoc-cover.jpg" muted loop playsinline preload="auto"></video>
-    <video class="film-preview" id="film-title" src="videos/title-preview.mp4" poster="images/projects/title-still.jpg" muted loop playsinline preload="auto"></video>
-    <video class="film-preview" id="film-wander" src="videos/wander-preview.mp4" poster="images/projects/wander-still.jpg" muted loop playsinline preload="auto"></video>
-    <video class="film-preview" id="film-siren" src="videos/siren-preview.mp4" poster="images/projects/siren-still.jpg" muted loop playsinline preload="auto"></video>
-  </div>
-
   <main>
     <!-- The works as an index: one row per work between thin lines, the name on the left and its type and year on the right.
          Each row opens its project page. -->
@@ -69,6 +61,15 @@
       <li><a class="work" href="virtual-wandering.html" data-film="wander" data-cursor-label="Go To"><span class="work-name">Virtual Wandering</span> <span class="work-meta">Virtual Experience, 2026</span></a></li>
       <li><a class="work" href="sirens-song.html" data-film="siren" data-cursor-label="Go To"><span class="work-name">The Siren’s Song</span> <span class="work-meta">Animation, 2026</span></a></li>
     </ul>
+
+    <!-- Short films of the works. On a computer they fill the screen behind the names and fade in on hover.
+         On a tablet or phone they play by themselves in a window under the names, so the names stay on black. -->
+    <div class="films" aria-hidden="true">
+      <video class="film-preview" id="film-opdoc" src="videos/opdoc-preview.mp4" poster="images/projects/opdoc-cover.jpg" muted loop playsinline preload="auto"></video>
+      <video class="film-preview" id="film-title" src="videos/title-preview.mp4" poster="images/projects/title-still.jpg" muted loop playsinline preload="auto"></video>
+      <video class="film-preview" id="film-wander" src="videos/wander-preview.mp4" poster="images/projects/wander-still.jpg" muted loop playsinline preload="auto"></video>
+      <video class="film-preview" id="film-siren" src="videos/siren-preview.mp4" poster="images/projects/siren-still.jpg" muted loop playsinline preload="auto"></video>
+    </div>
   </main>
 
   <!-- Touch screens: opens the chosen project -->
