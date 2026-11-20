@@ -103,7 +103,8 @@
   --color-character: #ff3300;       /* the red character */
   --color-character-line: #b02200;  /* the same red, darker: the line of a closed eye */
   --color-iris: #006aff;
-  --color-label-on-yellow: #745c00;
+  --color-label-on-orange: #4d2600; /* Instagram: dark orange on the orange folder (5.2:1) */
+  --color-label-on-yellow: #6b5500; /* Phone: a little darker than before, so it reads on a phone too (4.7:1) */
   --color-label-on-pink: #7b074b;
   --color-scrollbar: #3a3a3a;
 
@@ -176,6 +177,7 @@
   --works-top: calc(170 * var(--home-unit));
   --works-side: calc(91 * var(--home-unit));
   --works-dim: 0.45;           /* the names that are not chosen */
+  --work-meta-opacity: 0.6;    /* type and year under each name: enough contrast to read (7.2:1) */
   --size-work-name: var(--size-statement);
   --work-row-top: calc(20 * var(--home-unit));    /* the space above a name, under its line */
   --work-row-bottom: calc(16 * var(--home-unit));
@@ -285,6 +287,18 @@
   --email-copied-time: 1.6s; /* E-Mail: how long the sheet says "Copied!" after a click (reach-out.js) */
 
   /* Hi I'm Adel page */
+  /* The CV behind the photo (Figma "cv": two sheets of 1886 × 2505, corners 168).
+     The motion is the same as the folders on Reach Out. Sizes are in Figma pixels of the page. */
+  --color-cv-sheet: #ffffff;  /* Figma: the front sheet is white */
+  --color-cv-back: #006aff;   /* Figma: the sheet behind it, and the lines */
+  --color-cv-title: #ff8000;  /* Figma: "GET MY CV!" */
+  --font-cv-title: var(--font-new-home); /* Figma: Ratzif22 Bold */
+  --cv-width: calc(230 * var(--home-unit));   /* small enough that a few lines show above the photo, under the top of the page */
+  --cv-wait-top: calc(40 * var(--home-unit));  /* where the sheets wait, hidden behind the photo */
+  --cv-out-x: 0px;                             /* computer: they come straight up out of the photo */
+  --cv-out-y: calc(-185 * var(--home-unit));
+  --cv-front-tilt: 0.55deg;   /* Figma: -0.55° */
+  --cv-back-tilt: 14.63deg;   /* Figma: -14.63° */
   --about-height: calc(700 * var(--home-unit)); /* just under the photo, so on most screens the page is one screen tall */
   /* The row of tool icons under the text: its bottom lines up with the bottom of the photo */
   --tool-size: calc(64 * var(--home-unit));
@@ -1386,7 +1400,7 @@ html.is-arriving::before { pointer-events: auto; }
   text-align: right;
   font-size: var(--size-nav);
   letter-spacing: 0.04em;
-  opacity: var(--works-dim);
+  opacity: var(--work-meta-opacity);
 }
 
 
@@ -1993,7 +2007,12 @@ h2.project-label {
     --size-folder-name: calc(28 * var(--reach-unit));
     --folder-scale: 0.8;
     --reach-cut: 960;
-    --about-height: calc(1165 * var(--home-unit)); /* the photo, then the text under it */
+    --about-height: calc(1240 * var(--home-unit)); /* the photo, then the text under it */
+    /* The CV comes out to the right of the photo: most of the sheet shows, its left edge stays behind the photo */
+    --cv-width: calc(260 * var(--home-unit));
+    --cv-wait-top: calc(30 * var(--home-unit));
+    --cv-out-x: calc(264 * var(--home-unit));  /* half the photo (160) + 0.4 of a sheet (104) */
+    --cv-out-y: 0px;
     --tool-size: calc(62 * var(--home-unit));
     --tools-row-top: calc(904 * var(--home-unit));  /* just under the text */
     --tools-row-left: calc(40 * var(--home-unit));
@@ -2095,7 +2114,11 @@ h2.project-label {
     --size-folder-name: calc(20 * var(--reach-unit));
     --folder-scale: 0.6;
     --reach-cut: 700;
-    --about-height: calc(1000 * var(--home-unit)); /* the photo, then the text under it */
+    --about-height: calc(1060 * var(--home-unit)); /* the photo, then the text under it */
+    --cv-width: calc(140 * var(--home-unit));
+    --cv-wait-top: calc(25 * var(--home-unit));
+    --cv-out-x: calc(160 * var(--home-unit));  /* half the photo (100) + 0.43 of a sheet (60): the words show, and the blue sheet stays on screen */
+    --cv-out-y: 0px;
     --tools-row-top: calc(684 * var(--home-unit));  /* just under the text, in two rows of six */
     --tools-per-row: 6;
     --tools-row-left: calc(20 * var(--home-unit));
@@ -2533,9 +2556,22 @@ html {
 
 .about-bio p { margin: 0; }
 
-.about-photo {
+/* The photo and the CV behind it: one link, in the photo's place. The photo leans, the sheets don't. */
+.photo-cv {
   width: calc(var(--w) * var(--home-unit));
   height: calc(var(--h) * var(--home-unit));
+  display: block;
+  text-decoration: none;
+}
+.photo-cv.placed { rotate: none; }
+.photo-cv:focus-visible { outline: none; } /* the sheets come out instead, like the folders */
+
+.about-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  rotate: calc(var(--r) * 1deg);
+  transition: translate var(--speed-small) var(--ease-main);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2555,6 +2591,72 @@ html {
   height: 100%;
   object-fit: cover;
   object-position: 50% 15%;
+}
+
+/* The two sheets wait hidden behind the photo, and come up with it when the page opens */
+.cv-sheets {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: var(--cv-wait-top);
+  width: var(--cv-width);
+  aspect-ratio: 1886 / 2505;
+  margin-left: calc(var(--cv-width) / -2);
+  animation: rise-in var(--speed-large) var(--ease-main) backwards;
+  animation-delay: 0.4s;
+}
+.cv-front,
+.cv-back {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--cv-width) * 168 / 1886);
+  transform-origin: 50% 100%; /* like the folder sheets: they lean from their bottom */
+  transition:
+    translate var(--speed-reveal) var(--ease-main),
+    rotate var(--speed-reveal) var(--ease-main);
+}
+.cv-back {
+  background-color: var(--color-cv-back);
+  transform-origin: 50% 50%;
+}
+.cv-front svg { display: block; width: 100%; height: 100%; }
+.cv-paper { fill: var(--color-cv-sheet); }
+.cv-lines { stroke: var(--color-cv-back); stroke-width: 39; stroke-linecap: round; }
+.cv-title {
+  fill: var(--color-cv-title);
+  font-family: var(--font-cv-title);
+  font-size: 200px; /* in the sheet's own Figma pixels */
+  font-weight: 700;
+}
+
+/* Open (mouse, keyboard, or a first tap): the photo lifts a little like a folder,
+   the white sheet comes out, and the blue one follows a moment later */
+.photo-cv:hover .about-photo,
+.photo-cv:focus-visible .about-photo,
+.photo-cv.is-open .about-photo {
+  translate: 0 calc(var(--folder-rise) * -1);
+}
+.photo-cv:hover .cv-front,
+.photo-cv:focus-visible .cv-front,
+.photo-cv.is-open .cv-front {
+  translate: var(--cv-out-x) var(--cv-out-y);
+  rotate: var(--cv-front-tilt);
+}
+.photo-cv:hover .cv-back,
+.photo-cv:focus-visible .cv-back,
+.photo-cv.is-open .cv-back {
+  /* Figma: the blue sheet sits 148.5 right and 38.5 up from the white one */
+  translate:
+    calc(var(--cv-out-x) + var(--cv-width) * 148.5 / 1886)
+    calc(var(--cv-out-y) - var(--cv-width) * 38.5 / 1886);
+  rotate: var(--cv-back-tilt);
+  transition-delay: var(--paper-back-delay);
+}
+/* The mouse on the sheets: both turn a little more, gently, like the folders */
+.photo-cv:has(.cv-sheets:hover) .cv-front { rotate: calc(var(--cv-front-tilt) + var(--paper-hover-turn)); }
+.photo-cv:has(.cv-sheets:hover) .cv-back {
+  rotate: calc(var(--cv-back-tilt) + var(--paper-hover-turn));
+  transition-delay: 0s;
 }
 
 /* The tool icons: a row under the text (two rows on a phone) */
@@ -2626,7 +2728,7 @@ html {
   rotate: var(--tool-name-tilt);
 }
 
-.is-loading :is(.about-bio, .about-photo) { animation-play-state: paused; }
+.is-loading :is(.about-bio, .about-photo, .cv-sheets) { animation-play-state: paused; }
 
 @media (max-width: 900px) {
   .placed {
@@ -2656,7 +2758,10 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .about-bio,
-  .about-photo { animation: none; }
+  .about-photo,
+  .cv-sheets { animation: none; }
+  .cv-front,
+  .cv-back { transition: none; }
   .project .project-head,
   .project .film-frame,
   .project .film-frame video { translate: none; opacity: 1; scale: none; clip-path: none; transition: none; }

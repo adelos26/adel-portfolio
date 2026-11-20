@@ -59,15 +59,40 @@
 
     <!-- About me: a few short paragraphs, spaced like the text on the project pages -->
     <div class="about-bio placed" style="--x-desktop: 91; --y-desktop: 330; --w-desktop: 780; --x-tablet: 40; --y-tablet: 720; --w-tablet: 754; --x-phone: 20; --y-phone: 480; --w-phone: 350">
-      <p>Hi! I’m Adel Fitoussi, a Visual Communication Design student at Bezalel Academy (Class of 2027).</p>
-      <p>I was named to the Dean’s List in my second year (2025) and have two years of experience in graphic design and motion design.</p>
-      <p>I’m a hardworking person, a team player, and always excited to learn and explore new tools and creative possibilities.</p>
-      <p>In the past, I worked in the Design Department at the State Comptroller’s Office, and I’m currently working as a Motion Designer at the Motion &amp; Creative Department at Facetune by Lightricks.</p>
-      <p>I love telling stories through motion and movement, discovering new tools, and of course, creating and designing things! :)</p>
+      <p>Hi! I’m Adel Fitoussi, a Visual Communication Design student at Bezalel Academy, graduating in 2027. I was named to the Dean’s List in my second year (2025) and have two years of experience in graphic and motion design.</p>
+      <p>I began my professional journey in the Design Department at the State Comptroller’s Office, where I developed my graphic design skills, and have since moved into the world of motion design. Today, I work as a Motion Designer in the Motion &amp; Creative team at Facetune by Lightricks, combining my design background with my love for movement and storytelling.</p>
+      <p>I’m a hardworking team player who’s always excited to learn, explore new tools, and discover creative possibilities. I love telling stories through motion, experimenting with movement, and, of course, creating and designing things! :)</p>
     </div>
 
-    <!-- My photo -->
-    <div class="about-photo placed" style="--x-desktop: 1000; --y-desktop: 170; --w-desktop: 380; --h-desktop: 475; --r-desktop: 4; --x-tablet: 40; --y-tablet: 260; --w-tablet: 320; --h-tablet: 400; --r-tablet: -3; --x-phone: 20; --y-phone: 190; --w-phone: 200; --h-phone: 250; --r-phone: -3"><img src="images/adel.jpg" alt="Adel Fitoussi" width="800" height="1200"></div>
+    <!-- My photo, with my CV behind it (Figma: "cv").
+         Like the folders on Reach Out: pointing at the photo (or a first tap on a phone) brings the two sheets out,
+         and a click (or a second tap) opens the CV. On a computer they come out above the photo, on a tablet or phone to its right. -->
+    <a class="photo-cv placed" href="Adel-Fitoussi-CV.pdf" target="_blank" rel="noopener" aria-label="Get my CV (PDF)" data-cursor="grow" style="--x-desktop: 1000; --y-desktop: 170; --w-desktop: 380; --h-desktop: 475; --r-desktop: 4; --x-tablet: 40; --y-tablet: 260; --w-tablet: 320; --h-tablet: 400; --r-tablet: -3; --x-phone: 20; --y-phone: 190; --w-phone: 200; --h-phone: 250; --r-phone: -3">
+      <span class="cv-sheets" aria-hidden="true">
+        <span class="cv-back"></span>
+        <span class="cv-front">
+          <!-- The front sheet as in Figma: 1886 × 2505, corners 168, ten blue lines and "GET MY CV!".
+               The lines and the words stay level while the sheet leans 0.55°, so they are drawn a hair turned the other way. -->
+          <svg viewBox="0 0 1886 2505" preserveAspectRatio="none">
+            <rect class="cv-paper" width="1886" height="2505" rx="168"/>
+            <g class="cv-lines">
+              <line x1="265.2" y1="980.5" x2="999.8" y2="973.4"/>
+              <line x1="266.4" y1="1108.5" x2="1410.4" y2="1097.4"/>
+              <line x1="267.7" y1="1236.5" x2="1193.3" y2="1227.5"/>
+              <line x1="268.9" y1="1364.5" x2="1412.9" y2="1353.4"/>
+              <line x1="269.9" y1="1465.5" x2="1413.8" y2="1454.4"/>
+              <line x1="271.2" y1="1599.4" x2="1415.1" y2="1588.4"/>
+              <line x1="272.5" y1="1733.4" x2="882.6" y2="1727.5"/>
+              <line x1="273.8" y1="1867.4" x2="1199.5" y2="1858.5"/>
+              <line x1="275.1" y1="2001.4" x2="1419.0" y2="1990.4"/>
+              <line x1="276.4" y1="2135.4" x2="1011.0" y2="2128.3"/>
+            </g>
+            <text class="cv-title" x="689.7" y="666.4" text-anchor="middle" dominant-baseline="central" transform="rotate(-0.5548 689.7 666.4)">GET MY CV!</text>
+          </svg>
+        </span>
+      </span>
+      <span class="about-photo"><img src="images/adel.jpg" alt="Adel Fitoussi smiling, with long dark hair and a white T-shirt, against a beige wall" width="800" height="1200"></span>
+    </a>
 
   </main>
 
@@ -80,6 +105,8 @@
   <script src="nav-buttons.js"></script>
   <!-- "Hi I’m Adel" waves on hover, like the home sentence -->
   <script src="statement-wave.js"></script>
+  <!-- The CV behind the photo: first tap opens it on a phone or tablet -->
+  <script src="cv-sheets.js"></script>
 
 </body>
 </html>
