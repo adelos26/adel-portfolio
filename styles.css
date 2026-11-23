@@ -379,6 +379,7 @@
   --name-letter-step: 45ms;  /* time between the letters of the name */
   --speed-name-wave: 0.7s;   /* the name's wave: higher and a little slower than the usual one, so it stands out */
   --name-wave-height: -0.38em;
+  --name-mask-room: 0.6em;   /* the line with my name has more room above, so the higher wave is not cut */
   --reveal-step: 0.12s;  /* time between items that appear one after another */
 
   /* Page transition (estimated from toyfight.co) */
@@ -916,6 +917,12 @@ html.is-arriving::before { pointer-events: auto; }
   overflow: hidden;
   padding-block: var(--statement-mask-room);
   margin-block: calc(var(--statement-mask-room) * -1);
+}
+
+/* The line with my name: more room above for its higher wave */
+.statement-mask:has(.statement-name, .statement-name-letter) {
+  padding-top: var(--name-mask-room);
+  margin-top: calc(var(--name-mask-room) * -1);
 }
 
 .statement-line {
