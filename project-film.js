@@ -3,12 +3,16 @@
 // and "Pause" (pink and wider) while the film plays. On touch screens the button sits on the film:
 // while the film plays it fades away after a moment, so it doesn't cover the film.
 // Keyboard focus shows the same word as the mouse.
-// The "Full Screen" button opens the film full screen, with the browser's own controls.
+// The "Full Screen" button opens the film full screen, with the browser's own controls (pause, sound, time)
+// and a small "Close / Esc" button in the site's look to go back. It fades away while the film plays and
+// the mouse rests, and comes back when the mouse moves. (iPhone opens its own full-screen player instead.)
 
 const projectFilm = document.querySelector(".project-film");
 const filmVideo = projectFilm.querySelector("video");
 const filmButton = projectFilm.querySelector(".film-play-button");
 const fullScreenButton = document.querySelector(".film-fullscreen-button");
+const filmFrame = document.querySelector(".film-frame");
+const exitButton = document.querySelector(".film-exit-button");
 
 const HIDE_BUTTON_AFTER = 1500; // milliseconds the "Pause" button stays on a playing film
 let hideButtonTimer = null;
@@ -44,7 +48,10 @@ function updateFilmState() {
   }
 }
 
-projectFilm.addEventListener("click", toggleFilm);
+projectFilm.addEventListener("click", function () {
+  if (filmFrame.classList.contains("is-full")) return; // in full screen the browser's controls play and pause
+  toggleFilm();
+});
 projectFilm.addEventListener("keydown", function (event) {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
@@ -70,22 +77,49 @@ projectFilm.addEventListener("focus", function () {
 projectFilm.addEventListener("blur", siteCursor.leave);
 
 // ----- Full screen -----
+// The whole frame goes full screen (not only the video), so the "Close" button can be shown on top of the film
+const HIDE_EXIT_AFTER = 2000; // milliseconds without moving the mouse before "Close" fades, while the film plays
+let hideExitTimer = null;
+
 function openFullScreen() {
-  if (filmVideo.requestFullscreen) {
-    filmVideo.requestFullscreen().catch(function () {}); // if the browser refuses, the film simply plays on the page
+  if (filmFrame.requestFullscreen) {
+    filmFrame.requestFullscreen().catch(function () {}); // if the browser refuses, the film simply plays on the page
   } else if (filmVideo.webkitEnterFullscreen) {
-    filmVideo.webkitEnterFullscreen(); // iPhone
+    filmVideo.webkitEnterFullscreen(); // iPhone: its own player
   }
   if (!filmIsPlaying()) filmVideo.play();
 }
 
-// In full screen the film gets the browser's controls (pause, sound, time); back on the page it doesn't
-function onFullScreenChange() {
-  filmVideo.controls = document.fullscreenElement === filmVideo;
+function closeFullScreen() {
+  if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
 }
 
+// "Close" shows, and while the film plays it fades away after a moment without moving the mouse
+function showExitButton() {
+  filmFrame.classList.remove("is-resting");
+  clearTimeout(hideExitTimer);
+  if (filmIsPlaying()) {
+    hideExitTimer = setTimeout(function () { filmFrame.classList.add("is-resting"); }, HIDE_EXIT_AFTER);
+  }
+}
+
+// In full screen the film gets the browser's controls and the "Close" button; back on the page it doesn't
+function onFullScreenChange() {
+  const isFull = document.fullscreenElement === filmFrame;
+  filmFrame.classList.toggle("is-full", isFull);
+  filmVideo.controls = isFull;
+  if (isFull) showExitButton();
+  else { clearTimeout(hideExitTimer); filmFrame.classList.remove("is-resting"); }
+}
+
+// The browser's own full-screen button is left out: "Close" and Esc take its place
+filmVideo.setAttribute("controlslist", "nofullscreen");
 fullScreenButton.addEventListener("click", openFullScreen);
+exitButton.addEventListener("click", closeFullScreen);
 document.addEventListener("fullscreenchange", onFullScreenChange);
+filmFrame.addEventListener("pointermove", function () { if (filmFrame.classList.contains("is-full")) showExitButton(); });
+filmVideo.addEventListener("play", function () { if (filmFrame.classList.contains("is-full")) showExitButton(); });
+filmVideo.addEventListener("pause", function () { if (filmFrame.classList.contains("is-full")) showExitButton(); });
 filmVideo.addEventListener("webkitendfullscreen", function () { filmVideo.controls = false; }); // iPhone
 
 // ----- Opening the page: the title rises, then the film rises out of a mask (styles.css) -----

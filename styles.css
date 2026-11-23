@@ -985,7 +985,8 @@ html.is-arriving::before { pointer-events: auto; }
   .statement.is-waving .statement-letter,
   .about-title.is-waving .statement-letter,
   .project-next-title.is-waving .statement-letter,
-  .statement.is-name-playing .statement-name-letter {
+  .statement.is-name-playing .statement-name-letter,
+  .contact-folder.is-waving .folder-letter {
     animation: none;
     transition: none;
   }
@@ -1681,6 +1682,69 @@ h2.project-label {
   .film-frame:focus-within .film-fullscreen-button { opacity: 1; }
 }
 
+/* ----- Full screen: the whole frame, the film fits inside it, with a small "Close / Esc" button ----- */
+.film-exit-button { display: none; }
+
+.film-frame:fullscreen {
+  margin: 0;
+  clip-path: none;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-black);
+}
+.film-frame:fullscreen .project-film {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.film-frame:fullscreen .project-film video { object-fit: contain; }
+/* The page's scrollbar would leave a thin strip on the right of the film */
+html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
+.film-frame:fullscreen .film-fullscreen-button,
+.film-frame:fullscreen .film-play-button { display: none; }
+/* The site's own cursor stays outside full screen, so the normal one comes back here */
+.has-site-cursor .film-frame:fullscreen,
+.has-site-cursor .film-frame:fullscreen * { cursor: auto; }
+.has-site-cursor .film-frame:fullscreen .film-exit-button { cursor: pointer; }
+
+/* "Close" with a small "Esc" key next to it: cream like the other buttons, round and pink under the mouse */
+.film-frame:fullscreen .film-exit-button {
+  position: absolute;
+  top: var(--film-button-gap);
+  right: var(--film-button-gap);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--film-button-height);
+  padding: 0 14px 0 var(--film-button-padding);
+  border: none;
+  border-radius: 0;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: inherit;
+  font-size: var(--film-button-text);
+  transition:
+    opacity var(--speed-small) var(--ease-main),
+    border-radius var(--speed-small) var(--ease-main),
+    background-color var(--speed-small) var(--ease-main);
+}
+.film-frame:fullscreen .film-exit-button:hover,
+.film-frame:fullscreen .film-exit-button:focus-visible {
+  border-radius: calc(var(--film-button-height) / 2);
+  background-color: var(--color-page-home);
+  outline: none;
+}
+.film-exit-key {
+  padding: 2px 6px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  font-size: 0.75em;
+  line-height: 1.2;
+}
+/* While the film plays and the mouse rests, "Close" fades away; moving the mouse brings it back */
+.film-frame.is-resting .film-exit-button { opacity: 0; }
+
 /* Touch screens: it fades away together with Pause while the film plays */
 .film-frame:has(.is-button-hidden) .film-fullscreen-button {
   opacity: 0;
@@ -2012,6 +2076,13 @@ h2.project-label {
   letter-spacing: 0.05em;
   white-space: nowrap;
   pointer-events: auto;
+}
+
+/* The letters of the folder name do the same wave as the big titles (reach-out.js adds "is-waving") */
+.folder-letter { display: inline-block; }
+.contact-folder.is-waving .folder-letter {
+  animation: letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both;
+  animation-delay: calc(var(--letter) * var(--letter-wave-step));
 }
 
 /* =========================================
@@ -2843,6 +2914,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .film-exit-button { transition: none; }
   .about-bio,
   .about-photo,
   .cv-sheets { animation: none; }

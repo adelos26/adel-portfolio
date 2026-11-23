@@ -65,3 +65,37 @@ emailFolder.addEventListener("click", function (event) {
   clearTimeout(emailCopiedTimer);
   emailCopiedTimer = setTimeout(function () { emailPaper.textContent = emailAddress; }, EMAIL_COPIED_TIME);
 });
+
+// ----- The folder names: a wave on hover -----
+// Like the big titles: when the mouse comes onto a folder (or the keyboard reaches it, or a first tap opens it),
+// the letters of its name jump up one after another. The wave always finishes, even if the mouse leaves.
+contactFolders.forEach(function (folder) {
+  const folderName = folder.querySelector(".folder-name");
+  const letters = [];
+
+  // Every letter in its own span; --letter is its place in the name
+  const word = folderName.textContent;
+  folderName.textContent = "";
+  for (const character of word) {
+    const letter = document.createElement("span");
+    letter.className = "folder-letter";
+    letter.textContent = character;
+    letter.style.setProperty("--letter", letters.length);
+    folderName.appendChild(letter);
+    letters.push(letter);
+  }
+
+  function startWave() {
+    folder.classList.add("is-waving");
+  }
+  // The last letter landed: ready for the next time
+  letters[letters.length - 1].addEventListener("animationend", function () {
+    folder.classList.remove("is-waving");
+  });
+
+  folder.addEventListener("mouseenter", startWave);
+  folder.addEventListener("focus", startWave);
+  folder.addEventListener("click", function () {
+    if (isTouchScreen && folder.classList.contains("is-open")) startWave(); // the first tap just opened it
+  });
+});
