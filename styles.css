@@ -377,6 +377,8 @@
   /* My name in the home sentence: pink, and on hover it runs through the folder colors (20.11.2026) */
   --speed-name-colors: 1.6s;
   --name-letter-step: 45ms;  /* time between the letters of the name */
+  --speed-name-wave: 0.7s;   /* the name's wave: higher and a little slower than the usual one, so it stands out */
+  --name-wave-height: -0.38em;
   --reveal-step: 0.12s;  /* time between items that appear one after another */
 
   /* Page transition (estimated from toyfight.co) */
@@ -837,9 +839,13 @@ body {
 .statement-name-letter { color: var(--color-page-home); }
 .statement.is-name-playing .statement-name-letter {
   animation:
-    letter-wave var(--speed-letter-wave) var(--ease-letter-wave) both,
+    name-wave var(--speed-name-wave) var(--ease-letter-wave) both,
     name-colors var(--speed-name-colors) linear both;
   animation-delay: calc(var(--name-letter) * var(--name-letter-step));
+}
+@keyframes name-wave {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(var(--name-wave-height)); }
 }
 @keyframes name-colors {
   0%, 100% { color: var(--color-folder-pink); }
