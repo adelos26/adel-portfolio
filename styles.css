@@ -159,6 +159,21 @@
   --grain-iris: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.02 0 0 0 0 0.04 0 0 0 0 0.25 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain-pupil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 0 0.6 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 0 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
+  /* The blue creature on Reach Out (Figma "contact creature"), 23.11.2026: its colors and its grain,
+     the same kind as the red one's, in blues (and amber on the yellow iris) */
+  --color-blue-creature: #006aff;
+  --color-blue-creature-line: #0047b3;     /* the line of a closed eye: the same blue, darker */
+  --color-blue-creature-iris: #ffca00;     /* Figma: yellow */
+  --color-blue-creature-eye: #ffffff;      /* Figma: white, not cream */
+  --color-blue-creature-shadow-soft: rgba(0, 20, 90, 0.3);
+  --color-blue-creature-shadow: rgba(0, 12, 70, 0.6);
+  --color-blue-creature-shadow-deep: rgba(0, 8, 55, 0.75);
+  --color-blue-creature-eye-shadow: rgba(20, 40, 120, 0.12);
+  --color-blue-creature-iris-shadow: rgba(120, 70, 0, 0.2);
+  --grain-blue-creature: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.0 0 0 0 0 0.04 0 0 0 0 0.32 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-blue-creature-eye-white: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.32 0 0 0 0 0.55 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-blue-creature-iris: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.3 0 0 0 0 0.0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 1 1 1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
   /* The character leans toward the mouse (character.js sets --lean-x and --lean-y, from -1 to 1) */
   --lean-move: 3%;     /* of its own size */
   --lean-turn: 4deg;
@@ -3132,4 +3147,59 @@ html.is-arriving::before {
 @media (prefers-reduced-motion: reduce) {
   .back-to-top,
   .back-to-top-arrow { transition: none; }
+}
+
+/* =========================================
+   The blue creature on Reach Out (Figma "contact creature", placed by Adel in the Reach Out frames).
+   It is the same kind of creature as the red one on the home page (.character, character.js),
+   with its own colors, eyes and place. Like the folders, it is measured from the bottom of the screen.
+   ========================================= */
+.contact-creature {
+  --color-character: var(--color-blue-creature);
+  --color-character-line: var(--color-blue-creature-line);
+  --color-iris: var(--color-blue-creature-iris);
+  --color-character-shadow-soft: var(--color-blue-creature-shadow-soft);
+  --color-character-shadow: var(--color-blue-creature-shadow);
+  --color-character-shadow-deep: var(--color-blue-creature-shadow-deep);
+  --color-eye-shadow: var(--color-blue-creature-eye-shadow);
+  --color-iris-shadow: var(--color-blue-creature-iris-shadow);
+  --grain-character: var(--grain-blue-creature);
+  --grain-eye-white: var(--grain-blue-creature-eye-white);
+  --grain-iris: var(--grain-blue-creature-iris);
+  /* Desktop frame (1440 × 880): a circle of 582.6, its middle at 195, 543 */
+  --character-size: calc(582.6 * var(--reach-unit));
+  --character-left: calc(-96.3 * var(--reach-unit));
+  --character-top: max(calc(100dvh - 628.3 * var(--reach-unit)), calc(101.7 * var(--reach-unit)));
+  --character-enter-from: translateX(-60%); /* it comes in from the left edge */
+  /* In Figma it is turned around, so its eyes sit to the right of its middle */
+  --eyes-left: 31.2%;
+  --eyes-top: 43.4%;
+  --eyes-width: 64.6%;
+  --eyes-tilt: -3.18deg;                    /* desktop: turned -176.82°, so a little tilted */
+  z-index: 0;
+}
+.contact-creature .eye-pair { rotate: var(--eyes-tilt); }
+.contact-creature .eye { width: 43.3%; }  /* Figma: 857 of the 1950 between the two eyes */
+.contact-creature .eye-white { fill: var(--color-blue-creature-eye); }
+/* The title and the folders stay in front of it */
+.reach-out-page .reach-title { z-index: 1; }
+.reach-out-page .contact-folder { z-index: 2; }
+
+@media (max-width: 900px) {
+  /* Tablet frame: 471, its middle at 181.5, 637.5 (the folders here are measured from 960, so 402 is 250) */
+  .contact-creature {
+    --character-size: calc(471 * var(--reach-unit));
+    --character-left: calc(-54 * var(--reach-unit));
+    --character-top: max(calc(100dvh - 710 * var(--reach-unit)), calc(100 * var(--reach-unit)));
+    --eyes-tilt: 0deg;
+  }
+}
+@media (max-width: 600px) {
+  /* Phone frame: 317, its middle at 65.5, 501.5 (measured from 700, so 343 is 199) */
+  .contact-creature {
+    --character-size: calc(317 * var(--reach-unit));
+    --character-left: calc(-93 * var(--reach-unit));
+    --character-top: max(calc(100dvh - 501 * var(--reach-unit)), calc(49 * var(--reach-unit)));
+    --eyes-tilt: 0deg;
+  }
 }
