@@ -297,10 +297,14 @@
   --font-cv-title: var(--font-new-home); /* Figma: Ratzif22 Bold */
   --cv-width: calc(230 * var(--home-unit));   /* small enough that a few lines show above the photo, under the top of the page */
   --cv-wait-top: calc(40 * var(--home-unit));  /* where the sheets wait, hidden behind the photo */
-  --cv-out-x: 0px;                             /* computer: they come straight up out of the photo */
-  --cv-out-y: calc(-185 * var(--home-unit));
-  --cv-front-tilt: 0.55deg;   /* Figma: -0.55° */
-  --cv-back-tilt: 14.63deg;   /* Figma: -14.63° */
+  /* Where each sheet goes when it comes out (from where it waits behind the photo), and how much it leans.
+     Computer: up out of the photo, the whole pair turned about 10° to the right (Figma "hi - desktop - CV open", 23.11.2026) */
+  --cv-front-x: calc(12.1 * var(--home-unit));
+  --cv-front-y: calc(-152.9 * var(--home-unit));
+  --cv-back-x: calc(59.8 * var(--home-unit));
+  --cv-back-y: calc(-151.6 * var(--home-unit));
+  --cv-front-tilt: 10.95deg;
+  --cv-back-tilt: 25.03deg;
   --about-height: calc(700 * var(--home-unit)); /* just under the photo, so on most screens the page is one screen tall */
   /* The row of tool icons under the text: its bottom lines up with the bottom of the photo */
   --tool-size: calc(64 * var(--home-unit));
@@ -2065,8 +2069,12 @@ h2.project-label {
     /* The CV comes out to the right of the photo: most of the sheet shows, its left edge stays behind the photo */
     --cv-width: calc(260 * var(--home-unit));
     --cv-wait-top: calc(30 * var(--home-unit));
-    --cv-out-x: calc(264 * var(--home-unit));  /* half the photo (160) + 0.4 of a sheet (104) */
-    --cv-out-y: 0px;
+    --cv-front-x: calc(264 * var(--home-unit));  /* half the photo (160) + 0.4 of a sheet (104) */
+    --cv-front-y: 0px;
+    --cv-back-x: calc(284.5 * var(--home-unit)); /* the blue sheet sits a little right and up from the white one, as in Figma */
+    --cv-back-y: calc(-5.3 * var(--home-unit));
+    --cv-front-tilt: 0.55deg;  /* Figma: -0.55° */
+    --cv-back-tilt: 14.63deg;  /* Figma: -14.63° */
     --tool-size: calc(62 * var(--home-unit));
     --tools-row-top: calc(904 * var(--home-unit));  /* just under the text */
     --tools-row-left: calc(40 * var(--home-unit));
@@ -2179,8 +2187,12 @@ h2.project-label {
     --about-height: calc(1060 * var(--home-unit)); /* the photo, then the text under it */
     --cv-width: calc(140 * var(--home-unit));
     --cv-wait-top: calc(25 * var(--home-unit));
-    --cv-out-x: calc(160 * var(--home-unit));  /* half the photo (100) + 0.43 of a sheet (60): the words show, and the blue sheet stays on screen */
-    --cv-out-y: 0px;
+    --cv-front-x: calc(160 * var(--home-unit));  /* half the photo (100) + 0.43 of a sheet (60): the words show, and the blue sheet stays on screen */
+    --cv-front-y: 0px;
+    --cv-back-x: calc(171 * var(--home-unit));
+    --cv-back-y: calc(-2.9 * var(--home-unit));
+    --cv-front-tilt: 0.55deg;
+    --cv-back-tilt: 14.63deg;
     --tools-row-top: calc(684 * var(--home-unit));  /* just under the text, in two rows of six */
     --tools-per-row: 6;
     --tools-row-left: calc(20 * var(--home-unit));
@@ -2701,16 +2713,13 @@ html {
 .photo-cv:hover .cv-front,
 .photo-cv:focus-visible .cv-front,
 .photo-cv.is-open .cv-front {
-  translate: var(--cv-out-x) var(--cv-out-y);
+  translate: var(--cv-front-x) var(--cv-front-y);
   rotate: var(--cv-front-tilt);
 }
 .photo-cv:hover .cv-back,
 .photo-cv:focus-visible .cv-back,
 .photo-cv.is-open .cv-back {
-  /* Figma: the blue sheet sits 148.5 right and 38.5 up from the white one */
-  translate:
-    calc(var(--cv-out-x) + var(--cv-width) * 148.5 / 1886)
-    calc(var(--cv-out-y) - var(--cv-width) * 38.5 / 1886);
+  translate: var(--cv-back-x) var(--cv-back-y);
   rotate: var(--cv-back-tilt);
   transition-delay: var(--paper-back-delay);
 }
