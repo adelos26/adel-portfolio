@@ -82,7 +82,12 @@
   --size-logo: calc(20 * var(--home-unit));
   --size-statement: calc(96 * var(--home-unit));
   --statement-line-height: calc(92.16 * var(--home-unit));
-  --size-home-statement: var(--size-statement); /* the opening sentence on the home page (smaller on a phone) */
+  /* The home sentence: three long lines, so smaller than the other titles (the longest line fits the block) */
+  --size-home-statement: calc(50 * var(--home-unit)); /* the longest line ends before the red creature */
+  --home-statement-line-height: calc(48 * var(--home-unit)); /* 0.96 of the size, like before */
+  /* Its letters near the mouse jump and take a color for a moment (statement-wave.js) */
+  --speed-letter-hop: 0.6s;
+  --letter-hop-height: -0.25em;
   --statement-mask-room: 0.25em; /* room in each line for letters like "g" and for the wave */
   --nav-top: calc(40 * var(--home-unit));
   --nav-height: calc(52 * var(--home-unit));
@@ -871,6 +876,18 @@ body {
   animation-delay: calc(var(--letter) * var(--letter-wave-step));
 }
 
+/* The home sentence: the letters near the mouse (or a finger) jump and take one of the site's colors,
+   then settle back to cream (statement-wave.js adds "is-hopping" for a moment) */
+.statement .statement-letter { transition: color var(--speed-small) var(--ease-main); }
+.statement .statement-letter.is-hopping {
+  color: var(--hop-color);
+  animation: letter-hop var(--speed-letter-hop) var(--ease-letter-wave);
+}
+@keyframes letter-hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(var(--letter-hop-height)); }
+}
+
 /* My name in the home sentence: pink. On hover only the name plays: each letter jumps, and runs through
    the folder colors on Reach Out (pink, orange, yellow, dark blue) with a soft blend, back to pink */
 .statement-name-letter { color: var(--color-page-home); }
@@ -942,7 +959,7 @@ html.is-arriving::before { pointer-events: auto; }
   font-family: var(--font-new-home);
   font-size: var(--size-home-statement);
   font-weight: 400;
-  line-height: var(--statement-line-height);
+  line-height: var(--home-statement-line-height);
   letter-spacing: 0.04em;
   color: var(--color-home-text);
 }
@@ -1003,6 +1020,7 @@ html.is-arriving::before { pointer-events: auto; }
   .about-title.is-waving .statement-letter,
   .project-next-title.is-waving .statement-letter,
   .statement.is-name-playing .statement-name-letter,
+  .statement .statement-letter.is-hopping,
   .contact-folder.is-waving .folder-letter {
     animation: none;
     transition: none;
@@ -2392,6 +2410,8 @@ html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room ke
     --home-height: calc(1536 * var(--home-unit)); /* one more line of the sentence (was 1467) */
     --size-statement: calc(72 * var(--home-unit));
     --statement-line-height: calc(69.12 * var(--home-unit));
+    --size-home-statement: calc(42 * var(--home-unit));
+    --home-statement-line-height: calc(40.32 * var(--home-unit));
     --statement-top: calc(140 * var(--home-unit));
     --statement-left: calc(40 * var(--home-unit));
     --statement-width: calc(760 * var(--home-unit));
@@ -2508,7 +2528,8 @@ html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room ke
     /* The page is longer by the strip of shorts and its gap (was 844) */
     --home-height: calc(1100 * var(--home-unit)); /* one more line of the sentence (was 1056) */
     --size-statement: calc(56 * var(--home-unit));
-    --size-home-statement: calc(46 * var(--home-unit)); /* the home sentence, a little smaller than the other titles */
+    --size-home-statement: calc(34 * var(--home-unit)); /* the home sentence wraps by itself here; small enough to end above the shorts */
+    --home-statement-line-height: calc(32.64 * var(--home-unit));
     --statement-line-height: calc(44.16 * var(--home-unit));
     --statement-top: calc(100 * var(--home-unit));
     --statement-left: calc(20 * var(--home-unit));
