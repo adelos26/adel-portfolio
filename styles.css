@@ -310,7 +310,6 @@
   /* The objects on the Virtual Wandering page (project-models.js reads the colors) */
   --color-model-clay: var(--color-cream);   /* the models */
   --color-model-light: var(--color-page-home); /* a pink light from behind */
-  --color-model-lines: #1a1426;             /* the mesh lines */
   --model-pick-corner: 24px;                /* the chosen small model's corners */
   --model-pick-dim: 0.55;                   /* the small models that aren't chosen */
   --paper-close-rise: 60;    /* Phone on a computer: how much further the clicked sheet comes out */
@@ -1760,8 +1759,7 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
 .film-frame.is-resting .film-exit-button { opacity: 0; }
 
 /* ----- The game on the Virtual Wandering page (project-game.js) -----
-   Before Play: a picture. After Play: the game's 960 × 600 screen, scaled by --game-scale to the frame.
-   The game's page puts a Unity strip under the screen, so the screen sits in a window that cuts it off. */
+   Before Play: a picture. After Play: the game's own page (game/index.html) fills the frame. */
 .project-game { overflow: hidden; }
 .game-poster {
   display: block;
@@ -1773,22 +1771,13 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
 .project-game.is-started .film-play-button { display: none; }
 .game-window {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 960px;
-  height: 600px;
-  overflow: hidden;
-  transform: translate(-50%, -50%) scale(var(--game-scale, 1));
+  inset: 0;
 }
 .project-game:not(.is-started) .game-window { display: none; }
-/* The game's page centers its screen and the 38px strip under it. With the page 76px taller than the screen,
-   the screen starts 19px down: moving the page up 19px puts the screen in the window and the strip below it */
 .game-window iframe {
-  position: absolute;
-  left: 0;
-  top: -19px;
-  width: 960px;
-  height: 676px;
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 /* The frame is the game's own size, 960 × 600, in the middle (smaller screens: within the side margins) */
@@ -1841,6 +1830,38 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
   background-color: var(--color-page-home);
   outline: none;
 }
+/* The game's own page (game/index.html): the canvas fills it; a thin cream line fills up while it loads */
+.game-page {
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--color-black);
+}
+html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room kept for a scrollbar */
+.game-canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  outline: none;
+}
+.game-loading {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 4px;
+  translate: -50% -50%;
+  background-color: var(--color-works-line);
+}
+.game-loading-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-cream);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--speed-small) var(--ease-main);
+}
+.game-page.is-loaded .game-loading { display: none; }
+
 /* Phones and tablets: only the picture, with "Play on a computer" in the Play button's place, and no Full Screen */
 .game-frame.is-computer-only .film-play-button {
   width: auto;
@@ -1852,27 +1873,6 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
 .game-frame:fullscreen .project-game { background-color: var(--color-black); }
 
 /* ----- The objects (Virtual Wandering, project-models.js) ----- */
-.models-mesh-toggle {
-  align-self: flex-start;
-  height: var(--film-button-height);
-  padding: 0 var(--film-button-padding);
-  border: none;
-  border-radius: 0;
-  background-color: var(--color-cream);
-  color: var(--color-black);
-  font-family: inherit;
-  font-size: var(--film-button-text);
-  transition:
-    border-radius var(--speed-small) var(--ease-main),
-    background-color var(--speed-small) var(--ease-main);
-}
-.models-mesh-toggle:hover,
-.models-mesh-toggle:focus-visible { border-radius: calc(var(--film-button-height) / 2); outline: none; }
-.models-mesh-toggle[aria-pressed="true"] {
-  border-radius: calc(var(--film-button-height) / 2);
-  background-color: var(--color-page-home);
-}
-
 /* The big frame: the chosen model, turned by dragging */
 .model-stage {
   position: relative;
@@ -3099,7 +3099,6 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .film-exit-button,
-  .models-mesh-toggle,
   .model-pick { transition: none; }
   .about-bio,
   .about-photo,

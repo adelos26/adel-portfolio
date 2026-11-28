@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shells to Collect</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<!-- The game itself (Unity, "Shells to Collect"), shown inside the frame on the Virtual Wandering page.
+     The canvas fills the frame. While the game loads, a thin cream line fills up. -->
+<body class="game-page">
+  <canvas class="game-canvas" id="game-canvas" tabindex="-1"></canvas>
+  <div class="game-loading" aria-hidden="true"><div class="game-loading-fill"></div></div>
+
+  <script>
+    const canvas = document.getElementById("game-canvas");
+    const loadingFill = document.querySelector(".game-loading-fill");
+
+    // The game's files (from Unity's build), and its name
+    const config = {
+      dataUrl: "Build/protfolio.data",
+      frameworkUrl: "Build/protfolio.framework.js",
+      codeUrl: "Build/protfolio.wasm",
+      companyName: "Adel Fitoussi",
+      productName: "Shells to Collect",
+      productVersion: "0.1.0",
+    };
+
+    // If the game can't open, the Virtual Wandering page shows "Play on itch.io" instead
+    function tellPageItFailed() {
+      if (window.parent !== window) window.parent.postMessage("game-failed", "*");
+    }
+
+    const loader = document.createElement("script");
+    loader.src = "Build/protfolio.loader.js";
+    loader.onload = function () {
+      createUnityInstance(canvas, config, function (progress) {
+        loadingFill.style.transform = "scaleX(" + progress + ")";
+      }).then(function () {
+        document.body.classList.add("is-loaded");
+        canvas.focus(); // the keyboard goes straight to the game
+      }).catch(tellPageItFailed);
+    };
+    loader.onerror = tellPageItFailed;
+    document.body.appendChild(loader);
+  </script>
+</body>
+</html>

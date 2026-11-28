@@ -1,7 +1,6 @@
 // The objects on the Virtual Wandering page.
 // Five small models turn in a row (short clips). A click on one brings it up into the big frame,
 // where it grows in and can be turned with the mouse or a finger (three.js, in vendor/three).
-// "Mesh lines" shows the lines every model is built from, in the row and in the big frame.
 // People who turned off animations see still pictures, and the big model doesn't turn by itself.
 
 import * as THREE from "three";
@@ -12,18 +11,13 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const rootStyle = getComputedStyle(document.documentElement);
 function cssColor(name) { return new THREE.Color(rootStyle.getPropertyValue(name).trim()); }
 
-let meshOn = false; // the "Mesh lines" button
-
-// ----- The small models: a clip of each one turning, in clay or with its mesh lines -----
+// ----- The small models: a clip of each one turning -----
 const picks = document.querySelectorAll(".model-pick");
 
 function setClip(video, model) {
-  const look = meshOn ? "wire" : "clay";
-  const time = video.currentTime; // the turn carries on from the same place
-  video.poster = "images/models/" + model + "-" + look + ".jpg";
+  video.poster = "images/models/" + model + "-clay.jpg";
   if (reduceMotion) return; // the picture only
-  video.src = "videos/models/" + model + "-" + look + ".mp4";
-  video.addEventListener("loadedmetadata", function () { video.currentTime = time; }, { once: true });
+  video.src = "videos/models/" + model + "-clay.mp4";
   video.play().catch(function () {});
 }
 picks.forEach(function (pick) { setClip(pick.querySelector("video"), pick.dataset.model); });
@@ -56,7 +50,6 @@ controls.autoRotate = !reduceMotion; // it turns slowly by itself until it's dra
 controls.autoRotateSpeed = 1.5;
 
 const clay = new THREE.MeshStandardMaterial({ color: cssColor("--color-model-clay"), roughness: 0.55, side: THREE.DoubleSide });
-const lines = new THREE.LineBasicMaterial({ color: cssColor("--color-model-lines"), transparent: true, opacity: 0.55 });
 
 const loader = new GLTFLoader();
 const loadedModels = {}; // each model is loaded once
@@ -68,7 +61,7 @@ let growStart = 0;
 let growing = false;
 function easeOut(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
 
-// Each model: centered, the same size as the others, in clay, with its mesh lines ready (hidden)
+// Each model: centered, the same size as the others, in clay
 function prepareModel(gltf) {
   const holder = new THREE.Group();
   const model = gltf.scene;
@@ -80,23 +73,15 @@ function prepareModel(gltf) {
     if (!part.isMesh) return;
     if (!part.geometry.attributes.normal) part.geometry.computeVertexNormals();
     part.material = clay;
-    const meshLines = new THREE.LineSegments(new THREE.WireframeGeometry(part.geometry), lines);
-    meshLines.userData.isMeshLines = true;
-    part.add(meshLines);
   });
   holder.add(model);
   return holder;
-}
-
-function showMeshLines(holder) {
-  holder.traverse(function (part) { if (part.userData.isMeshLines) part.visible = meshOn; });
 }
 
 function showModel(name) {
   function place(holder) {
     if (shownModel) scene.remove(shownModel);
     shownModel = holder;
-    showMeshLines(holder);
     scene.add(holder);
     growing = !reduceMotion;
     growStart = performance.now();
@@ -118,15 +103,6 @@ picks.forEach(function (pick) {
     });
     showModel(pick.dataset.model);
   });
-});
-
-// ----- "Mesh lines": on for all the models, or back to clay -----
-const meshButton = document.querySelector(".models-mesh-toggle");
-meshButton.addEventListener("click", function () {
-  meshOn = meshButton.getAttribute("aria-pressed") !== "true";
-  meshButton.setAttribute("aria-pressed", meshOn ? "true" : "false");
-  picks.forEach(function (pick) { setClip(pick.querySelector("video"), pick.dataset.model); });
-  Object.values(loadedModels).forEach(showMeshLines);
 });
 
 // The model always fits the frame, wide (computer) or square (phone)

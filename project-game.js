@@ -1,8 +1,7 @@
 // The game on the Virtual Wandering page, in place of the film.
-// The game itself stays on itch.io (its files are big). Until Play is clicked the frame shows a picture,
+// The game's files are in game/ (they are big). Until Play is clicked the frame shows a picture,
 // so the page stays quick. Play puts the game in the frame. On phones and tablets it says "Play on a computer".
-// The game's screen is 960 × 600 with a Unity strip under it: the strip is cut off, and the screen is
-// scaled to fill the frame (on the page) or to fit inside it (in full screen).
+// The game fills the frame, on the page and in full screen.
 
 const projectGame = document.querySelector(".project-game");
 const gameFrame = document.querySelector(".game-frame");
@@ -10,8 +9,6 @@ const gameWindow = projectGame.querySelector(".game-window");
 const gameFullScreenButton = gameFrame.querySelector(".film-fullscreen-button");
 const gameExitButton = gameFrame.querySelector(".film-exit-button");
 
-const GAME_WIDTH = 960;   // the game's screen, in its own pixels
-const GAME_HEIGHT = 600;
 let gameStarted = false;
 
 // Phones and tablets: Unity games hardly run there, so the picture stays with "Play on a computer"
@@ -62,9 +59,9 @@ function showGameFallback() {
   if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
 }
 
-// The browser refused to show the game inside this page
-document.addEventListener("securitypolicyviolation", function (event) {
-  if (gameStarted && event.blockedURI.includes("itch")) showGameFallback();
+// The game's page says it couldn't open (game/index.html)
+window.addEventListener("message", function (event) {
+  if (gameStarted && event.data === "game-failed") showGameFallback();
 });
 
 projectGame.addEventListener("click", function (event) {
@@ -89,16 +86,6 @@ projectGame.addEventListener("focus", function () {
 });
 projectGame.addEventListener("blur", siteCursor.leave);
 
-// ----- Fitting the game's screen to the frame -----
-// On the page it fills the frame (a little is cut at the top and bottom); in full screen all of it shows.
-function fitGame() {
-  const isFull = gameFrame.classList.contains("is-full");
-  const width = projectGame.clientWidth / GAME_WIDTH;
-  const height = projectGame.clientHeight / GAME_HEIGHT;
-  projectGame.style.setProperty("--game-scale", isFull ? Math.min(width, height) : Math.max(width, height));
-}
-new ResizeObserver(fitGame).observe(projectGame);
-
 // ----- Full screen, with the "Close / Esc" button -----
 // In a game the mouse is busy inside it, so "Close" stays on screen the whole time.
 gameFullScreenButton.addEventListener("click", function () {
@@ -110,5 +97,4 @@ gameExitButton.addEventListener("click", function () {
 });
 document.addEventListener("fullscreenchange", function () {
   gameFrame.classList.toggle("is-full", document.fullscreenElement === gameFrame);
-  fitGame();
 });

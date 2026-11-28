@@ -62,11 +62,11 @@
       </dl>
     </div>
 
-    <!-- The game in place of the film, the full width of the screen. It stays on itch.io (it is big) and loads only
+    <!-- The game in place of the film. Its files are in game/ (they are big), and they load only
          after a click on Play, so the page stays quick. The button in the corner opens it full screen. See project-game.js. -->
     <div class="film-frame game-frame">
       <div class="project-film project-game" role="button" tabindex="0" aria-label="Play the game" data-cursor-label="Play"
-           data-game-src="https://html-classic.itch.zone/html/20894610/protfolio/index.html">
+           data-game-src="game/index.html">
         <img class="game-poster" src="images/projects/wander-cover.jpg" alt="">
         <div class="game-window"></div>
         <span class="film-play-button" aria-hidden="true">Play</span>
@@ -133,14 +133,13 @@
 
     <!-- Decisions -->
     <!-- The objects, modeled in Cinema 4D. A click on a small one brings it up into the big frame,
-         where it can be turned with the mouse or a finger. "Mesh lines" shows the lines they're built from.
+         where it can be turned with the mouse or a finger.
          See project-models.js. -->
     <section class="project-process models-section">
       <div class="project-block">
         <h2 class="project-label">The Objects</h2>
         <div class="project-block-content">
-          <p class="project-body">Every object in the world was modeled in Cinema 4D before it was placed in Unity. Pick a model to bring it up and turn it, or see the lines each one is built from.</p>
-          <button class="models-mesh-toggle" type="button" aria-pressed="false" data-cursor="grow">Mesh lines</button>
+          <p class="project-body">Every object in the world was modeled in Cinema 4D before it was placed in Unity. Pick a model to bring it up and turn it.</p>
         </div>
       </div>
       <div class="model-stage" aria-label="The chosen model, which you can turn">
