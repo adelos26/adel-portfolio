@@ -5,17 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Shells to Collect</title>
   <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@200;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
 </head>
-<!-- The game itself (Unity, "Shells to Collect"), shown inside the frame on the Virtual Wandering page.
-     The canvas fills the frame. While the game loads, a thin cream line fills up. -->
+<!-- The game itself (Unity, "Shells to Collect"), shown full screen from the Virtual Wandering page.
+     While it loads: a picture of the game, "Loading the world" waving, how far it got, and a cream line. -->
 <body class="game-page">
   <canvas class="game-canvas" id="game-canvas" tabindex="-1"></canvas>
-  <div class="game-loading" aria-hidden="true"><div class="game-loading-fill"></div></div>
+  <div class="game-loading" role="status">
+    <img class="game-loading-poster" src="../images/projects/wander-cover.jpg" alt="">
+    <p class="game-loading-text"><span class="game-loading-words" aria-label="Loading the world"></span> · <span class="game-loading-percent">0%</span></p>
+    <div class="game-loading-bar" aria-hidden="true"><div class="game-loading-fill"></div></div>
+  </div>
 
   <script>
     const canvas = document.getElementById("game-canvas");
     const loadingFill = document.querySelector(".game-loading-fill");
+    const loadingPercent = document.querySelector(".game-loading-percent");
+
+    // "Loading the world": every letter in its own span, so they wave one after another (styles.css)
+    const loadingWords = document.querySelector(".game-loading-words");
+    "Loading the world".split("").forEach(function (character, index) {
+      const letter = document.createElement("span");
+      letter.className = "game-loading-letter";
+      letter.textContent = character;
+      letter.setAttribute("aria-hidden", "true");
+      letter.style.setProperty("--letter", index);
+      loadingWords.appendChild(letter);
+    });
 
     // The game's files (from Unity's build), and its name
     const config = {
@@ -37,6 +56,7 @@
     loader.onload = function () {
       createUnityInstance(canvas, config, function (progress) {
         loadingFill.style.transform = "scaleX(" + progress + ")";
+        loadingPercent.textContent = Math.round(progress * 100) + "%";
       }).then(function () {
         document.body.classList.add("is-loaded");
         canvas.focus(); // the keyboard goes straight to the game

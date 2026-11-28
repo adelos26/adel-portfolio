@@ -62,36 +62,55 @@
       </dl>
     </div>
 
-    <!-- The game in place of the film. Its files are in game/ (they are big), and they load only
-         after a click on Play, so the page stays quick. The button in the corner opens it full screen. See project-game.js. -->
+    <!-- The game in place of the film. First a picture of the game, with how to move and a Play button.
+         Play opens the frame full screen and loads the game (its files are in game/, they are big).
+         Leaving full screen ends the game and brings the picture back. See project-game.js. -->
     <div class="film-frame game-frame">
-      <div class="project-film project-game" role="button" tabindex="0" aria-label="Play the game" data-cursor-label="Play"
-           data-game-src="game/index.html">
+      <div class="project-film project-game" data-game-src="game/index.html">
         <img class="game-poster" src="images/projects/wander-cover.jpg" alt="">
+        <!-- Before Play: how to wander -->
+        <div class="game-intro">
+          <ul class="game-keys">
+            <li>
+              <span class="game-key-art game-arrows" aria-hidden="true">
+                <kbd class="game-key is-up">↑</kbd><kbd class="game-key is-left">←</kbd><kbd class="game-key is-down">↓</kbd><kbd class="game-key is-right">→</kbd>
+              </span>
+              <span>Arrows to walk</span>
+            </li>
+            <li>
+              <span class="game-key-art" aria-hidden="true">
+                <svg class="game-mouse" viewBox="0 0 30 46"><rect x="1" y="1" width="28" height="44" rx="14"/><path d="M15 1v14M1 17h28"/></svg>
+              </span>
+              <span>Mouse to look around</span>
+            </li>
+            <li>
+              <span class="game-key-art" aria-hidden="true"><kbd class="game-key">Esc</kbd></span>
+              <span>Esc to leave</span>
+            </li>
+          </ul>
+          <button class="game-play-button" type="button" data-cursor="grow">Play</button>
+        </div>
         <div class="game-window"></div>
-        <span class="film-play-button" aria-hidden="true">Play</span>
         <!-- If the game can't open on this computer: an invitation to play it on itch.io -->
         <div class="game-fallback">
           <p class="game-fallback-text">The game couldn’t open here.<br>Come play it on itch.io</p>
           <a class="game-fallback-link" href="https://adelf.itch.io/shells-to-collect" target="_blank" rel="noopener" data-cursor="grow">Play on itch.io</a>
         </div>
       </div>
-      <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
-      <!-- Only in full screen: a small button to go back to the page (Esc does the same) -->
-      <button class="film-exit-button" type="button" aria-label="Exit full screen"><span>Close</span><span class="film-exit-key" aria-hidden="true">Esc</span></button>
+      <!-- In full screen: a small button to leave the game (Esc does the same) -->
+      <button class="film-exit-button" type="button" aria-label="Leave the game"><span>Close</span><span class="film-exit-key" aria-hidden="true">Esc</span></button>
     </div>
 
-    <!-- The world itself is a download on itch.io: a pink button opens it in a new tab.
+    <!-- The game's page on itch.io: a pink button opens it in a new tab.
          On hover its arrow flies out to the corner and a new one comes in. -->
     <div class="wander-link">
       <a class="wander-button" href="https://adelf.itch.io/shells-to-collect" target="_blank" rel="noopener" data-cursor="grow">
-        Wander It Yourself
+        Try It on itch
         <span class="wander-button-arrow" aria-hidden="true">
           <svg class="wander-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
           <svg class="wander-arrow is-next" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
         </span>
       </a>
-      <span class="project-small wander-link-note">A download on itch.io</span>
     </div>
 
     <!-- The idea -->

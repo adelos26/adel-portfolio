@@ -99,7 +99,10 @@
 
   /* ----- Shared by the new pages ----- */
   --color-black: #000000;
-  --color-game-shade: rgba(0, 0, 0, 0.55); /* darkens the game picture under "Play on itch.io" */
+  --color-game-shade: rgba(0, 0, 0, 0.55); /* darkens the game picture under "How to wander" and "Play on itch.io" */
+  --game-intro-gap: 40px;      /* between the keys, and down to Play */
+  --game-key-size: 32px;       /* one key */
+  --game-loading-text: clamp(20px, 3vw, 32px); /* "Loading the world · 45%" */
   --color-cream: #feffde;
   --color-character: #ff3300;       /* the red character */
   --color-character-line: #b02200;  /* the same red, darker: the line of a closed eye */
@@ -216,7 +219,7 @@
   --film-reveal-delay: 0.35s;  /* the film waits this long after the title */
   --film-reveal-shift: 25%;    /* the picture inside starts this much lower */
   --film-reveal-zoom: 1.2;     /* and this much bigger, then settles */
-  --wander-button-height: calc(64 * var(--home-unit)); /* the "Wander It Yourself" button */
+  --wander-button-height: calc(64 * var(--home-unit)); /* the "Try It on itch" button */
   --wander-button-arrow: calc(48 * var(--home-unit));
   --wander-button-arrow-gap: calc(8 * var(--home-unit));  /* the arrow's circle sits this far from the button's end */
   --wander-button-padding: calc(28 * var(--home-unit));
@@ -1759,16 +1762,110 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
 .film-frame.is-resting .film-exit-button { opacity: 0; }
 
 /* ----- The game on the Virtual Wandering page (project-game.js) -----
-   Before Play: a picture. After Play: the game's own page (game/index.html) fills the frame. */
-.project-game { overflow: hidden; }
+   Before Play: a picture of the game, darker, with how to move and a Play button in the middle.
+   Play opens the frame full screen and loads the game (game/index.html). Leaving full screen ends it. */
+
+/* The frame is the game's own size, 960 × 600, in the middle (smaller screens: within the side margins) */
+.game-frame {
+  width: min(960px, 100% - 2 * var(--project-side));
+  margin-inline: auto;
+}
+.game-frame .project-film {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
 .game-poster {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
+/* How to wander: three keys with a few words under each, and Play below them */
+.game-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--game-intro-gap);
+  background-color: var(--color-game-shade);
+  color: var(--color-cream);
+  text-align: center;
+}
+.game-keys {
+  display: flex;
+  gap: var(--game-intro-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.game-keys li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--film-button-text);
+}
+.game-key-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--game-key-size) * 2 + 4px);
+}
+.game-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--game-key-size);
+  height: var(--game-key-size);
+  padding: 0 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+}
+/* The four arrows, like on a keyboard */
+.game-arrows {
+  display: grid;
+  grid-template-columns: repeat(3, var(--game-key-size));
+  grid-template-rows: repeat(2, var(--game-key-size));
+  gap: 4px;
+}
+.game-arrows .game-key { padding: 0; }
+.game-arrows .is-up { grid-area: 1 / 2; }
+.game-arrows .is-left { grid-area: 2 / 1; }
+.game-arrows .is-down { grid-area: 2 / 2; }
+.game-arrows .is-right { grid-area: 2 / 3; }
+.game-mouse {
+  width: 30px;
+  height: 46px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+/* Play: the same cream rounded button as on the films. The mouse makes the site's cursor grow over it;
+   the keyboard turns it pink */
+.game-play-button {
+  height: var(--film-button-height);
+  padding: 0 calc(var(--film-button-padding) * 1.5);
+  border: none;
+  border-radius: calc(var(--film-button-height) / 2);
+  background-color: var(--color-cream);
+  color: var(--color-black);
+  font-family: inherit;
+  font-size: var(--film-button-text);
+  transition: background-color var(--speed-small) var(--ease-main);
+}
+.game-play-button:focus-visible {
+  background-color: var(--color-page-home);
+  outline: none;
+}
+
+/* Playing: the game fills the frame (which is full screen) */
 .project-game.is-started .game-poster,
-.project-game.is-started .film-play-button { display: none; }
+.project-game.is-started .game-intro { display: none; }
 .game-window {
   position: absolute;
   inset: 0;
@@ -1780,20 +1877,18 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
   height: 100%;
   border: 0;
 }
-/* The frame is the game's own size, 960 × 600, in the middle (smaller screens: within the side margins) */
-.game-frame {
-  width: min(960px, 100% - 2 * var(--project-side));
-  margin-inline: auto;
-}
-.game-frame .project-film { aspect-ratio: 16 / 10; }
+.game-frame:fullscreen .project-game { background-color: var(--color-black); }
+
+/* Phones and tablets: the keys don't apply, and Play says "Play on a computer" */
+.game-frame.is-computer-only .game-keys { display: none; }
+.game-frame.is-computer-only .game-play-button { pointer-events: none; }
 
 /* The game couldn't open: the picture comes back darker, with an invitation to itch.io in the middle */
 .game-fallback { display: none; }
-.game-frame:has(.is-fallback) .film-fullscreen-button { display: none; }
 .project-game.is-fallback .game-poster,
 .project-game.is-fallback .game-fallback { display: flex; }
 .project-game.is-fallback .game-window,
-.project-game.is-fallback .film-play-button { display: none; }
+.project-game.is-fallback .game-intro { display: none; }
 .game-fallback {
   position: absolute;
   inset: 0;
@@ -1830,11 +1925,13 @@ html:has(.film-frame:fullscreen) { overflow: hidden; scrollbar-gutter: auto; }
   background-color: var(--color-page-home);
   outline: none;
 }
-/* The game's own page (game/index.html): the canvas fills it; a thin cream line fills up while it loads */
+/* The game's own page (game/index.html). While it loads: the picture of the game, darker,
+   "Loading the world" waving like the site's titles, how far it got, and a cream line filling up */
 .game-page {
   margin: 0;
   overflow: hidden;
   background-color: var(--color-black);
+  font-family: var(--font-new-home); /* the site's font, as on the project pages */
 }
 html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room kept for a scrollbar */
 .game-canvas {
@@ -1845,11 +1942,36 @@ html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room ke
 }
 .game-loading {
   position: fixed;
-  left: 50%;
-  top: 50%;
-  width: 30%;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: var(--color-cream);
+}
+.game-loading-poster {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45);
+}
+.game-loading-text {
+  margin: 0;
+  font-size: var(--game-loading-text);
+  white-space: pre;
+}
+.game-loading-letter {
+  display: inline-block;
+  animation: transition-wave var(--transition-wave-time) var(--ease-letter-wave) infinite;
+  animation-delay: calc(var(--letter) * var(--transition-wave-step));
+}
+.game-loading-bar {
+  width: min(320px, 40%);
   height: 4px;
-  translate: -50% -50%;
   background-color: var(--color-works-line);
 }
 .game-loading-fill {
@@ -1861,16 +1983,9 @@ html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room ke
   transition: transform var(--speed-small) var(--ease-main);
 }
 .game-page.is-loaded .game-loading { display: none; }
-
-/* Phones and tablets: only the picture, with "Play on a computer" in the Play button's place, and no Full Screen */
-.game-frame.is-computer-only .film-play-button {
-  width: auto;
-  padding: 0 var(--film-button-padding);
-  white-space: nowrap;
+@media (prefers-reduced-motion: reduce) {
+  .game-loading-letter { animation: none; }
 }
-.game-frame.is-computer-only .film-fullscreen-button { display: none; }
-/* In full screen the game fits inside the screen, on black */
-.game-frame:fullscreen .project-game { background-color: var(--color-black); }
 
 /* ----- The objects (Virtual Wandering, project-models.js) ----- */
 /* The big frame: the chosen model, turned by dragging */
@@ -2058,7 +2173,6 @@ html:has(.game-page) { overflow: hidden; scrollbar-gutter: auto; } /* no room ke
 .wander-button:hover .wander-arrow.is-next,
 .wander-button:focus-visible .wander-arrow.is-next { translate: 0 0; }
 
-.wander-link-note { opacity: 0.6; }
 
 /* A film's color palette: a row of rounded color pills, the same size as the pictures.
    One pill is wide; pointing at a color (or tapping it) makes that one wide (palette.js). */
@@ -3099,6 +3213,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .film-exit-button,
+  .game-play-button,
   .model-pick { transition: none; }
   .about-bio,
   .about-photo,
