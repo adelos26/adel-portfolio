@@ -105,6 +105,16 @@ picks.forEach(function (pick) {
   });
 });
 
+// While a model is being turned, the site's round cursor grows a little (styles.css: .is-turning)
+const roundCursor = document.querySelector(".site-cursor");
+if (roundCursor) {
+  stage.addEventListener("pointerdown", function (event) {
+    if (event.pointerType === "mouse") roundCursor.classList.add("is-turning");
+  });
+  window.addEventListener("pointerup", function () { roundCursor.classList.remove("is-turning"); });
+  window.addEventListener("pointercancel", function () { roundCursor.classList.remove("is-turning"); });
+}
+
 // The model always fits the frame, wide (computer) or square (phone)
 function fitFrame() {
   const width = stage.clientWidth;

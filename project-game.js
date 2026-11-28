@@ -3,7 +3,7 @@
 // and a Play button in the middle. The game's files are big, so they load only after Play.
 // Play opens the frame full screen and starts the game there. Leaving full screen (Esc, or "Close")
 // ends the game and brings the picture back.
-// On phones and tablets the game hardly runs, so Play says "Play on a computer".
+// Phones and tablets (no keyboard or mouse) don't see the game: they get the film of the wandering (styles.css).
 // If the game can't open, the picture comes back with an invitation to play it on itch.io.
 
 const projectGame = document.querySelector(".project-game");
@@ -14,17 +14,9 @@ const gameExitButton = gameFrame.querySelector(".film-exit-button");
 
 let gameStarted = false;
 
-// ----- Phones and tablets: "Play on a computer" -----
-const isTouchScreen = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-if (isTouchScreen) {
-  gameFrame.classList.add("is-computer-only");
-  gamePlayButton.textContent = "Play on a computer";
-  gamePlayButton.disabled = true;
-}
-
 // ----- Play: full screen, and the game comes into the frame -----
 function startGame() {
-  if (gameStarted || isTouchScreen) return;
+  if (gameStarted) return;
 
   // A computer that can't draw 3D in the browser: straight to the invitation to itch.io
   if (!document.createElement("canvas").getContext("webgl2")) {

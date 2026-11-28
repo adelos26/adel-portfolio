@@ -62,7 +62,19 @@
       </dl>
     </div>
 
-    <!-- The game in place of the film. First a picture of the game, with how to move and a Play button.
+    <!-- Phones and tablets (no keyboard or mouse): the film of the wandering, like on the other project pages.
+         Computers get the game below instead. Which one shows is decided in styles.css. -->
+    <div class="film-frame film-on-touch">
+      <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
+        <video src="videos/wander-film.mp4" poster="images/projects/wander-cover.jpg" playsinline preload="metadata"></video>
+        <span class="film-play-button" aria-hidden="true">Play</span>
+      </div>
+      <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
+      <!-- Only in full screen: a small button to go back to the page (Esc does the same) -->
+      <button class="film-exit-button" type="button" aria-label="Exit full screen"><span>Close</span><span class="film-exit-key" aria-hidden="true">Esc</span></button>
+    </div>
+
+    <!-- Computers: the game in place of the film. First a picture of the game, with how to move and a Play button.
          Play opens the frame full screen and loads the game (its files are in game/, they are big).
          Leaving full screen ends the game and brings the picture back. See project-game.js. -->
     <div class="film-frame game-frame">
