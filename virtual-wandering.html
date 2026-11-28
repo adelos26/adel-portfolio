@@ -62,11 +62,19 @@
       </dl>
     </div>
 
-    <!-- The film, the full width of the screen. Clicking plays it; the button in the corner opens it full screen. -->
-    <div class="film-frame">
-      <div class="project-film" role="button" tabindex="0" aria-label="Play the film" data-cursor-label="Play">
-        <video src="videos/wander-film.mp4" poster="images/projects/wander-cover.jpg" playsinline preload="metadata"></video>
+    <!-- The game in place of the film, the full width of the screen. It stays on itch.io (it is big) and loads only
+         after a click on Play, so the page stays quick. The button in the corner opens it full screen. See project-game.js. -->
+    <div class="film-frame game-frame">
+      <div class="project-film project-game" role="button" tabindex="0" aria-label="Play the game" data-cursor-label="Play"
+           data-game-src="https://html-classic.itch.zone/html/20894610/protfolio/index.html">
+        <img class="game-poster" src="images/projects/wander-cover.jpg" alt="">
+        <div class="game-window"></div>
         <span class="film-play-button" aria-hidden="true">Play</span>
+        <!-- If the game can't open on this computer: an invitation to play it on itch.io -->
+        <div class="game-fallback">
+          <p class="game-fallback-text">The game couldn’t open here.<br>Come play it on itch.io</p>
+          <a class="game-fallback-link" href="https://adelf.itch.io/shells-to-collect" target="_blank" rel="noopener" data-cursor="grow">Play on itch.io</a>
+        </div>
       </div>
       <button class="film-fullscreen-button" type="button" data-cursor="grow">Full Screen</button>
       <!-- Only in full screen: a small button to go back to the page (Esc does the same) -->
@@ -105,25 +113,48 @@
       </div>
       <!-- Pictures from the world (from its itch.io page), and its colors, measured from them -->
       <div class="process-grid">
-        <figure class="process-item"><img class="wander-gate" src="images/projects/wander-gate.jpg" alt="A glowing arch between two columns with horses on top"><figcaption class="project-small">The gate with the horses</figcaption></figure>
+        <figure class="process-item"><img class="wander-gate" src="images/projects/wander-gate.jpg" alt="A glowing arch between two columns with horses on top"></figure>
         <figure class="process-item">
-          <div class="color-palette" role="img" aria-label="The world’s colors: dusk purple, plum, red, pink and a pale glow">
-            <span class="color-swatch" style="--swatch: var(--color-wander-dusk)"></span>
-            <span class="color-swatch" style="--swatch: var(--color-wander-plum)"></span>
-            <span class="color-swatch" style="--swatch: var(--color-wander-red)"></span>
-            <span class="color-swatch" style="--swatch: var(--color-wander-pink)"></span>
-            <span class="color-swatch" style="--swatch: var(--color-wander-glow)"></span>
+          <div class="color-palette" role="img" aria-label="The world’s gradients: from dusk purple to hot pink, plum to deep red, lilac to red, violet to pink, and a pale pink glow">
+            <span class="color-swatch" style="--swatch: var(--color-wander-dusk); --swatch-gradient: var(--gradient-wander-dusk)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-plum); --swatch-gradient: var(--gradient-wander-plum)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-red); --swatch-gradient: var(--gradient-wander-red)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-pink); --swatch-gradient: var(--gradient-wander-pink)"></span>
+            <span class="color-swatch" style="--swatch: var(--color-wander-glow); --swatch-gradient: var(--gradient-wander-glow)"></span>
           </div>
         </figure>
       </div>
       <div class="process-grid is-three">
-        <figure class="process-item"><img src="images/projects/wander-hand.jpg" alt="A pale hand rising out of a pink field"><figcaption class="project-small">First, hands along the path</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/wander-head.jpg" alt="A head lying in red grass"><figcaption class="project-small">Then, a head in the grass</figcaption></figure>
-        <figure class="process-item"><img src="images/projects/wander-shell.jpg" alt="A large glowing shell at dusk"><figcaption class="project-small">The shell at the end of the path</figcaption></figure>
+        <figure class="process-item"><img src="images/projects/wander-hand.jpg" alt="A pale hand rising out of a pink field"></figure>
+        <figure class="process-item"><img src="images/projects/wander-head.jpg" alt="A head lying in red grass"></figure>
+        <figure class="process-item"><img src="images/projects/wander-shell.jpg" alt="A large glowing shell at dusk"></figure>
       </div>
     </section>
 
     <!-- Decisions -->
+    <!-- The objects, modeled in Cinema 4D. A click on a small one brings it up into the big frame,
+         where it can be turned with the mouse or a finger. "Mesh lines" shows the lines they're built from.
+         See project-models.js. -->
+    <section class="project-process models-section">
+      <div class="project-block">
+        <h2 class="project-label">The Objects</h2>
+        <div class="project-block-content">
+          <p class="project-body">Every object in the world was modeled in Cinema 4D before it was placed in Unity. Pick a model to bring it up and turn it, or see the lines each one is built from.</p>
+          <button class="models-mesh-toggle" type="button" aria-pressed="false" data-cursor="grow">Mesh lines</button>
+        </div>
+      </div>
+      <div class="model-stage" aria-label="The chosen model, which you can turn">
+        <p class="project-small model-hint">Drag to turn</p>
+      </div>
+      <div class="process-grid models-grid">
+        <button class="model-pick is-active" type="button" data-model="shelli" aria-pressed="true" aria-label="The shell from the end of the path" data-cursor="grow"><video muted loop playsinline></video></button>
+        <button class="model-pick" type="button" data-model="face-model" aria-pressed="false" aria-label="The head" data-cursor="grow"><video muted loop playsinline></video></button>
+        <button class="model-pick" type="button" data-model="narkis" aria-pressed="false" aria-label="The water lily" data-cursor="grow"><video muted loop playsinline></video></button>
+        <button class="model-pick" type="button" data-model="shell-3" aria-pressed="false" aria-label="The spiral shell" data-cursor="grow"><video muted loop playsinline></video></button>
+        <button class="model-pick" type="button" data-model="stada" aria-pressed="false" aria-label="The scallop" data-cursor="grow"><video muted loop playsinline></video></button>
+      </div>
+    </section>
+
     <section class="project-block">
       <h2 class="project-label">Decisions</h2>
       <div class="project-block-content">
@@ -174,6 +205,11 @@
   <script src="back-to-top.js"></script>
   <!-- Plays and pauses the film -->
   <script src="project-film.js"></script>
+  <!-- The game: loads on Play, fits the frame, full screen -->
+  <script src="project-game.js"></script>
+  <!-- The objects: three.js (in vendor/three) draws the model in the big frame -->
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }</script>
+  <script type="module" src="project-models.js"></script>
   <!-- The letter wave on the "Next Project" title -->
   <script src="next-project.js"></script>
   <!-- The moving color palette -->
