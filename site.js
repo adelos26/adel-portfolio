@@ -1,5 +1,5 @@
 // Shared by every page:
-// 1. The loading screen: "loading..." on the first page of a visit.
+// 1. The loading screen on the first page of a visit: a phrase in a color, like the page changes.
 // 2. The custom cursor: a small dot that grows on buttons and becomes a word on films and works.
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -11,12 +11,54 @@ function makeLetters(word, className) {
   }).join("");
 }
 
+// ----- The phrases and colors of the loading screen and the page changes (nav-buttons.js uses them too) -----
+// The phrases (Adel's)
+const TRANSITION_PHRASES = [
+  "Just a sec.", "Hold on.", "Don't go yet.", "Wait for it.", "Almost there.",
+  "Worth the wait.", "The best part is next.", "Stay curious.", "Just a little longer.", "Something is coming."
+];
+// The colors, each with the phrase color that reads on it (black, or cream on the blue)
+const TRANSITION_COLORS = [
+  { color: "var(--color-cream)", text: "var(--color-black)" },
+  { color: "var(--color-page-projects)", text: "var(--color-cream)" },
+  { color: "var(--color-page-home)", text: "var(--color-black)" },
+  { color: "var(--color-page-reach-out)", text: "var(--color-black)" },
+  { color: "var(--color-folder-orange)", text: "var(--color-black)" }
+];
+
+function rememberTransition(key, value) {
+  try { sessionStorage.setItem(key, value); } catch (error) { /* without storage, every page picks its own */ }
+}
+function recallTransition(key) {
+  try { return sessionStorage.getItem(key); } catch (error) { return null; }
+}
+function pickDifferent(list, last) {
+  const choices = list.filter(function (item) { return item !== last; });
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+// A phrase and a color, never the same as the last time; remembered for the next page
+function chooseTransition() {
+  const phrase = pickDifferent(TRANSITION_PHRASES, recallTransition("transition-phrase"));
+  const lastColor = recallTransition("transition-color");
+  const color = pickDifferent(TRANSITION_COLORS, TRANSITION_COLORS.find(function (c) { return c.color === lastColor; }));
+  rememberTransition("transition-phrase", phrase);
+  rememberTransition("transition-color", color.color);
+  rememberTransition("transition-text-color", color.text);
+  return { phrase: phrase, color: color.color, text: color.text };
+}
+
 // ----- 1. Loading screen -----
-const LOADING_TIME = 2400; // the shortest time it stays on screen, in milliseconds
+const LOADING_TIME = 1200; // the shortest time it stays on screen, in milliseconds (was 2400)
 const loader = document.querySelector(".loader");
 const pageRoot = document.documentElement;
 
-loader.querySelector(".loader-button").innerHTML = makeLetters("loading...", "loader-letter");
+// A phrase in a color, its letters waving like the site's titles
+if (!pageRoot.classList.contains("no-loader")) {
+  const firstLook = chooseTransition();
+  loader.style.setProperty("--color-loader", firstLook.color);
+  loader.style.setProperty("--color-loader-text", firstLook.text);
+  loader.querySelector(".loader-button").innerHTML = makeLetters(firstLook.phrase, "loader-letter");
+}
 
 function finishLoading() {
   loader.classList.add("is-done");

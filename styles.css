@@ -118,9 +118,8 @@
 
   /* Loading screen */
   --size-loader: clamp(23px, calc(40 * var(--home-unit)), 40px);
-  --speed-loader-loop: 1.6s;
-  --transition-word-delay: 0.45s; /* "in a moment" waits for the cream to rise behind it */
-  --transition-wave-time: 1s;      /* "in a moment": one wave through all its letters, then a short rest */
+  --transition-word-delay: 0.45s; /* the phrase waits for the columns to rise behind it */
+  --transition-wave-time: 1s;      /* the phrase: one wave through all its letters, then a short rest */
   --transition-wave-step: 50ms;    /* time between one letter and the next */
 
   /* Custom cursor */
@@ -419,9 +418,10 @@
   --reveal-step: 0.12s;  /* time between items that appear one after another */
 
   /* Page transition (estimated from toyfight.co) */
-  --color-transition: #feffde; /* cream */
-  --speed-transition: 1s;      /* how long one column moves */
-  --transition-step: 45ms;     /* time between columns */
+  --color-transition: #feffde; /* the columns' color: cream, or the one nav-buttons.js picks for each page change */
+  --color-transition-text: var(--color-black); /* the phrase on the columns: black, cream on blue */
+  --speed-transition: 0.8s;    /* how long one column moves (was 1s) */
+  --transition-step: 30ms;     /* time between columns (was 45ms) */
 
   /* ----- Folders page (folders.html) ----- */
   /* The Figma frame is 1440 × 1024 px. One "folders unit" = 1 Figma pixel, scaled to the screen width. */
@@ -1116,7 +1116,7 @@ html.is-arriving::before { pointer-events: auto; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-black);
+  background-color: var(--color-loader, var(--color-black)); /* site.js picks a color for each visit */
   transition: opacity var(--speed-reveal) var(--ease-main), visibility 0s linear var(--speed-reveal);
   animation: loader-safety 0.01s linear 6s forwards; /* never stays, even if the script fails */
 }
@@ -1131,36 +1131,22 @@ html.is-arriving::before { pointer-events: auto; }
   to { opacity: 0; visibility: hidden; }
 }
 
+/* The phrase: its letters wave again and again, like the phrase on the page changes */
 .loader-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5em 1.1em;
-  background-color: var(--color-cream);
-  color: var(--color-black);
+  color: var(--color-loader-text, var(--color-cream));
   font-family: var(--font-new-home);
   font-size: var(--size-loader);
-  perspective: 10em;
-  animation: loader-round var(--speed-loader-loop) var(--ease-main) infinite alternate;
-}
-
-@keyframes loader-round {
-  from { border-radius: 0; }
-  to { border-radius: 1.13em; }
+  letter-spacing: 0.04em;
 }
 
 .loader-letter {
   display: inline-block;
   white-space: pre;
-  transform-origin: 50% 50% -0.733em;
-  backface-visibility: hidden;
-  animation: loader-flip var(--speed-loader-loop) var(--ease-letter-flip) infinite;
-  animation-delay: calc(var(--letter) * var(--letter-flip-step));
-}
-
-@keyframes loader-flip {
-  0% { transform: rotateX(0deg); }
-  45%, 100% { transform: rotateX(360deg); }
+  animation: transition-wave var(--transition-wave-time) var(--ease-letter-wave) infinite;
+  animation-delay: calc(var(--letter) * var(--transition-wave-step));
 }
 
 /* While the loading screen is up, the page waits to start its own entrance */
@@ -2672,7 +2658,7 @@ html {
 }
 
 
-/* "in a moment" in black on the cream columns. Like the sentence on the home page,
+/* The phrase on the columns (black, or cream on blue). Like the sentence on the home page,
    it rises out of a mask: it starts below the mask's edge and moves up into view. */
 .transition-word {
   position: absolute;
@@ -2680,7 +2666,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-black);
+  color: var(--color-transition-text);
   font-family: var(--font-new-home);
   font-size: var(--size-loader);
   letter-spacing: 0.04em;
@@ -2708,7 +2694,7 @@ html {
 
 .page-transition.is-instant .transition-line { transition: none; }
 
-/* While the screen is covered, the letters of "in a moment" move in a wave, again and again,
+/* While the screen is covered, the letters of the phrase move in a wave, again and again,
    like the sentence on the home page */
 .transition-letter {
   display: inline-block;

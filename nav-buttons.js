@@ -1,7 +1,8 @@
-// Clicking a menu button plays the page transition: cream columns rise and cover the screen,
-// "in a moment" rises on them in black, the clicked button becomes the current one
-// (round and in its own color), and then the next page opens.
-// On the new page the columns start out covering it and go down.
+// Clicking a menu button plays the page transition: columns rise and cover the screen,
+// a phrase rises on them, the clicked button becomes the current one (round and in its own color),
+// and then the next page opens. On the new page the columns start out covering it and go down.
+// Every page change picks a phrase and a color (never the same as the last time);
+// the new page opens with the same ones, so nothing flickers.
 // Projects also works from inside a project page: it takes you back to the list of projects.
 
 const COLUMN_COUNT = 10;
@@ -27,17 +28,30 @@ for (let index = 0; index < COLUMN_COUNT; index++) {
   pageTransition.appendChild(column);
 }
 
-// "in a moment" in black, shown while the columns cover the screen.
+// The phrases and colors are in site.js (the first loading screen uses them too)
+
+// The phrase, shown while the columns cover the screen.
 // It rises out of a mask, like the sentence on the home page,
 // and while it's there its letters move in a wave, one after another (each letter is its own span).
-const TRANSITION_TEXT = "in a moment";
-const transitionLetters = TRANSITION_TEXT.split("").map(function (letter, index) {
-  return '<span class="transition-letter" style="--letter: ' + index + '">' + letter + "</span>";
-}).join("");
 const transitionWord = document.createElement("div");
 transitionWord.className = "transition-word";
-transitionWord.innerHTML = '<span class="transition-mask"><span class="transition-line">' + transitionLetters + "</span></span>";
+transitionWord.innerHTML = '<span class="transition-mask"><span class="transition-line"></span></span>';
 pageTransition.appendChild(transitionWord);
+const transitionLine = transitionWord.querySelector(".transition-line");
+
+function showTransition(phrase, color, textColor) {
+  transitionLine.innerHTML = phrase.split("").map(function (letter, index) {
+    return '<span class="transition-letter" style="--letter: ' + index + '">' + letter + "</span>";
+  }).join("");
+  document.documentElement.style.setProperty("--color-transition", color);
+  document.documentElement.style.setProperty("--color-transition-text", textColor);
+}
+
+// A phrase and a color for this page change, different from the last ones (site.js)
+function pickTransition() {
+  const look = chooseTransition();
+  showTransition(look.phrase, look.color, look.text);
+}
 
 document.body.appendChild(pageTransition);
 
@@ -72,8 +86,9 @@ function isThisPage(link) {
 // The columns cover the screen, then the next page opens
 function goToPage(link) {
   isTransitionRunning = true;
+  pickTransition(); // a new phrase and color
   document.documentElement.classList.add("is-transitioning"); // hides the scrollbar, so the columns reach every edge
-  pageTransition.classList.add("is-covering", "is-covered"); // columns rise, and "in a moment" rises with them
+  pageTransition.classList.add("is-covering", "is-covered"); // columns rise, and the phrase rises with them
 
   afterColumnsFinish(function () {
     setCurrentButton(link); // the screen is covered, so the change can't be seen
@@ -142,13 +157,17 @@ if (!isArriving || transitionReduceMotion) {
 }
 
 if (isArriving && !transitionReduceMotion) {
+  // The same phrase and color the last page showed
+  showTransition(recallTransition("transition-phrase") || TRANSITION_PHRASES[0],
+                 recallTransition("transition-color") || TRANSITION_COLORS[0].color,
+                 recallTransition("transition-text-color") || TRANSITION_COLORS[0].text);
   document.documentElement.classList.add("is-transitioning");
   pageTransition.classList.add("is-instant", "is-covering", "is-covered", "is-blocking");
   void pageTransition.offsetWidth; // applies the covered state before the columns move
   pageTransition.classList.remove("is-instant");
   document.documentElement.classList.remove("is-arriving"); // the columns now do the covering
   setTimeout(function () {
-    pageTransition.classList.remove("is-covered");  // "in a moment" sinks back into its mask
+    pageTransition.classList.remove("is-covered");  // the phrase sinks back into its mask
     pageTransition.classList.remove("is-covering", "is-blocking"); // columns go down, and the page can be pointed at again
     afterColumnsFinish(function () {
       document.documentElement.classList.remove("is-transitioning");

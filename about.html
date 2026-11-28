@@ -10,8 +10,13 @@
     try {
       if (sessionStorage.getItem("seen-loader")) document.documentElement.classList.add("no-loader");
       else document.documentElement.classList.add("is-loading");
-      // Arriving through the menu: start covered in cream right away, before anything is drawn
-      if (sessionStorage.getItem("arriving") === "yes") document.documentElement.classList.add("is-arriving");
+      // Arriving through the menu: start covered right away, before anything is drawn,
+      // in the color the last page chose for the page change (nav-buttons.js)
+      if (sessionStorage.getItem("arriving") === "yes") {
+        document.documentElement.classList.add("is-arriving");
+        const transitionColor = sessionStorage.getItem("transition-color");
+        if (transitionColor) document.documentElement.style.setProperty("--color-transition", transitionColor);
+      }
     } catch (error) {
       document.documentElement.classList.add("is-loading");
     }
@@ -59,9 +64,9 @@
 
     <!-- About me: a few short paragraphs, spaced like the text on the project pages -->
     <div class="about-bio placed" style="--x-desktop: 91; --y-desktop: 282; --w-desktop: 780; --x-tablet: 40; --y-tablet: 720; --w-tablet: 754; --x-phone: 20; --y-phone: 480; --w-phone: 350">
-      <p>A Visual Communication Design student at Bezalel Academy, graduating in 2027. I received the Department Excellence Award (2024–2025) and have two years of experience in graphic and motion design.</p>
-      <p>I began my professional journey in the Design Department at the State Comptroller’s Office, where I developed my graphic design skills, and have since moved into the world of motion design. Today, I work as a Motion Designer in the Motion &amp; Creative team at Facetune by Lightricks, combining my design background with my love for movement and storytelling.</p>
-      <p>I’m a hardworking team player who’s always excited to learn, explore new tools, and discover creative possibilities. I love telling stories through motion, experimenting with movement, and, of course, creating and designing things! :)</p>
+      <p>I’m Adel Fitoussi. I design motion, tell stories, think creatively, and love cats (not necessarily in that order).</p>
+      <p>At Facetune by Lightricks, I create motion and creative content. At Bezalel, I’m in my final stretch of Visual Communication (Class of 2027).</p>
+      <p>My tools: After Effects, Cinema 4D, 2D/3D animation, character design, and art direction.</p>
     </div>
 
     <!-- My photo, with my CV behind it (Figma: "cv").

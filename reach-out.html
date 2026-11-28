@@ -10,8 +10,13 @@
     try {
       if (sessionStorage.getItem("seen-loader")) document.documentElement.classList.add("no-loader");
       else document.documentElement.classList.add("is-loading");
-      // Arriving through the menu: start covered in cream right away, before anything is drawn
-      if (sessionStorage.getItem("arriving") === "yes") document.documentElement.classList.add("is-arriving");
+      // Arriving through the menu: start covered right away, before anything is drawn,
+      // in the color the last page chose for the page change (nav-buttons.js)
+      if (sessionStorage.getItem("arriving") === "yes") {
+        document.documentElement.classList.add("is-arriving");
+        const transitionColor = sessionStorage.getItem("transition-color");
+        if (transitionColor) document.documentElement.style.setProperty("--color-transition", transitionColor);
+      }
     } catch (error) {
       document.documentElement.classList.add("is-loading");
     }
